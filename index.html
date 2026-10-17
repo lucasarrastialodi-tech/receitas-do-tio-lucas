@@ -8,144 +8,430 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ============ RESET & TOKENS ============ */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --bg:#FFF8F0;--bg-alt:#FFF1E0;--ink:#1F1B16;--ink-soft:#4A4038;--muted:#8A7F73;
-    --line:#F0E2D0;--primary:#FF6B35;--primary-dark:#E4572E;--accent:#FFC93C;
-    --green:#2EC4B6;--pink:#FF5D8F;--card:#FFFFFF;
-    --radius:22px;--shadow:0 10px 30px rgba(31,27,22,.08);
+    --bg:#FFF8F0;
+    --bg-alt:#FFF1E0;
+    --ink:#1F1B16;
+    --ink-soft:#4A4038;
+    --muted:#8A7F73;
+    --line:#F0E2D0;
+    --primary:#FF6B35;
+    --primary-dark:#E4572E;
+    --accent:#FFC93C;
+    --green:#2EC4B6;
+    --pink:#FF5D8F;
+    --purple:#8E7DBE;
+    --card:#FFFFFF;
+    --radius:22px;
+    --radius-sm:14px;
+    --shadow:0 10px 30px rgba(31,27,22,.08);
     --shadow-hover:0 18px 40px rgba(255,107,53,.20);
-    --font-title:'Fredoka',sans-serif;--font-body:'Inter',sans-serif;
+    --font-title:'Fredoka',sans-serif;
+    --font-body:'Inter',sans-serif;
   }
   html{scroll-behavior:smooth}
-  body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden}
+  body{
+    font-family:var(--font-body);
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
   img{max-width:100%;display:block}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
   a{color:inherit;text-decoration:none}
+
+  /* ============ LAYOUT UTIL ============ */
   .container{width:min(1200px,92%);margin-inline:auto}
-  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .hidden{display:none !important}
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;
+    text-transform:uppercase;letter-spacing:.5px;
+  }
   .section{padding:80px 0}
-  .section-title{font-family:var(--font-title);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.15;letter-spacing:-.5px}
+  .section-title{
+    font-family:var(--font-title);
+    font-size:clamp(1.8rem,4vw,2.8rem);
+    font-weight:700;line-height:1.15;letter-spacing:-.5px;
+  }
   .section-sub{color:var(--muted);max-width:560px;margin-top:10px;font-size:1.02rem}
 
-  header.site-header{position:sticky;top:0;z-index:100;background:rgba(255,248,240,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  /* ============ HEADER ============ */
+  header.site-header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(255,248,240,.88);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 0;
+  }
   .logo{display:flex;align-items:center;gap:12px;font-family:var(--font-title);font-weight:700;font-size:1.15rem}
-  .logo-mark{width:50px;height:50px;border-radius:50%;background:#FFC93C;display:grid;place-items:center;font-size:1.6rem;box-shadow:0 6px 16px rgba(255,201,60,.35);border:2px solid var(--ink);flex-shrink:0}
+  .logo-mark{
+    width:50px;height:50px;border-radius:50%;
+    background:#FFC93C;
+    display:grid;place-items:center;overflow:hidden;
+    box-shadow:0 6px 16px rgba(255,201,60,.35);
+    border:2px solid var(--ink);
+    flex-shrink: 0;
+  }
+  .logo-mark img{width:100%;height:100%;object-fit:cover;}
   .logo-text{line-height:1.1;display:flex;flex-direction:column}
   .logo-text small{font-family:var(--font-body);font-weight:500;font-size:.7rem;color:var(--muted);letter-spacing:.5px;margin-top:4px}
+
   nav.main-menu{display:flex;gap:6px;align-items:center}
-  nav.main-menu a{padding:9px 14px;border-radius:999px;font-size:.92rem;font-weight:500;color:var(--ink-soft);transition:all .2s}
-  nav.main-menu a:hover{background:#FFE9DD;color:var(--primary-dark)}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.92rem;transition:transform .18s, box-shadow .18s, background .2s;white-space:nowrap}
+  nav.main-menu a{
+    padding:9px 14px;border-radius:999px;font-size:.92rem;font-weight:500;
+    color:var(--ink-soft);transition:all .2s;
+  }
+  nav.main-menu a:hover,nav.main-menu a.active{background:#FFE9DD;color:var(--primary-dark)}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:999px;font-weight:600;font-size:.92rem;
+    transition:transform .18s, box-shadow .18s, background .2s;
+    white-space:nowrap;
+  }
   .btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(255,107,53,.32)}
-  .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+  .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
   .btn-ghost{background:#fff;border:2px solid var(--line);color:var(--ink-soft)}
   .btn-ghost:hover{border-color:var(--primary);color:var(--primary-dark)}
+  .btn-save{background:#fff;border:2px solid var(--line);color:var(--ink-soft);padding:9px 16px;border-radius:999px;font-weight:600;font-size:.85rem;display:inline-flex;gap:6px;align-items:center;transition:.2s}
+  .btn-save.saved{background:var(--pink);border-color:var(--pink);color:#fff}
+  .btn-save:hover{border-color:var(--pink)}
 
+  .burger{display:none;width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--line);align-items:center;justify-content:center;font-size:1.2rem}
+  @media (max-width:900px){
+    nav.main-menu{
+      position:fixed;inset:80px 0 auto 0;background:#fff;flex-direction:column;
+      padding:20px;gap:4px;border-bottom:1px solid var(--line);
+      transform:translateY(-140%);transition:transform .3s;box-shadow:var(--shadow);
+    }
+    nav.main-menu.open{transform:translateY(0)}
+    nav.main-menu a{width:100%}
+    .burger{display:flex}
+    .nav-actions .btn-ghost{display:none}
+  }
+
+  /* ============ HERO ============ */
   .hero{position:relative;padding:70px 0 90px;overflow:hidden}
-  .hero::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,#FFE0C7 0%,transparent 70%);top:-140px;right:-120px;z-index:0}
-  .hero::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,#FFF0B8 0%,transparent 70%);bottom:-160px;left:-100px;z-index:0}
-  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+  .hero::before{
+    content:"";position:absolute;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,#FFE0C7 0%,transparent 70%);
+    top:-140px;right:-120px;z-index:0;
+  }
+  .hero::after{
+    content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+    background:radial-gradient(circle,#FFF0B8 0%,transparent 70%);
+    bottom:-160px;left:-100px;z-index:0;
+  }
+  .hero-grid{
+    position:relative;z-index:2;
+    display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;
+  }
   .hero .badge{background:#FFE9DD;color:var(--primary-dark);margin-bottom:20px}
-  .hero h1{font-family:var(--font-title);font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.02;font-weight:700;letter-spacing:-1.5px}
-  .hero h1 .highlight{background:linear-gradient(180deg,transparent 62%,var(--accent) 62%);padding:0 4px;border-radius:4px}
+  .hero h1{
+    font-family:var(--font-title);
+    font-size:clamp(2.4rem,5.5vw,4.2rem);
+    line-height:1.02;font-weight:700;letter-spacing:-1.5px;
+  }
+  .hero h1 .highlight{
+    background:linear-gradient(180deg,transparent 62%,var(--accent) 62%);
+    padding:0 4px;border-radius:4px;
+  }
   .hero p.lead{margin-top:22px;font-size:1.12rem;color:var(--ink-soft);max-width:520px}
   .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-  .hero-stats{display:flex;gap:32px;margin-top:44px;padding-top:32px;border-top:2px dashed var(--line);flex-wrap:wrap}
+  .hero-stats{
+    display:flex;gap:32px;margin-top:44px;padding-top:32px;
+    border-top:2px dashed var(--line);flex-wrap:wrap;
+  }
   .hero-stats .stat strong{font-family:var(--font-title);font-size:1.7rem;display:block;color:var(--primary-dark);line-height:1}
   .hero-stats .stat span{font-size:.82rem;color:var(--muted);font-weight:500}
+
   .hero-visual{position:relative;display:flex;justify-content:center}
-  .hero-logo-container{width:min(420px,100%);aspect-ratio:1/1;border-radius:50%;background:#FFC93C;border:8px solid #1F1B16;overflow:hidden;box-shadow:0 24px 60px rgba(31,27,22,.18);transform:rotate(-2deg);position:relative;z-index:2;display:grid;place-items:center;font-size:10rem}
-  .float-tag{position:absolute;background:#fff;padding:10px 16px;border-radius:14px;box-shadow:var(--shadow);font-weight:600;font-size:.82rem;display:flex;align-items:center;gap:8px;z-index:3}
+  
+  /* Logo Hero */
+  .hero-logo-container {
+    width: min(420px, 100%);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: #FFC93C;
+    border: 8px solid #1F1B16;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(31,27,22,.18);
+    transform: rotate(-2deg);
+    transition: transform .4s;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-logo-container:hover { transform: rotate(0) scale(1.02); }
+  .hero-logo-container img { width: 100%; height: 100%; object-fit: cover; }
+
+  .float-tag{
+    position:absolute;background:#fff;padding:10px 16px;border-radius:14px;
+    box-shadow:var(--shadow);font-weight:600;font-size:.82rem;
+    display:flex;align-items:center;gap:8px;
+    z-index: 3;
+  }
   .float-tag.t1{top:10px;left:0;transform:rotate(-6deg)}
   .float-tag.t2{bottom:20px;right:0;transform:rotate(5deg)}
-  @media(max-width:900px){
+
+  @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;gap:50px;text-align:center}
     .hero p.lead{margin-inline:auto}
     .hero-actions,.hero-stats{justify-content:center}
-    .hero-logo-container{width:min(320px,90%)}
+    .hero-visual{margin-top:10px}
+    .hero-logo-container { width: min(320px, 90%); }
+    .float-tag.t1{left:10px}
+    .float-tag.t2{right:10px}
   }
 
+  /* ============ STRIP DE BENEFÍCIOS ============ */
   .strip{background:var(--ink);color:#fff;padding:26px 0}
   .strip .container{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between;align-items:center}
   .strip-item{display:flex;align-items:center;gap:12px;font-size:.9rem;font-weight:500;opacity:.92}
   .strip-item .ico{font-size:1.4rem}
 
+  /* ============ FILTROS + RECEITAS ============ */
   .recipes-section{background:var(--bg-alt);border-radius:60px 60px 0 0}
-  .recipes-head{margin-bottom:36px}
-  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
-  .chip{padding:9px 18px;border-radius:999px;background:#fff;font-weight:600;font-size:.86rem;color:var(--ink-soft);box-shadow:0 2px 8px rgba(31,27,22,.04);transition:.2s;display:inline-block}
-  .chip:hover{background:var(--primary);color:#fff}
+  .recipes-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:36px}
+  .filters{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{
+    padding:9px 18px;border-radius:999px;background:#fff;border:2px solid transparent;
+    font-weight:600;font-size:.86rem;color:var(--ink-soft);
+    transition:.2s;box-shadow:0 2px 8px rgba(31,27,22,.04);
+  }
+  .chip:hover{border-color:#FFD9C6}
+  .chip.active{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(255,107,53,.3)}
 
-  .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-  .recipe-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s, box-shadow .25s;display:flex;flex-direction:column}
+  .search-box{position:relative;max-width:320px;flex:1;min-width:220px}
+  .search-box input{
+    width:100%;padding:12px 16px 12px 44px;border-radius:999px;border:2px solid #fff;
+    background:#fff;font-family:inherit;font-size:.92rem;outline:none;transition:.2s;
+    box-shadow:0 2px 8px rgba(31,27,22,.05);
+  }
+  .search-box input:focus{border-color:var(--primary)}
+  .search-box::before{content:"🔍";position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:.95rem}
+
+  .recipe-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;
+  }
+  .recipe-card{
+    background:var(--card);border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow);cursor:pointer;
+    transition:transform .25s, box-shadow .25s;
+    display:flex;flex-direction:column;
+    animation:fadeUp .5s both;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   .recipe-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
-  .recipe-thumb{height:180px;position:relative;display:grid;place-items:center;font-size:4rem}
-  .recipe-thumb .level{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);padding:5px 12px;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+  .recipe-thumb{
+    height:180px;position:relative;display:grid;place-items:center;font-size:4rem;
+    overflow:hidden;
+  }
+  .recipe-thumb .level{
+    position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);
+    padding:5px 12px;border-radius:999px;font-size:.7rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.4px;
+  }
+  .recipe-thumb .fav{
+    position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:1rem;
+    transition:.2s;
+  }
+  .recipe-thumb .fav.saved{background:var(--pink);color:#fff}
   .recipe-body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
   .recipe-body h3{font-family:var(--font-title);font-size:1.15rem;line-height:1.25}
   .recipe-body .desc{font-size:.85rem;color:var(--muted);flex:1}
   .recipe-meta{display:flex;gap:14px;font-size:.76rem;color:var(--ink-soft);font-weight:600;flex-wrap:wrap}
-  .tag-mini{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:6px;background:#FFF1E0;color:var(--primary-dark);letter-spacing:.3px;align-self:flex-start}
-  .recipe-details{margin-top:8px}
-  .recipe-details summary{cursor:pointer;font-weight:600;font-size:.85rem;color:var(--primary-dark);padding:8px 0;list-style:none}
-  .recipe-details summary::-webkit-details-marker{display:none}
-  .recipe-details summary::before{content:"▸ "}
-  .recipe-details[open] summary::before{content:"▾ "}
-  .recipe-details .inner{margin-top:10px;font-size:.85rem;color:var(--ink-soft)}
-  .recipe-details h4{font-family:var(--font-title);font-size:.95rem;margin:12px 0 6px;color:var(--ink)}
-  .recipe-details ul,.recipe-details ol{padding-left:20px;margin-bottom:8px}
-  .recipe-details li{margin-bottom:4px}
-  .recipe-details .tip{background:#FFF6D9;border-left:3px solid var(--accent);padding:8px 12px;border-radius:8px;margin-top:10px;font-size:.82rem}
+  .recipe-meta span{display:flex;align-items:center;gap:4px}
+  .tag-mini{
+    display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;
+    padding:3px 9px;border-radius:6px;background:#FFF1E0;color:var(--primary-dark);
+    letter-spacing:.3px;align-self:flex-start;
+  }
 
+  .empty-state{
+    grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);
+  }
+  .empty-state .big{font-size:3rem;margin-bottom:10px}
+
+  /* ============ SEGURANÇA ============ */
   .safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:44px}
-  .safety-card{background:#fff;border-radius:var(--radius);padding:26px;border:2px solid var(--line);transition:.25s}
+  .safety-card{
+    background:#fff;border-radius:var(--radius);padding:26px;
+    border:2px solid var(--line);transition:.25s;
+  }
   .safety-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
-  .safety-card .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;margin-bottom:16px}
+  .safety-card .ico{
+    width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+    font-size:1.5rem;margin-bottom:16px;
+  }
   .safety-card h3{font-family:var(--font-title);font-size:1.1rem;margin-bottom:8px}
   .safety-card p{font-size:.88rem;color:var(--muted)}
 
+  /* ============ PRIMEIROS PASSOS ============ */
   .steps-section{background:var(--ink);color:#fff;border-radius:60px;margin:0 4%;padding:70px 0}
   .steps-section .section-sub{color:rgba(255,255,255,.65)}
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:50px}
-  .step .num{font-family:var(--font-title);font-size:3rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .step{position:relative;padding-left:0}
+  .step .num{
+    font-family:var(--font-title);font-size:3rem;font-weight:700;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    line-height:1;
+  }
   .step h3{font-family:var(--font-title);font-size:1.15rem;margin:10px 0 8px}
   .step p{font-size:.88rem;color:rgba(255,255,255,.65)}
 
-  .cta-final{background:linear-gradient(135deg,var(--primary),var(--pink));border-radius:40px;padding:60px 40px;text-align:center;color:#fff;position:relative;overflow:hidden}
+  /* ============ CTA FINAL ============ */
+  .cta-final{
+    background:linear-gradient(135deg,var(--primary),var(--pink));
+    border-radius:40px;padding:60px 40px;text-align:center;color:#fff;
+    position:relative;overflow:hidden;
+  }
+  .cta-final::before{content:"🍳";position:absolute;font-size:10rem;opacity:.12;top:-20px;left:20px}
+  .cta-final::after{content:"🥗";position:absolute;font-size:9rem;opacity:.12;bottom:-30px;right:20px}
   .cta-final h2{font-family:var(--font-title);font-size:clamp(1.7rem,4vw,2.6rem);position:relative;z-index:2}
   .cta-final p{position:relative;z-index:2;margin:14px auto 28px;max-width:520px;opacity:.92}
   .cta-final .btn{position:relative;z-index:2;background:#fff;color:var(--primary-dark)}
+  .cta-final .btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
 
+  /* ============ FOOTER ============ */
   footer.site-footer{background:var(--bg-alt);padding:60px 0 30px;margin-top:60px}
   .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
   .footer-grid h4{font-family:var(--font-title);font-size:.95rem;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
   .footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .footer-grid ul a{font-size:.88rem;color:var(--muted)}
+  .footer-grid ul a{font-size:.88rem;color:var(--muted);transition:.2s}
   .footer-grid ul a:hover{color:var(--primary-dark)}
   .footer-brand p{font-size:.88rem;color:var(--muted);margin-top:14px;max-width:280px}
-  .footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
-  @media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.footer-grid{grid-template-columns:1fr}.section{padding:60px 0}}
+  .footer-bottom{
+    border-top:1px solid var(--line);padding-top:24px;display:flex;
+    justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);
+  }
+  @media (max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.footer-grid{grid-template-columns:1fr}}
+
+  /* ============ MODAL RECEITA ============ */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(31,27,22,.55);backdrop-filter:blur(6px);
+    z-index:200;display:flex;align-items:flex-start;justify-content:center;
+    padding:40px 16px;overflow-y:auto;
+    opacity:0;pointer-events:none;transition:opacity .25s;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:auto}
+  .modal{
+    background:var(--bg);border-radius:28px;max-width:760px;width:100%;
+    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3);
+    transform:translateY(20px) scale(.98);transition:transform .3s;
+  }
+  .modal-overlay.open .modal{transform:none}
+  .modal-hero{
+    height:200px;display:grid;place-items:center;font-size:6rem;position:relative;
+  }
+  .modal-close{
+    position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:1.1rem;
+    font-weight:700;color:var(--ink);z-index:5;
+  }
+  .modal-body{padding:30px}
+  .modal-body .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .modal-body h2{font-family:var(--font-title);font-size:1.9rem;line-height:1.1;margin-bottom:10px}
+  .modal-body .lead{color:var(--muted);font-size:.95rem;margin-bottom:24px}
+  .modal-info{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;
+    margin-bottom:28px;
+  }
+  .modal-info .box{background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid var(--line)}
+  .modal-info .box strong{display:block;font-family:var(--font-title);font-size:1.2rem;color:var(--primary-dark)}
+  .modal-info .box span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+  .modal-section{margin-bottom:28px}
+  .modal-section h3{
+    font-family:var(--font-title);font-size:1.2rem;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .ingredients-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .ingredients-list li{
+    display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;
+    border-radius:12px;font-size:.92rem;border:1px solid var(--line);cursor:pointer;
+    transition:.2s;
+  }
+  .ingredients-list li:hover{border-color:var(--accent)}
+  .ingredients-list li .check{
+    width:20px;height:20px;border-radius:6px;border:2px solid var(--line);
+    display:grid;place-items:center;font-size:.7rem;color:#fff;flex-shrink:0;transition:.2s;
+  }
+  .ingredients-list li.checked .check{background:var(--green);border-color:var(--green)}
+  .ingredients-list li.checked span{text-decoration:line-through;color:var(--muted)}
+  .steps-list{list-style:none;display:flex;flex-direction:column;gap:16px;counter-reset:step}
+  .steps-list li{
+    display:flex;gap:16px;padding:16px;background:#fff;border-radius:14px;
+    border:1px solid var(--line);
+  }
+  .steps-list li::before{
+    counter-increment:step;content:counter(step);
+    width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;
+    display:grid;place-items:center;font-weight:700;font-family:var(--font-title);
+    flex-shrink:0;font-size:.9rem;
+  }
+  .steps-list li p{font-size:.92rem;color:var(--ink-soft);padding-top:4px}
+  .tip-box{
+    background:#FFF6D9;border-left:4px solid var(--accent);border-radius:12px;
+    padding:16px 20px;font-size:.9rem;color:var(--ink-soft);
+  }
+  .tip-box strong{color:var(--primary-dark)}
+
+  /* ============ TOAST ============ */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translate(-50%,120%);
+    background:var(--ink);color:#fff;padding:14px 24px;border-radius:999px;
+    font-size:.9rem;font-weight:500;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.3);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+    display:flex;align-items:center;gap:10px;
+  }
+  .toast.show{transform:translate(-50%,0)}
+
+  @media (max-width:520px){
+    .section{padding:60px 0}
+    .modal-body{padding:22px}
+    .hero-stats{gap:24px}
+    .strip .container{gap:20px;justify-content:flex-start}
+  }
 </style>
 </head>
 <body>
 
+<!-- ============ HEADER ============ -->
 <header class="site-header">
   <div class="container nav">
     <a href="#" class="logo">
-      <div class="logo-mark">🍳</div>
-      <span class="logo-text">Receita do Tio Lucas<small>Na cozinha, quem manda é você!</small></span>
+      <div class="logo-mark">
+        <img src="./tio-lucas.png" alt="Logo Tio Lucas" onerror="this.src='https://via.placeholder.com/50/FFC93C/1F1B16?text=👨‍🍳'">
+      </div>
+      <span class="logo-text">
+        Receita do Tio Lucas
+        <small>Na cozinha, quem manda é você!</small>
+      </span>
     </a>
-    <nav class="main-menu">
-      <a href="#receitas">Receitas</a>
+
+    <nav class="main-menu" id="mainMenu">
+      <a href="#receitas" class="active">Receitas</a>
       <a href="#primeiros">Primeiros Passos</a>
       <a href="#seguranca">Segurança</a>
-      <a href="#receitas" class="btn btn-primary" style="color:#fff">Começar agora</a>
     </nav>
+
+    <div class="nav-actions" style="display:flex;gap:10px;align-items:center">
+      <button class="btn btn-ghost" id="btnFavs">❤️ Favoritos <span id="favCount" style="background:var(--pink);color:#fff;border-radius:999px;padding:1px 8px;font-size:.75rem">0</span></button>
+      <a href="#receitas" class="btn btn-primary">Começar agora</a>
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+    </div>
   </div>
 </header>
 
+<!-- ============ HERO ============ -->
 <section class="hero">
   <div class="container hero-grid">
     <div>
@@ -157,19 +443,24 @@
         <a href="#primeiros" class="btn btn-ghost">📖 Primeiros passos</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><strong>110+</strong><span>Receitas testadas</span></div>
+        <div class="stat"><strong>40+</strong><span>Receitas testadas</span></div>
         <div class="stat"><strong>5min</strong><span>Para começar</span></div>
         <div class="stat"><strong>100%</strong><span>Seguro e divertido</span></div>
       </div>
     </div>
+
     <div class="hero-visual">
-      <div class="hero-logo-container">👨‍🍳</div>
+      <!-- Logo em destaque -->
+      <div class="hero-logo-container">
+        <img src="./tio-lucas.png" alt="Tio Lucas" onerror="this.src='https://via.placeholder.com/400/FFC93C/1F1B16?text=👨‍🍳'">
+      </div>
       <div class="float-tag t1">✨ Zero experiência</div>
       <div class="float-tag t2">🔥 Resultado garantido</div>
     </div>
   </div>
 </section>
 
+<!-- ============ STRIP ============ -->
 <div class="strip">
   <div class="container">
     <div class="strip-item"><span class="ico">⚡</span> Receitas em até 20 minutos</div>
@@ -179,2202 +470,148 @@
   </div>
 </div>
 
+<!-- ============ RECEITAS ============ -->
 <section class="section recipes-section" id="receitas">
   <div class="container">
     <div class="recipes-head">
-      <span class="badge" style="background:#FFE9DD;color:var(--primary-dark)">🍴 Catálogo completo</span>
-      <h2 class="section-title" style="margin-top:12px">Escolha sua próxima missão</h2>
-      <p class="section-sub">Clique em "Ver receita" para abrir ingredientes e modo de preparo direto no card.</p>
+      <div>
+        <span class="badge" style="background:#FFE9DD;color:var(--primary-dark)">🍴 Catálogo</span>
+        <h2 class="section-title" style="margin-top:12px">Escolha sua próxima missão</h2>
+        <p class="section-sub">Filtre por dificuldade, tempo ou tipo de prato. Clique em qualquer receita para abrir o passo a passo completo.</p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar receita (ex: macarrão, ovo...)" />
+      </div>
     </div>
 
-    <div class="filters">
-      <a href="#receitas" class="chip">Todas</a>
-      <a href="#facil" class="chip">Fácil</a>
-      <a href="#medio" class="chip">Médio</a>
-      <a href="#lanche" class="chip">Lanches</a>
-      <a href="#sobremesa" class="chip">Sobremesas</a>
-      <a href="#refeicao" class="chip">Refeições</a>
-      <a href="#bebida" class="chip">Bebidas</a>
+    <div class="filters" id="filters">
+      <button class="chip active" data-filter="all">Todas</button>
+      <button class="chip" data-filter="facil">Fácil</button>
+      <button class="chip" data-filter="medio">Médio</button>
+      <button class="chip" data-filter="lanche">Lanches</button>
+      <button class="chip" data-filter="sobremesa">Sobremesas</button>
+      <button class="chip" data-filter="refeicao">Refeições</button>
+      <button class="chip" data-filter="bebida">Bebidas</button>
     </div>
 
-    <div class="recipe-grid">
-
-      <!-- ================= RECEITAS ================= -->
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍳</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Café da manhã</span>
-          <h3>Ovo Mexido do Tio</h3>
-          <p class="desc">O primeiro passo de todo cozinheiro. Simples, rápido e delicioso.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 ovos</li><li>1 colher (sopa) de manteiga ou óleo</li><li>1 pitada de sal</li><li>1 pitada de pimenta (opcional)</li><li>1 fatia de queijo (opcional)</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Quebre os ovos em uma tigela e bata levemente.</li><li>Aqueça a manteiga em fogo baixo.</li><li>Despeje os ovos e mexa devagar.</li><li>Quando quase firmes, adicione o sal e desligue.</li><li>Sirva com queijo por cima.</li></ol>
-              <div class="tip">💡 Fogo baixo é o segredo para um ovo cremoso.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥪</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Sanduíche do Tio</h3>
-          <p class="desc">Um sanduíche quente e caprichado para o intervalo da escola.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 fatias de pão de forma</li><li>1 fatia de queijo</li><li>1 fatia de presunto</li><li>1 colher (chá) de manteiga</li><li>Tomate e alface a gosto</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Passe manteiga nas fatias.</li><li>Monte com queijo, presunto, tomate e alface.</li><li>Aqueça na frigideira até o queijo derreter.</li><li>Corte ao meio e sirva.</li></ol>
-              <div class="tip">💡 Coloque o alface só depois de aquecer.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍕</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pizza de Pão de Forma</h3>
-          <p class="desc">Uma pizza rápida usando pão de forma. Funciona e fica uma delícia.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 fatias de pão de forma</li><li>4 colheres (sopa) de molho de tomate</li><li>100g de muçarela ralada</li><li>Orégano</li><li>Recheio a gosto</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Passe molho nas fatias.</li><li>Distribua queijo e recheios.</li><li>Polvilhe orégano.</li><li>Forno a 180°C por 10 min.</li><li>Sirva quente.</li></ol>
-              <div class="tip">💡 Não sobrecarregue de recheio.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🫓</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Tapioca Recheada</h3>
-          <p class="desc">Rápida, versátil e combina com doce ou salgado.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 colheres (sopa) de goma de tapioca</li><li>1 fatia de queijo</li><li>1 pitada de sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Peneire a goma na frigideira fria.</li><li>Ligue o fogo baixo e deixe firmar.</li><li>Coloque o recheio e dobre.</li><li>Deixe 1 min de cada lado.</li></ol>
-              <div class="tip">💡 Frigideira fria é essencial.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🌭</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Cachorro-Quente Caseiro</h3>
-          <p class="desc">O clássico americano que todo mundo ama.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 salsichas</li><li>2 pães de hot dog</li><li>Molho de tomate</li><li>Batata palha</li><li>Mostarda e ketchup</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe ou frite as salsichas.</li><li>Aqueça o pão.</li><li>Monte com molho, batata e condimentos.</li></ol>
-              <div class="tip">💡 Dê cortes na salsicha antes de cozinhar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Fácil</span><span>🍿</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pipoca de Micro-ondas</h3>
-          <p class="desc">O lanche perfeito para ver filme.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 saquinho de pipoca para micro-ondas</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Coloque no micro-ondas com a aba para cima.</li><li>Programe conforme a embalagem.</li><li>Espere os estouros diminuírem.</li><li>Abra longe do rosto.</li></ol>
-              <div class="tip">💡 Nunca abra logo que sair do micro-ondas.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE3EE"><span class="level">Fácil</span><span>🍓</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Salada de Frutas</h3>
-          <p class="desc">Refrescante, saudável e colorida.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 banana</li><li>1 maçã</li><li>1 laranja</li><li>5 morangos</li><li>1 colher de mel ou limão</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Lave as frutas.</li><li>Corte em pedaços.</li><li>Adicione mel ou limão.</li><li>Leve à geladeira 10 min.</li></ol>
-              <div class="tip">💡 Corte a banana por último.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🧀</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Misto Quente na Frigideira</h3>
-          <p class="desc">O lanche mais rápido do mundo.</p>
-          <div class="recipe-meta"><span>⏱️ 8 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 fatias de pão</li><li>1 fatia de queijo</li><li>1 fatia de presunto</li><li>1 colher (chá) de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Passe manteiga.</li><li>Recheie.</li><li>Doure na frigideira tampada.</li></ol>
-              <div class="tip">💡 Tampar derrete o queijo mais rápido.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🍮</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Gelatina Colorida</h3>
-          <p class="desc">Simples, barata e todo mundo gosta.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 caixa de gelatina em pó</li><li>500ml de água quente</li><li>500ml de água gelada</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Ferva a água.</li><li>Dissolva a gelatina.</li><li>Adicione água gelada.</li><li>Geladeira por 3h.</li></ol>
-              <div class="tip">💡 Não use água fervendo demais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍋</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Limonada Suíça</h3>
-          <p class="desc">Cremosa, gelada e refrescante.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 limões</li><li>1 litro de água gelada</li><li>4 colheres de açúcar</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Lave os limões e corte.</li><li>Bata com água e açúcar 30s.</li><li>Coe e sirva com gelo.</li></ol>
-              <div class="tip">💡 Não bata demais para não amargar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Fácil</span><span>🍝</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Macarrão do Tio Lucas</h3>
-          <p class="desc">O prato que salva qualquer fome. Pronto em 15 minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>200g de macarrão</li><li>1 colher de sal</li><li>2 colheres de molho de tomate</li><li>1 dente de alho</li><li>Queijo ralado</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Ferva água com sal.</li><li>Cozinhe o macarrão.</li><li>Escorra.</li><li>Misture com molho em fogo baixo.</li><li>Sirva com queijo.</li></ol>
-              <div class="tip">💡 Reserve um pouco da água do cozimento.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Fácil</span><span>🍚</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Básico</span>
-          <h3>Arroz Soltinho</h3>
-          <p class="desc">O acompanhamento obrigatório.</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de arroz</li><li>2 xícaras de água quente</li><li>1 colher de óleo</li><li>1 dente de alho</li><li>Sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Lave o arroz.</li><li>Refogue o alho.</li><li>Adicione o arroz e refogue 2 min.</li><li>Água quente e sal.</li><li>Tampe e cozinhe 15 min.</li></ol>
-              <div class="tip">💡 Não mexa enquanto cozinha.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍜</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Salva-vidas</span>
-          <h3>Miojo Turbinado</h3>
-          <p class="desc">Aquele miojo básico, mas com ingredientes extras.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pacote de miojo</li><li>1 ovo</li><li>1 colher de manteiga</li><li>Cebolinha</li><li>Queijo ralado</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Ferva 400ml de água.</li><li>Cozinhe o miojo 3 min.</li><li>Frite o ovo.</li><li>Misture e sirva.</li></ol>
-              <div class="tip">💡 Use metade do tempero.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥚</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Proteína</span>
-          <h3>Omelete de Queijo</h3>
-          <p class="desc">Um clássico que nunca falha.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 ovos</li><li>2 colheres de queijo ralado</li><li>Sal e pimenta</li><li>1 colher (chá) de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata os ovos.</li><li>Derreta a manteiga.</li><li>Despeje e espere firmar.</li><li>Adicione queijo e dobre.</li></ol>
-              <div class="tip">💡 Não mexa se quiser omelete fechada.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍞</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Torrada na Frigideira</h3>
-          <p class="desc">Sem torradeira? Sem problema.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 fatias de pão</li><li>1 colher (chá) de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Aqueça a frigideira.</li><li>Passe manteiga no pão.</li><li>Doure dos dois lados.</li></ol>
-              <div class="tip">💡 Sirva na hora.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Fácil</span><span>🍲</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Conforto</span>
-          <h3>Canja de Galinha Rápida</h3>
-          <p class="desc">Sopa reconfortante para dias frios.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de arroz</li><li>1 peito de frango</li><li>1 litro de água</li><li>1 cubo de caldo</li><li>Cheiro-verde</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe o frango 10 min e desfie.</li><li>Volte com arroz e caldo.</li><li>Cozinhe 15 min.</li><li>Finalize com cheiro-verde.</li></ol>
-              <div class="tip">💡 Desfie quente com dois garfos.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍟</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Acompanhamento</span>
-          <h3>Batata Rústica</h3>
-          <p class="desc">Batatas crocantes assadas no forno.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>3 batatas</li><li>2 colheres de óleo</li><li>Sal</li><li>Páprica</li><li>Orégano</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte as batatas.</li><li>Seque bem.</li><li>Misture com temperos.</li><li>Forno a 200°C por 25 min.</li><li>Vire na metade.</li></ol>
-              <div class="tip">💡 Secar bem garante crocância.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE3EE"><span class="level">Fácil</span><span>🧁</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Bolo de Caneca</h3>
-          <p class="desc">Bolo de chocolate no micro-ondas em 5 minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 colheres de farinha</li><li>4 colheres de açúcar</li><li>2 colheres de chocolate em pó</li><li>1 ovo</li><li>3 colheres de leite</li><li>2 colheres de óleo</li><li>1 colher (café) de fermento</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo na caneca.</li><li>Adicione fermento por último.</li><li>Micro-ondas 3 min.</li><li>Espere esfriar.</li></ol>
-              <div class="tip">💡 Use caneca grande.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥤</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Suco Verde do Tio</h3>
-          <p class="desc">Refrescante, saudável e pronto em 5 minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 maçã</li><li>1 folha de couve</li><li>Suco de 1 limão</li><li>1 copo de água gelada</li><li>Açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Lave tudo.</li><li>Corte a maçã.</li><li>Bata no liquidificador.</li><li>Coe, adoce e sirva.</li></ol>
-              <div class="tip">💡 Bata a couve com limão.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍫</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Brigadeiro de Panela</h3>
-          <p class="desc">O clássico brasileiro. Atenção ao ponto!</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 lata de leite condensado</li><li>2 colheres de chocolate em pó</li><li>1 colher de manteiga</li><li>Granulado</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo na panela.</li><li>Cozinhe em fogo baixo 10-15 min.</li><li>Despeje em prato untado.</li><li>Enrole e passe no granulado.</li></ol>
-              <div class="tip">💡 Fogo baixo e paciência.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🥞</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Panqueca Doce</h3>
-          <p class="desc">Panquecas macias para o café da manhã.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de farinha</li><li>2 colheres de açúcar</li><li>1 ovo</li><li>1 xícara de leite</li><li>1 colher (chá) de fermento</li><li>Mel</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture os secos.</li><li>Adicione ovo e leite.</li><li>Cozinhe em fogo baixo.</li><li>Vire ao formar bolhas.</li></ol>
-              <div class="tip">💡 Não mexa demais a massa.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Médio</span><span>🍔</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Hambúrguer Caseiro</h3>
-          <p class="desc">Carne suculenta e queijo derretido.</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>300g de carne moída</li><li>1 pão de hambúrguer</li><li>2 fatias de queijo</li><li>Alface, tomate e cebola</li><li>Sal e pimenta</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Tempere e modele discos.</li><li>Frite 3 min cada lado.</li><li>Coloque queijo no final.</li><li>Monte com vegetais.</li></ol>
-              <div class="tip">💡 Não aperte o hambúrguer.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍗</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Proteína</span>
-          <h3>Frango Frito Crocante</h3>
-          <p class="desc">Crocante por fora e suculento por dentro.</p>
-          <div class="recipe-meta"><span>⏱️ 35 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>500g de frango</li><li>1 xícara de farinha</li><li>1 ovo batido</li><li>Sal, pimenta e páprica</li><li>Óleo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Tempere o frango.</li><li>Passe no ovo e na farinha.</li><li>Frite em óleo médio.</li><li>Escorra em papel.</li></ol>
-              <div class="tip">💡 Nunca frite congelado.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥗</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Salada Caesar Simples</h3>
-          <p class="desc">Uma salada diferente, com molho cremoso.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pé de alface</li><li>1/2 xícara de croutons</li><li>2 colheres de maionese</li><li>1 colher de parmesão</li><li>Suco de limão</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Lave e corte a alface.</li><li>Misture maionese, parmesão e limão.</li><li>Junte tudo e finalize com croutons.</li></ol>
-              <div class="tip">💡 Molho separado evita murchar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍛</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Strogonoff de Frango</h3>
-          <p class="desc">O prato que impressiona qualquer visita.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>500g de frango em cubos</li><li>1 cebola</li><li>2 colheres de ketchup</li><li>1 caixinha de creme de leite</li><li>Sal e pimenta</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Refogue frango e cebola.</li><li>Adicione ketchup.</li><li>Desligue e adicione creme de leite.</li><li>Sirva com arroz.</li></ol>
-              <div class="tip">💡 Não deixe o creme ferver.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Médio</span><span>🍲</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Comfort</span>
-          <h3>Lasanha de Frigideira</h3>
-          <p class="desc">Uma lasanha rápida que não precisa de forno.</p>
-          <div class="recipe-meta"><span>⏱️ 35 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>Massa de lasanha pré-cozida</li><li>Molho de tomate</li><li>Muçarela</li><li>Presunto</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Monte camadas na frigideira.</li><li>Tampe e cozinhe 15 min em fogo baixo.</li><li>Finalize com queijo.</li></ol>
-              <div class="tip">💡 Tampar é essencial.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍮</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Mousse de Maracujá</h3>
-          <p class="desc">Doce, azedinho e cremoso.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 lata de leite condensado</li><li>1 caixinha de creme de leite</li><li>1 caixinha de suco de maracujá</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo 2 min.</li><li>Coloque em taças.</li><li>Geladeira 4h.</li></ol>
-              <div class="tip">💡 Adicione gelatina para firmar mais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍮</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Pudim de Leite Rápido</h3>
-          <p class="desc">O pudim clássico, liso e sem furinhos.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 lata de leite condensado</li><li>2 latas de leite</li><li>3 ovos</li><li>1 xícara de açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça a calda.</li><li>Bata os ingredientes.</li><li>Despeje na forma.</li><li>Banho-maria 180°C por 40 min.</li></ol>
-              <div class="tip">💡 Coe antes de assar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍪</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Cookie de Micro-ondas</h3>
-          <p class="desc">Um cookie quentinho em 5 minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 colheres de farinha</li><li>1 colher de açúcar</li><li>1 colher de manteiga</li><li>1 colher de gotas de chocolate</li><li>1 colher de leite</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo.</li><li>Achate.</li><li>Micro-ondas 1 min.</li></ol>
-              <div class="tip">💡 Não passe de 1 minuto.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥛</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Vitamina de Banana</h3>
-          <p class="desc">Cremosa, nutritiva e perfeita para o café da manhã.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 bananas</li><li>1 copo de leite</li><li>1 colher de aveia</li><li>Açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo.</li><li>Sirva imediatamente.</li></ol>
-              <div class="tip">💡 Use bananas maduras.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>☕</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Chocolate Quente Cremoso</h3>
-          <p class="desc">Para aquecer o coração nos dias frios.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de leite</li><li>3 colheres de chocolate em pó</li><li>1 colher de amido de milho</li><li>Açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo na panela fria.</li><li>Fogo baixo mexendo sempre.</li><li>Engrosse e sirva.</li></ol>
-              <div class="tip">💡 Misture antes de ligar o fogo.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🍧</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Picolé de Fruta Caseiro</h3>
-          <p class="desc">Refrescante, natural e sem conservantes.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de polpa de fruta</li><li>1/2 xícara de água</li><li>Açúcar</li><li>Forminhas</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata a polpa com água e açúcar.</li><li>Despeje nas forminhas.</li><li>Congele 4h.</li></ol>
-              <div class="tip">💡 Use copos descartáveis se não tiver forminha.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍋</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Torta de Limão Gelada</h3>
-          <p class="desc">Cremosa, azedinha e sem precisar de forno.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pacote de bolacha maisena</li><li>3 colheres de manteiga derretida</li><li>1 lata de leite condensado</li><li>Suco de 3 limões</li><li>1 caixinha de creme de leite</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Triture a bolacha e misture com manteiga.</li><li>Forre a forma e leve à geladeira.</li><li>Bata os demais ingredientes.</li><li>Despeje e gele 4h.</li></ol>
-              <div class="tip">💡 Decore com raspas de limão.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🌽</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Cuscuz Nordestino</h3>
-          <p class="desc">O clássico do café da manhã nordestino.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de flocos de milho</li><li>1/2 xícara de água</li><li>Sal</li><li>Manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture flocos com água e sal.</li><li>Descanse 5 min.</li><li>Cozinhe no vapor 10 min.</li><li>Sirva com manteiga.</li></ol>
-              <div class="tip">💡 Não encharca demais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🧆</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pão de Queijo de Frigideira</h3>
-          <p class="desc">Aquele pão de queijo quentinho em versão rápida.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 colheres de polvilho doce</li><li>2 colheres de queijo ralado</li><li>3 colheres de leite</li><li>1 colher de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo.</li><li>Coloque colheradas na frigideira.</li><li>Tampe e doure dos dois lados.</li></ol>
-              <div class="tip">💡 Tampe para cozinhar por dentro.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Fácil</span><span>🍝</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Macarrão Alho e Óleo</h3>
-          <p class="desc">Simples, saboroso e resolve o almoço em minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>200g de espaguete</li><li>3 dentes de alho</li><li>3 colheres de azeite</li><li>Sal e pimenta</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe o macarrão.</li><li>Doure o alho no azeite.</li><li>Misture e tempere.</li></ol>
-              <div class="tip">💡 Não deixe o alho queimar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍟</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Acompanhamento</span>
-          <h3>Batata Frita Caseira</h3>
-          <p class="desc">Crocante por fora, macia por dentro.</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>3 batatas</li><li>Óleo</li><li>Sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte as batatas.</li><li>Seque bem.</li><li>Frite em óleo quente.</li><li>Escorra e salgue.</li></ol>
-              <div class="tip">💡 Fritar duas vezes deixa mais crocante.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍰</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Bolo de Cenoura Fofinho</h3>
-          <p class="desc">Fofinho, dourado e com cobertura de chocolate.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>3 cenouras</li><li>3 ovos</li><li>2 xícaras de açúcar</li><li>2 xícaras de farinha</li><li>1 xícara de óleo</li><li>1 colher de fermento</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata cenoura, ovos e óleo.</li><li>Misture com secos.</li><li>Adicione fermento.</li><li>Asse 180°C por 35 min.</li></ol>
-              <div class="tip">💡 Não bata o fermento.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍨</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Sorvete de Banana Fit</h3>
-          <p class="desc">Só banana congelada. Sem leite, sem açúcar.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 bananas congeladas</li><li>1 colher de pasta de amendoim (opcional)</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata as bananas congeladas.</li><li>Sirva ou congele 1h.</li></ol>
-              <div class="tip">💡 Se travar, adicione 1 colher de leite.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍳</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Básico</span>
-          <h3>Ovo Frito Perfeito</h3>
-          <p class="desc">Gema mole, bordas crocantes.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 ovo</li><li>1 colher de óleo ou manteiga</li><li>Sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Aqueça o óleo em fogo médio.</li><li>Quebre o ovo com cuidado.</li><li>Frite 2 min sem mexer.</li><li>Tempere.</li></ol>
-              <div class="tip">💡 Tampe 30s para gema mole.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE3EE"><span class="level">Fácil</span><span>🥤</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Vitamina de Morango</h3>
-          <p class="desc">Rosa, cremosa e deliciosa.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de morangos</li><li>1 copo de leite</li><li>1 colher de açúcar</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo.</li><li>Sirva.</li></ol>
-              <div class="tip">💡 Morangos congelados ficam mais cremosos.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍿</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pipoca Doce de Panela</h3>
-          <p class="desc">Crocante, caramelizada e muito viciante.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1/2 xícara de milho de pipoca</li><li>1/2 xícara de açúcar</li><li>2 colheres de óleo</li><li>1 pitada de sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Aqueça óleo e açúcar até virar calda.</li><li>Adicione milho e mexa.</li><li>Tampe e agite.</li><li>Espalhe para esfriar.</li></ol>
-              <div class="tip">💡 Cuidado com respingos quentes.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍜</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Salva-vidas</span>
-          <h3>Macarrão Instantâneo Melhorado</h3>
-          <p class="desc">Aquele macarrão instantâneo com cara de comida de verdade.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pacote de macarrão instantâneo</li><li>1 ovo cozido</li><li>1 colher de manteiga</li><li>Cebolinha</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe o macarrão.</li><li>Adicione metade do tempero e a manteiga.</li><li>Misture ovo e cebolinha.</li></ol>
-              <div class="tip">💡 Substitua metade do pó por temperos naturais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍗</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Proteína</span>
-          <h3>Frango Grelhado Rápido</h3>
-          <p class="desc">Suculento, temperado e pronto em 20 minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 filés de frango</li><li>2 dentes de alho</li><li>Suco de 1 limão</li><li>Sal e pimenta</li><li>1 colher de azeite</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Tempere o frango.</li><li>Descanse 10 min.</li><li>Grelhe 5 min cada lado.</li></ol>
-              <div class="tip">💡 Não fure o frango.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥪</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Sanduíche Natural Fitness</h3>
-          <p class="desc">Leve, gostoso e perfeito para a escola.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 fatias de pão integral</li><li>1 colher de cream cheese</li><li>1 fatia de peito de peru</li><li>Alface e tomate</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Passe cream cheese.</li><li>Adicione os recheios.</li><li>Feche e corte.</li></ol>
-              <div class="tip">💡 Embrulhe em papel-filme.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🍋</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Limonada de Capim-Limão</h3>
-          <p class="desc">Refrescante e aromática.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 limões</li><li>1 litro de água gelada</li><li>3 colheres de açúcar</li><li>2 folhas de capim-limão</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata limão, água e açúcar.</li><li>Adicione capim-limão por 10s.</li><li>Coe e sirva com gelo.</li></ol>
-              <div class="tip">💡 Não bata demais o capim-limão.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥖</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Café da manhã</span>
-          <h3>Pão Francês na Air Fryer</h3>
-          <p class="desc">Aquele pãozinho quentinho sem sair de casa.</p>
-          <div class="recipe-meta"><span>⏱️ 8 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 pães franceses</li><li>1 colher de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte os pães.</li><li>Passe manteiga.</li><li>Air fryer 180°C por 5 min.</li></ol>
-              <div class="tip">💡 Sem air fryer, forno a 200°C por 8 min.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍳</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Café da manhã</span>
-          <h3>Ovos Mexidos Cremosos</h3>
-          <p class="desc">Ovos cremosos de restaurante.</p>
-          <div class="recipe-meta"><span>⏱️ 6 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>3 ovos</li><li>1 colher de manteiga</li><li>1 colher de creme de leite</li><li>Sal e cebolinha</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata os ovos com sal.</li><li>Derreta a manteiga em fogo baixo.</li><li>Adicione os ovos e mexa.</li><li>Desligue antes de firmar e adicione creme.</li></ol>
-              <div class="tip">💡 Tire do fogo antes de parecer pronto.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🥞</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Café da manhã</span>
-          <h3>Panqueca Americana</h3>
-          <p class="desc">Panquecas fofas para o domingo.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de farinha</li><li>2 colheres de açúcar</li><li>1 ovo</li><li>1 xícara de leite</li><li>1 colher (chá) de fermento</li><li>1 pitada de sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture os secos.</li><li>Adicione os líquidos.</li><li>Cozinhe em fogo baixo.</li><li>Vire ao formar bolhas.</li></ol>
-              <div class="tip">💡 Alguns grumos são normais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🧈</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Básico</span>
-          <h3>Manteiga Caseira</h3>
-          <p class="desc">Manteiga feita em casa com 1 ingrediente.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>500ml de creme de leite fresco</li><li>1 pitada de sal (opcional)</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata o creme até separar o soro.</li><li>Escorra e lave em água gelada.</li><li>Adicione sal e guarde.</li></ol>
-              <div class="tip">💡 Creme bem gelado acelera o processo.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥣</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Granola Caseira</h3>
-          <p class="desc">Crocante, docinha e melhor que a de mercado.</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de aveia</li><li>1/2 xícara de mel</li><li>1/2 xícara de castanhas</li><li>1/4 xícara de óleo</li><li>1 pitada de sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo.</li><li>Espalhe em assadeira.</li><li>Asse 180°C por 20 min, mexendo na metade.</li></ol>
-              <div class="tip">💡 Espere esfriar antes de guardar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🫓</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Café da manhã</span>
-          <h3>Tapioca de Queijo e Presunto</h3>
-          <p class="desc">A dupla perfeita para começar o dia.</p>
-          <div class="recipe-meta"><span>⏱️ 8 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 colheres de goma de tapioca</li><li>1 fatia de queijo</li><li>1 fatia de presunto</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Peneire a goma na frigideira fria.</li><li>Fogo baixo até firmar.</li><li>Adicione queijo e presunto.</li><li>Dobre e sirva.</li></ol>
-              <div class="tip">💡 Dobre com espátula.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🌽</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Cuscuz com Ovo Mexido</h3>
-          <p class="desc">O café da manhã nordestino reforçado.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de flocos de milho</li><li>1/2 xícara de água</li><li>2 ovos</li><li>1 colher de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Prepare o cuscuz no vapor 10 min.</li><li>Faça ovo mexido.</li><li>Sirva junto.</li></ol>
-              <div class="tip">💡 Adicione queijo coalho.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥤</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Smoothie de Banana com Aveia</h3>
-          <p class="desc">Cremoso, nutritivo e pronto em 5 minutos.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 banana congelada</li><li>1 copo de leite</li><li>2 colheres de aveia</li><li>1 colher de mel</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo.</li><li>Sirva imediatamente.</li></ol>
-              <div class="tip">💡 Banana congelada deixa cremoso.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥑</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Vitamina de Abacate</h3>
-          <p class="desc">Cremosa, nutritiva e muito brasileira.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1/2 abacate</li><li>1 copo de leite</li><li>2 colheres de açúcar</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo.</li><li>Sirva.</li></ol>
-              <div class="tip">💡 Adicione limão para não escurecer.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>☕</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Café Cremoso Caseiro</h3>
-          <p class="desc">Aquele café cremoso de padaria.</p>
-          <div class="recipe-meta"><span>⏱️ 8 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 colheres de café solúvel</li><li>2 colheres de açúcar</li><li>2 colheres de água quente</li><li>1 xícara de leite quente</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata café, açúcar e água até virar creme.</li><li>Adicione o leite e misture.</li></ol>
-              <div class="tip">💡 Bata bastante.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍩</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Bolinho de Chuva</h3>
-          <p class="desc">Aquele bolinho fofinho da vovó.</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de farinha</li><li>1 xícara de açúcar</li><li>1 ovo</li><li>1 xícara de leite</li><li>1 colher de fermento</li><li>Óleo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo.</li><li>Frite colheradas em óleo quente.</li><li>Passe no açúcar com canela.</li></ol>
-              <div class="tip">💡 Óleo a 170°C.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥟</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pastel de Frigideira</h3>
-          <p class="desc">Pastel sem fritura, crocante e rápido.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 discos de massa de pastel</li><li>100g de queijo</li><li>100g de presunto</li><li>1 colher de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Recheie e feche com garfo.</li><li>Passe manteiga na frigideira.</li><li>Doure dos dois lados.</li></ol>
-              <div class="tip">💡 Não exagere no recheio.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🥙</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Esfiha de Carne</h3>
-          <p class="desc">A clássica esfiha árabe em casa.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de farinha</li><li>1 colher de fermento biológico</li><li>1 xícara de água morna</li><li>300g de carne moída</li><li>1 cebola</li><li>Sal e limão</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça a massa e descanse 30 min.</li><li>Refogue a carne.</li><li>Monte e feche.</li><li>Asse 200°C por 20 min.</li></ol>
-              <div class="tip">💡 Limão no recheio faz diferença.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🧆</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pão de Queijo de Forno</h3>
-          <p class="desc">O pão de queijo mineiro de verdade.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de polvilho doce</li><li>1 xícara de queijo minas</li><li>2 ovos</li><li>1/2 xícara de óleo</li><li>1/2 xícara de leite</li><li>Sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Ferva leite, óleo e sal.</li><li>Escalde o polvilho.</li><li>Adicione ovos e queijo.</li><li>Faça bolinhas e asse 180°C por 25 min.</li></ol>
-              <div class="tip">💡 Massa morna para dar liga.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍞</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Café da manhã</span>
-          <h3>Torrada Francesa</h3>
-          <p class="desc">Pão dourado com leite, ovo e canela.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 fatias de pão</li><li>2 ovos</li><li>1/2 xícara de leite</li><li>Açúcar e canela</li><li>Manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata ovos e leite.</li><li>Mergulhe o pão.</li><li>Doure na manteiga.</li><li>Passe no açúcar com canela.</li></ol>
-              <div class="tip">💡 Pão de um dia antes funciona melhor.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🌯</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Wrap de Frango</h3>
-          <p class="desc">Leve, prático e perfeito para levar.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 tortillas</li><li>200g de frango desfiado</li><li>Alface e tomate</li><li>Molho</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Aqueça a tortilla.</li><li>Recheie.</li><li>Enrole firme e corte.</li></ol>
-              <div class="tip">💡 Não enrole com recheio muito quente.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🌽</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Milho Cozido na Manteiga</h3>
-          <p class="desc">Aquele milho de festa junina.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 espigas de milho</li><li>2 colheres de manteiga</li><li>Sal</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe o milho 15 min.</li><li>Escorra e passe manteiga.</li><li>Sirva quente.</li></ol>
-              <div class="tip">💡 Cozinhe com a palha.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥪</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Sanduíche de Atum</h3>
-          <p class="desc">Prático, gostoso e perfeito para a escola.</p>
-          <div class="recipe-meta"><span>⏱️ 8 min</span><span>🍽️ 1 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 fatias de pão</li><li>1 lata de atum</li><li>2 colheres de maionese</li><li>Alface</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture atum com maionese.</li><li>Recheie o pão.</li><li>Corte ao meio.</li></ol>
-              <div class="tip">💡 Adicione limão ao atum.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥭</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Salada Tropical</h3>
-          <p class="desc">Uma salada de frutas colorida e refrescante.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 manga</li><li>1 kiwi</li><li>1 banana</li><li>5 morangos</li><li>Suco de 1 laranja</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte tudo em cubos.</li><li>Misture com suco de laranja.</li><li>Geladeira 10 min.</li></ol>
-              <div class="tip">💡 Adicione hortelã.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍕</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Lanche</span>
-          <h3>Pizza de Baguete</h3>
-          <p class="desc">Uma pizza rápida usando baguete.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 baguete</li><li>Molho de tomate</li><li>Muçarela</li><li>Orégano</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte a baguete ao meio.</li><li>Passe molho e queijo.</li><li>Forno 200°C por 10 min.</li></ol>
-              <div class="tip">💡 Adicione tomate cereja.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Médio</span><span>🍗</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Frango à Parmegiana</h3>
-          <p class="desc">O prato que impressiona qualquer um.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 filés de frango</li><li>1 xícara de farinha de rosca</li><li>1 ovo</li><li>Molho de tomate</li><li>Muçarela</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Empane os filés.</li><li>Frite até dourar.</li><li>Cubra com molho e queijo.</li><li>Forno 200°C por 10 min.</li></ol>
-              <div class="tip">💡 Não fure o frango.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍝</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Macarrão à Bolonhesa</h3>
-          <p class="desc">O clássico que sempre funciona.</p>
-          <div class="recipe-meta"><span>⏱️ 35 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>300g de macarrão</li><li>300g de carne moída</li><li>1 cebola</li><li>2 dentes de alho</li><li>1 lata de molho de tomate</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Refogue cebola e alho.</li><li>Adicione a carne.</li><li>Adicione o molho e apure 15 min.</li><li>Sirva com o macarrão.</li></ol>
-              <div class="tip">💡 Deixe o molho cozinhar bastante.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍚</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Arroz Frito Chinês</h3>
-          <p class="desc">Arroz frito com ovo e legumes.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de arroz cozido</li><li>2 ovos</li><li>1 cenoura ralada</li><li>1/2 xícara de ervilha</li><li>Molho de soja</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça ovo mexido e reserve.</li><li>Refogue os legumes.</li><li>Adicione arroz e molho.</li><li>Misture o ovo.</li></ol>
-              <div class="tip">💡 Use arroz de um dia para o outro.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍲</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Feijão Tropeiro</h3>
-          <p class="desc">Um clássico mineiro cheio de sabor.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de feijão cozido</li><li>1 xícara de farinha de mandioca</li><li>100g de bacon</li><li>2 ovos</li><li>Couve</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Frite o bacon.</li><li>Adicione o feijão.</li><li>Acrescente farinha aos poucos.</li><li>Finalize com ovos e couve.</li></ol>
-              <div class="tip">💡 Farinha aos poucos.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🥘</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Comfort</span>
-          <h3>Escondidinho de Carne</h3>
-          <p class="desc">Purê cremoso com carne seca desfiada.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>500g de mandioca</li><li>300g de carne seca</li><li>1 cebola</li><li>1/2 xícara de leite</li><li>Queijo ralado</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe a mandioca e amasse.</li><li>Refogue a carne.</li><li>Monte camadas.</li><li>Cubra com queijo e asse 200°C por 20 min.</li></ol>
-              <div class="tip">💡 Dessalgue a carne de véspera.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍛</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Galinhada Simples</h3>
-          <p class="desc">Arroz com frango cozido no mesmo caldo.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de arroz</li><li>500g de frango</li><li>1 cebola</li><li>2 dentes de alho</li><li>Açafrão</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Refogue frango, alho e cebola.</li><li>Adicione arroz e açafrão.</li><li>Cubra com água e cozinhe 20 min.</li></ol>
-              <div class="tip">💡 Açafrão dá a cor típica.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🐟</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Moqueca de Peixe</h3>
-          <p class="desc">Peixe cozido no leite de coco.</p>
-          <div class="recipe-meta"><span>⏱️ 35 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>500g de peixe</li><li>1 lata de leite de coco</li><li>2 tomates</li><li>1 pimentão</li><li>1 cebola</li><li>Azeite de dendê</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Monte camadas de vegetais.</li><li>Coloque o peixe por cima.</li><li>Adicione leite de coco.</li><li>Cozinhe 20 min em fogo baixo.</li></ol>
-              <div class="tip">💡 Não mexa a moqueca.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍚</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Risoto de Cogumelo</h3>
-          <p class="desc">Cremoso e cheio de sabor.</p>
-          <div class="recipe-meta"><span>⏱️ 35 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de arroz arbóreo</li><li>200g de cogumelo</li><li>1 cebola</li><li>1/2 xícara de vinho branco</li><li>Caldo de legumes</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Refogue cebola e cogumelo.</li><li>Adicione arroz e vinho.</li><li>Adicione caldo aos poucos.</li><li>Cozinhe 20 min mexendo.</li></ol>
-              <div class="tip">💡 Mexa constantemente.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🥙</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Regional</span>
-          <h3>Quibe Assado</h3>
-          <p class="desc">Quibe assado, mais leve que frito.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de trigo para quibe</li><li>300g de carne moída</li><li>1 cebola ralada</li><li>Hortelã</li><li>Sal e pimenta</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Hidrate o trigo 30 min.</li><li>Misture com carne e temperos.</li><li>Espalhe em assadeira.</li><li>Asse 200°C por 30 min.</li></ol>
-              <div class="tip">💡 Regue com azeite antes de assar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🥧</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Comfort</span>
-          <h3>Torta de Frango Cremosa</h3>
-          <p class="desc">Uma torta cremosa com massa que derrete.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de farinha</li><li>1 xícara de leite</li><li>2 ovos</li><li>300g de frango desfiado</li><li>1 lata de milho</li><li>Requeijão</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata farinha, leite, ovos e óleo.</li><li>Misture frango, milho e requeijão.</li><li>Monte camadas.</li><li>Asse 180°C por 35 min.</li></ol>
-              <div class="tip">💡 Queijo por cima para gratinar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍲</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Almôndega ao Molho</h3>
-          <p class="desc">Almôndegas suculentas no molho de tomate.</p>
-          <div class="recipe-meta"><span>⏱️ 35 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>400g de carne moída</li><li>1 ovo</li><li>1/2 xícara de farinha de rosca</li><li>Molho de tomate</li><li>Cebola e alho</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture carne, ovo e farinha.</li><li>Faça bolinhas.</li><li>Doure na frigideira.</li><li>Cozinhe no molho 15 min.</li></ol>
-              <div class="tip">💡 Um pouco de leite na carne deixa macia.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍝</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Comfort</span>
-          <h3>Macarrão ao Forno</h3>
-          <p class="desc">Macarrão gratinado com queijo derretido.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>300g de macarrão</li><li>Molho branco</li><li>Muçarela</li><li>Presunto</li><li>Molho de tomate</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Cozinhe o macarrão.</li><li>Misture com molhos e presunto.</li><li>Cubra com queijo.</li><li>Asse 200°C por 20 min.</li></ol>
-              <div class="tip">💡 Não cozinhe demais o macarrão.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🍲</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Sopa de Legumes</h3>
-          <p class="desc">Sopa nutritiva e reconfortante.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 batatas</li><li>2 cenouras</li><li>1 abobrinha</li><li>1 cebola</li><li>1 litro de caldo de legumes</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte os legumes.</li><li>Refogue a cebola.</li><li>Adicione legumes e caldo.</li><li>Cozinhe 20 min.</li></ol>
-              <div class="tip">💡 Bata metade para ficar cremosa.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Médio</span><span>🍛</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Strogonoff de Carne</h3>
-          <p class="desc">A versão com carne do clássico strogonoff.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>400g de carne em tiras</li><li>1 cebola</li><li>2 colheres de ketchup</li><li>1 caixinha de creme de leite</li><li>Mostarda</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Doure a carne.</li><li>Adicione cebola.</li><li>Acrescente ketchup e mostarda.</li><li>Desligue e adicione creme de leite.</li></ol>
-              <div class="tip">💡 Use alcatra ou contrafilé.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🥩</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Clássico</span>
-          <h3>Picadinho de Carne</h3>
-          <p class="desc">Carne em cubinhos com molho saboroso.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 3 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>400g de carne em cubos</li><li>1 cebola</li><li>2 dentes de alho</li><li>1 tomate</li><li>Molho de tomate</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Doure a carne.</li><li>Adicione cebola e alho.</li><li>Acrescente tomate e molho.</li><li>Cozinhe 20 min.</li></ol>
-              <div class="tip">💡 Sirva com arroz e batata palha.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Médio</span><span>🍫</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Bolo de Chocolate Fofinho</h3>
-          <p class="desc">Bolo fofinho de chocolate com cobertura.</p>
-          <div class="recipe-meta"><span>⏱️ 50 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de farinha</li><li>2 xícaras de açúcar</li><li>1 xícara de chocolate em pó</li><li>3 ovos</li><li>1 xícara de leite</li><li>1 xícara de óleo</li><li>1 colher de fermento</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata os líquidos.</li><li>Misture os secos.</li><li>Asse 180°C por 40 min.</li></ol>
-              <div class="tip">💡 Peneire os secos.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍫</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Pavê de Chocolate</h3>
-          <p class="desc">Sobremesa gelada em camadas, impossível errar.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pacote de bolacha maisena</li><li>1 lata de leite condensado</li><li>2 colheres de chocolate em pó</li><li>1 caixinha de creme de leite</li><li>Leite</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça um creme.</li><li>Monte camadas de bolacha e creme.</li><li>Geladeira 4h.</li></ol>
-              <div class="tip">💡 Finalize com raspas de chocolate.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍊</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Bolo de Laranja</h3>
-          <p class="desc">Bolo fofinho com sabor refrescante.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 laranjas (suco e raspas)</li><li>3 ovos</li><li>2 xícaras de açúcar</li><li>2 xícaras de farinha</li><li>1 xícara de óleo</li><li>1 colher de fermento</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata líquidos com açúcar.</li><li>Misture os secos.</li><li>Asse 180°C por 40 min.</li></ol>
-              <div class="tip">💡 Use raspas de laranja.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🥥</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Pudim de Coco</h3>
-          <p class="desc">Pudim cremoso de coco com calda de caramelo.</p>
-          <div class="recipe-meta"><span>⏱️ 50 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 lata de leite condensado</li><li>1 vidro de leite de coco</li><li>3 ovos</li><li>1 xícara de açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata todos os ingredientes.</li><li>Despeje na forma caramelizada.</li><li>Banho-maria 40 min.</li></ol>
-              <div class="tip">💡 Adicione coco ralado.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍮</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Quindim</h3>
-          <p class="desc">Doce brasileiro de coco com gema.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 6 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>10 gemas</li><li>1 xícara de açúcar</li><li>1 vidro de leite de coco</li><li>1 xícara de coco ralado</li><li>1 colher de manteiga</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Misture tudo.</li><li>Coe e despeje em forminhas untadas.</li><li>Banho-maria 180°C por 30 min.</li></ol>
-              <div class="tip">💡 Não bata demais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF1E0"><span class="level">Médio</span><span>🍫</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Brigadeiro Gourmet</h3>
-          <p class="desc">Brigadeiro com chocolate meio amargo.</p>
-          <div class="recipe-meta"><span>⏱️ 25 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 lata de leite condensado</li><li>100g de chocolate meio amargo</li><li>1 colher de manteiga</li><li>1/2 caixinha de creme de leite</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Derreta o chocolate.</li><li>Misture tudo na panela.</li><li>Cozinhe até desgrudar do fundo.</li></ol>
-              <div class="tip">💡 Chocolate meio amargo equilibra o doce.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍰</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Bolo de Cenoura com Ganache</h3>
-          <p class="desc">O bolo de cenoura com cobertura de ganache.</p>
-          <div class="recipe-meta"><span>⏱️ 55 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>3 cenouras</li><li>3 ovos</li><li>2 xícaras de açúcar</li><li>2 xícaras de farinha</li><li>1 xícara de óleo</li><li>200g de chocolate</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata cenoura, ovos e óleo.</li><li>Misture os secos e asse 180°C por 40 min.</li><li>Derreta chocolate e cubra.</li></ol>
-              <div class="tip">💡 Ganache: chocolate e creme 2:1.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE3EE"><span class="level">Médio</span><span>🍓</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Panna Cotta de Morango</h3>
-          <p class="desc">Sobremesa italiana cremosa com calda.</p>
-          <div class="recipe-meta"><span>⏱️ 20 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>500ml de creme de leite</li><li>1/2 xícara de açúcar</li><li>1 envelope de gelatina sem sabor</li><li>1 xícara de morangos</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Aqueça o creme com açúcar.</li><li>Dissolva a gelatina.</li><li>Despeje em forminhas e gele 4h.</li><li>Sirva com morangos.</li></ol>
-              <div class="tip">💡 Unte as forminhas com óleo.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🍫</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Mousse de Chocolate</h3>
-          <p class="desc">Mousse cremoso com apenas 3 ingredientes.</p>
-          <div class="recipe-meta"><span>⏱️ 15 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>200g de chocolate meio amargo</li><li>1 caixinha de creme de leite</li><li>3 claras em neve</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Derreta o chocolate com creme de leite.</li><li>Incorpore as claras em neve.</li><li>Geladeira 3h.</li></ol>
-              <div class="tip">💡 Movimentos de baixo para cima.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍰</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Torta Holandesa</h3>
-          <p class="desc">Torta gelada com creme branco e chocolate.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pacote de bolacha calipso</li><li>1 lata de leite condensado</li><li>1 caixinha de creme de leite</li><li>200g de chocolate</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça um creme com leite condensado e creme de leite.</li><li>Monte camadas com bolacha.</li><li>Cubra com chocolate derretido.</li><li>Geladeira 4h.</li></ol>
-              <div class="tip">💡 Deixe bolacha de fora para decorar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍌</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Banana Caramelizada</h3>
-          <p class="desc">Banana com calda de caramelo e canela.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 bananas</li><li>3 colheres de açúcar</li><li>1 colher de manteiga</li><li>Canela</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Corte as bananas.</li><li>Derreta açúcar com manteiga.</li><li>Caramelize as bananas.</li><li>Polvilhe canela.</li></ol>
-              <div class="tip">💡 Sirva com sorvete de creme.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍌</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Torta Banoffee</h3>
-          <p class="desc">Torta de banana com doce de leite e chantilly.</p>
-          <div class="recipe-meta"><span>⏱️ 30 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 pacote de bolacha</li><li>3 colheres de manteiga</li><li>1 lata de doce de leite</li><li>3 bananas</li><li>Chantilly</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça a base com bolacha e manteiga.</li><li>Cubra com doce de leite.</li><li>Adicione bananas e chantilly.</li><li>Geladeira 2h.</li></ol>
-              <div class="tip">💡 Gele antes de servir.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍰</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Bolo Formigueiro</h3>
-          <p class="desc">Bolo fofinho com granulado de chocolate.</p>
-          <div class="recipe-meta"><span>⏱️ 45 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 xícaras de farinha</li><li>2 xícaras de açúcar</li><li>3 ovos</li><li>1 xícara de leite</li><li>1 xícara de óleo</li><li>1 xícara de granulado</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata os líquidos.</li><li>Misture os secos.</li><li>Adicione granulado por último.</li><li>Asse 180°C por 40 min.</li></ol>
-              <div class="tip">💡 Cuidado para não derreter o granulado.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Médio</span><span>🍥</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Rocambole de Doce de Leite</h3>
-          <p class="desc">Massa fofinha enrolada com doce de leite.</p>
-          <div class="recipe-meta"><span>⏱️ 40 min</span><span>🍽️ 8 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 ovos</li><li>1 xícara de açúcar</li><li>1 xícara de farinha</li><li>1 colher (chá) de fermento</li><li>1 lata de doce de leite</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata ovos e açúcar até triplicar.</li><li>Adicione farinha e fermento.</li><li>Asse em assadeira rasa 180°C por 15 min.</li><li>Espalhe doce e enrole morno.</li></ol>
-              <div class="tip">💡 Use pano úmido para enrolar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Médio</span><span>🍨</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Sobremesa</span>
-          <h3>Sorvete de Chocolate Caseiro</h3>
-          <p class="desc">Sorvete cremoso de chocolate sem sorveteira.</p>
-          <div class="recipe-meta"><span>⏱️ 240 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 lata de leite condensado</li><li>200g de chocolate meio amargo</li><li>1 caixinha de creme de leite</li><li>2 claras em neve</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Derreta chocolate com creme de leite.</li><li>Misture com leite condensado.</li><li>Incorpore claras em neve.</li><li>Congele 4h mexendo a cada hora.</li></ol>
-              <div class="tip">💡 Mexer evita cristais de gelo.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🥤</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Suco de Maracujá Natural</h3>
-          <p class="desc">Refrescante e azedinho, o clássico brasileiro.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 maracujás</li><li>500ml de água</li><li>4 colheres de açúcar</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata a polpa com água.</li><li>Coe e adoce.</li><li>Sirva com gelo.</li></ol>
-              <div class="tip">💡 Não bata sementes demais.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🍍</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Suco de Abacaxi com Hortelã</h3>
-          <p class="desc">Refrescante, digestivo e cheio de sabor.</p>
-          <div class="recipe-meta"><span>⏱️ 8 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 fatias de abacaxi</li><li>5 folhas de hortelã</li><li>500ml de água gelada</li><li>Açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata abacaxi com água.</li><li>Adicione hortelã 10s.</li><li>Coe, adoce e sirva.</li></ol>
-              <div class="tip">💡 Bata a hortelã rápido.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>🥤</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Milk-shake de Chocolate</h3>
-          <p class="desc">Cremoso e gelado, igual ao de lanchonete.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 bolas de sorvete de chocolate</li><li>1 xícara de leite</li><li>2 colheres de chocolate em pó</li><li>Chantilly</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo no liquidificador.</li><li>Sirva com chantilly.</li></ol>
-              <div class="tip">💡 Sorvete bem gelado.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍑</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Chá Gelado de Pêssego</h3>
-          <p class="desc">Refrescante, docinho e perfeito para o calor.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 sachês de chá preto</li><li>1 litro de água</li><li>2 pêssegos picados</li><li>Açúcar</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Faça o chá e deixe esfriar.</li><li>Adicione pêssegos e açúcar.</li><li>Geladeira 2h.</li><li>Sirva com gelo.</li></ol>
-              <div class="tip">💡 Não deixe o chá amargo.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE3EE"><span class="level">Fácil</span><span>🍓</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Batida de Morango (sem álcool)</h3>
-          <p class="desc">Batida cremosa e refrescante sem álcool.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 xícara de morangos</li><li>1 caixinha de leite condensado</li><li>1 xícara de leite</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo.</li><li>Sirva.</li></ol>
-              <div class="tip">💡 Morangos congelados ficam cremosos.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥒</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Água Detox de Limão e Pepino</h3>
-          <p class="desc">Água saborizada e refrescante, sem açúcar.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 limão fatiado</li><li>1/2 pepino fatiado</li><li>5 folhas de hortelã</li><li>1 litro de água</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Coloque tudo em uma jarra.</li><li>Geladeira 2h.</li><li>Sirva gelado.</li></ol>
-              <div class="tip">💡 Deixe descansar bem.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE9DD"><span class="level">Fácil</span><span>☕</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Cappuccino Caseiro</h3>
-          <p class="desc">Cappuccino cremoso e aromático.</p>
-          <div class="recipe-meta"><span>⏱️ 10 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>2 colheres de café solúvel</li><li>1 xícara de leite</li><li>2 colheres de chocolate em pó</li><li>Açúcar e canela</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Aqueça o leite.</li><li>Bata com café, chocolate e açúcar.</li><li>Sirva com canela.</li></ol>
-              <div class="tip">💡 Bata com mixer para espumar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFF6D9"><span class="level">Fácil</span><span>🍊</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Suco de Laranja com Cenoura</h3>
-          <p class="desc">Rico em vitamina A e C.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>3 laranjas</li><li>1 cenoura</li><li>200ml de água</li><li>Açúcar</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Esprema as laranjas.</li><li>Bata a cenoura com água.</li><li>Misture e adoce.</li></ol>
-              <div class="tip">💡 Coe para tirar o bagaço.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#E5F9F6"><span class="level">Fácil</span><span>🥤</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Saudável</span>
-          <h3>Smoothie Verde</h3>
-          <p class="desc">Smoothie nutritivo com couve, maçã e banana.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 2 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>1 folha de couve</li><li>1 maçã</li><li>1 banana</li><li>1 xícara de água de coco</li><li>Gelo</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata tudo.</li><li>Coe se preferir.</li><li>Sirva.</li></ol>
-              <div class="tip">💡 Bata com gelo para ficar cremoso.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-      <article class="recipe-card">
-        <div class="recipe-thumb" style="background:#FFE3EE"><span class="level">Fácil</span><span>🍉</span></div>
-        <div class="recipe-body">
-          <span class="tag-mini">Bebida</span>
-          <h3>Suco de Melancia com Gengibre</h3>
-          <p class="desc">Refrescante, docinho e com toque de gengibre.</p>
-          <div class="recipe-meta"><span>⏱️ 5 min</span><span>🍽️ 4 porç.</span></div>
-          <details class="recipe-details">
-            <summary>Ver receita</summary>
-            <div class="inner">
-              <h4>Ingredientes</h4>
-              <ul><li>4 fatias de melancia</li><li>1 lasca de gengibre</li><li>Gelo</li><li>Açúcar (opcional)</li></ul>
-              <h4>Modo de preparo</h4>
-              <ol><li>Bata melancia com gengibre.</li><li>Coe se quiser.</li><li>Sirva com gelo.</li></ol>
-              <div class="tip">💡 Prove antes de adoçar.</div>
-            </div>
-          </details>
-        </div>
-      </article>
-
-    </div>
+    <div class="recipe-grid" id="recipeGrid" style="margin-top:30px"></div>
   </div>
 </section>
 
+<!-- ============ SEGURANÇA ============ -->
 <section class="section" id="seguranca">
   <div class="container">
     <span class="badge" style="background:#E5F9F6;color:#1F8A7E">🛡️ Segurança em 1º lugar</span>
     <h2 class="section-title" style="margin-top:12px">Regras de ouro na cozinha</h2>
-    <p class="section-sub">Cozinhar é divertido — mas com atenção.</p>
+    <p class="section-sub">Cozinhar é divertido — mas com atenção. Siga essas dicas e evite acidentes (e vergonha na cozinha).</p>
+
     <div class="safety-grid">
-      <div class="safety-card"><div class="ico" style="background:#FFE9DD">🔥</div><h3>Fogo & panelas</h3><p>Nunca deixe o cabo da panela virado para fora.</p></div>
-      <div class="safety-card"><div class="ico" style="background:#FFF6D9">🔪</div><h3>Facas afiadas</h3><p>Faca cega escorrega mais. Corte em tábua firme.</p></div>
-      <div class="safety-card"><div class="ico" style="background:#E5F9F6">🧼</div><h3>Higiene sempre</h3><p>Lave as mãos antes de começar.</p></div>
-      <div class="safety-card"><div class="ico" style="background:#F0ECFA">💧</div><h3>Óleo & água</h3><p>Nunca jogue água em panela com óleo fervendo.</p></div>
+      <div class="safety-card">
+        <div class="ico" style="background:#FFE9DD">🔥</div>
+        <h3>Fogo & panelas</h3>
+        <p>Nunca deixe o cabo da panela virado para fora. E nada de correr perto do fogão aceso.</p>
+      </div>
+      <div class="safety-card">
+        <div class="ico" style="background:#FFF6D9">🔪</div>
+        <h3>Facas afiadas</h3>
+        <p>Faca cega escorrega mais. Corte em tábua firme e nunca leve a faca à pia com a lâmina para cima.</p>
+      </div>
+      <div class="safety-card">
+        <div class="ico" style="background:#E5F9F6">🧼</div>
+        <h3>Higiene sempre</h3>
+        <p>Lave as mãos antes de começar. Não use a mesma tábua para carne crua e alimentos prontos.</p>
+      </div>
+      <div class="safety-card">
+        <div class="ico" style="background:#F0ECFA">💧</div>
+        <h3>Óleo & água</h3>
+        <p>Água e óleo quente não se misturam! Nunca jogue água em panela com óleo fervendo.</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ============ PRIMEIROS PASSOS ============ -->
 <section class="steps-section" id="primeiros">
   <div class="container">
     <span class="badge" style="background:rgba(255,255,255,.1);color:var(--accent)">🚀 Comece por aqui</span>
     <h2 class="section-title" style="margin-top:12px;color:#fff">Seu caminho até virar mestre</h2>
-    <p class="section-sub">Nunca cozinhou? Sem problema.</p>
+    <p class="section-sub">Nunca cozinhou? Sem problema. Siga esse passo a passo e em poucos dias você já está mandando bem.</p>
+
     <div class="steps">
-      <div class="step"><div class="num">01</div><h3>Escolha uma receita fácil</h3><p>Comece por ovos, macarrão instantâneo ou torradas.</p></div>
-      <div class="step"><div class="num">02</div><h3>Separe os ingredientes</h3><p>Deixe tudo à mão antes de ligar o fogo.</p></div>
-      <div class="step"><div class="num">03</div><h3>Siga o passo a passo</h3><p>Leia a receita inteira antes de começar.</p></div>
-      <div class="step"><div class="num">04</div><h3>Prove, ajuste e compartilhe</h3><p>Confira o tempero e mostre para a família.</p></div>
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Escolha uma receita fácil</h3>
+        <p>Comece por ovos, macarrão instantâneo ou torradas. O importante é fazer a primeira vez.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>Separe os ingredientes</h3>
+        <p>Deixe tudo à mão antes de ligar o fogo. Isso evita correria e queimaduras.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Siga o passo a passo</h3>
+        <p>Leia a receita inteira antes de começar. Marque os ingredientes na lista do site.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <h3>Prove, ajuste e compartilhe</h3>
+        <p>Confira o tempero, sirva e mostre para a família. Próxima receita: mais difícil!</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ============ CTA FINAL ============ -->
 <section class="section">
   <div class="container">
     <div class="cta-final">
       <h2>Bora pra cozinha? 🍳</h2>
-      <p>Escolha sua primeira receita agora mesmo. Sem enrolação, sem complicação.</p>
+      <p>Escolha sua primeira receita agora mesmo. Sem enrolação, sem complicação — só sabor e diversão.</p>
       <a href="#receitas" class="btn">Escolher receita</a>
     </div>
   </div>
 </section>
 
+<!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo">
-          <div class="logo-mark">🍳</div>
+          <div class="logo-mark">
+            <img src="./tio-lucas.png" alt="Logo Tio Lucas" onerror="this.src='https://via.placeholder.com/50/FFC93C/1F1B16?text=👨‍🍳'">
+          </div>
           <span class="logo-text">Receita do Tio Lucas<small>Na cozinha, quem manda é você!</small></span>
         </div>
-        <p>A plataforma que ensina adolescentes a cozinhar com segurança e personalidade.</p>
+        <p>A plataforma que ensina adolescentes a cozinhar com segurança, prática e muita personalidade.</p>
       </div>
-      <div><h4>Explorar</h4><ul><li><a href="#receitas">Receitas</a></li><li><a href="#primeiros">Primeiros Passos</a></li><li><a href="#seguranca">Segurança</a></li></ul></div>
-      <div><h4>Receitas</h4><ul><li><a href="#receitas">Lanches</a></li><li><a href="#receitas">Sobremesas</a></li><li><a href="#receitas">Refeições</a></li><li><a href="#receitas">Bebidas</a></li></ul></div>
-      <div><h4>Contato</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li><li><a href="#">YouTube</a></li><li><a href="#">Fale com o Tio</a></li></ul></div>
+      <div>
+        <h4>Explorar</h4>
+        <ul>
+          <li><a href="#receitas">Receitas</a></li>
+          <li><a href="#primeiros">Primeiros Passos</a></li>
+          <li><a href="#seguranca">Segurança</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Receitas</h4>
+        <ul>
+          <li><a href="#" onclick="return false">Lanches rápidos</a></li>
+          <li><a href="#" onclick="return false">Sobremesas</a></li>
+          <li><a href="#" onclick="return false">Refeições</a></li>
+          <li><a href="#" onclick="return false">Bebidas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#" onclick="return false">Instagram</a></li>
+          <li><a href="#" onclick="return false">TikTok</a></li>
+          <li><a href="#" onclick="return false">YouTube</a></li>
+          <li><a href="#" onclick="return false">Fale com o Tio</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Receita do Tio Lucas. Todos os direitos reservados.</span>
@@ -2383,5 +620,340 @@
   </div>
 </footer>
 
+<!-- ============ MODAL RECEITA ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DADOS DAS RECEITAS (40 RECEITAS)
+   ============================================================ */
+const RECIPES = [
+  // --- FÁCEIS / LANCHES ---
+  { id: 'ovo-mexido', name: 'Ovo Mexido do Tio', emoji: '🍳', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'refeicao', tag: 'Café da manhã', desc: 'O primeiro passo de todo cozinheiro. Simples, rápido e delicioso.', ingredients: ['2 ovos', '1 colher (sopa) de manteiga ou óleo', '1 pitada de sal', '1 pitada de pimenta (opcional)', '1 fatia de queijo (opcional)'], steps: ['Quebre os ovos em uma tigela e bata levemente com um garfo.', 'Aqueça a manteiga em uma frigideira em fogo baixo.', 'Despeje os ovos e mexa devagar com uma espátula.', 'Quando estiverem quase firmes, adicione o sal e desligue o fogo.', 'Sirva com queijo por cima, se quiser.'], tip: 'Fogo baixo é o segredo para um ovo cremoso. Não deixe secar demais!' },
+  { id: 'sanduiche', name: 'Sanduíche do Tio', emoji: '🥪', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Um sanduíche quente e caprichado para o intervalo da escola.', ingredients: ['2 fatias de pão de forma', '1 fatia de queijo', '1 fatia de presunto', '1 colher (chá) de manteiga', 'Tomate e alface a gosto'], steps: ['Passe a manteiga nas fatias de pão.', 'Monte o sanduíche com queijo, presunto, tomate e alface.', 'Aqueça na frigideira em fogo baixo até o queijo derreter.', 'Corte ao meio e sirva.'], tip: 'Não coloque o alface antes de aquecer: ele murcha. Coloque depois que o queijo derreter.' },
+  { id: 'pizza-pao', name: 'Pizza de Pão de Forma', emoji: '🍕', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Uma pizza rápida usando pão de forma. Funciona e fica uma delícia.', ingredients: ['4 fatias de pão de forma', '4 colheres (sopa) de molho de tomate', '100g de queijo muçarela ralado', 'Orégano a gosto', 'Recheio a gosto (presunto, tomate, azeitona)'], steps: ['Passe o molho de tomate nas fatias de pão.', 'Distribua o queijo e os recheios escolhidos.', 'Polvilhe orégano.', 'Leve ao forno pré-aquecido a 180°C por 10 minutos (ou na frigideira com tampa em fogo baixo).', 'Sirva quente.'], tip: 'Não sobrecarregue o pão com recheios: ele pode ficar mole. Menos é mais!' },
+  { id: 'tapioca', name: 'Tapioca Recheada', emoji: '🫓', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Rápida, versátil e combina com doce ou salgado. A rainha do lanche.', ingredients: ['4 colheres (sopa) de goma de tapioca', '1 fatia de queijo (ou recheio de sua preferência)', '1 pitada de sal'], steps: ['Peneire a goma de tapioca em uma frigideira fria.', 'Ligue o fogo baixo e deixe a goma firmar (cerca de 2 minutos).', 'Coloque o recheio no centro e dobre ao meio com uma espátula.', 'Deixe mais 1 minuto de cada lado e sirva.'], tip: 'A frigideira precisa estar fria quando você colocar a goma. Isso faz a tapioca ficar no ponto certo.' },
+  { id: 'cachorro-quente', name: 'Cachorro-Quente Caseiro', emoji: '🌭', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'O clássico americano que todo mundo ama. Fácil e rápido.', ingredients: ['2 salsichas', '2 pães de hot dog', 'Molho de tomate', 'Batata palha', 'Mostarda e ketchup'], steps: ['Cozinhe a salsicha na água fervente por 5 minutos ou frite na frigideira.', 'Aqueça o pão no micro-ondas por 20 segundos ou na frigideira.', 'Monte com a salsicha, molho, batata palha e condimentos.'], tip: 'Dê pequenos cortes na salsicha antes de cozinhar: ela não estoura e absorve melhor o sabor.' },
+  { id: 'pipoca', name: 'Pipoca de Micro-ondas', emoji: '🍿', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'O lanche perfeito para ver filme. Cuidado para não queimar!', ingredients: ['1 saquinho de milho de pipoca para micro-ondas'], steps: ['Coloque o saquinho no micro-ondas com a aba para cima.', 'Programe conforme a embalagem (geralmente 2 a 3 minutos).', 'Espere os estouros diminuírem, retire com cuidado e abra longe do rosto.'], tip: 'Nunca abra o saquinho logo que sair do micro-ondas. O vapor quente pode queimar.' },
+  { id: 'salada-frutas', name: 'Salada de Frutas', emoji: '🍓', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'sobremesa', tag: 'Sobremesa', desc: 'Refrescante, saudável e colorida. Perfeita para o calor.', ingredients: ['1 banana', '1 maçã', '1 laranja', '5 morangos', '1 colher (sopa) de mel ou suco de limão'], steps: ['Lave bem as frutas.', 'Corte tudo em pedaços pequenos em uma tigela.', 'Adicione o mel ou o suco de limão para não escurecer.', 'Misture e leve à geladeira por 10 minutos antes de servir.'], tip: 'Corte a banana por último e passe no limão para ela não escurecer.' },
+  { id: 'misto-quente', name: 'Misto Quente na Frigideira', emoji: '🧀', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 8, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'O lanche mais rápido do mundo. Pão, queijo e presunto.', ingredients: ['2 fatias de pão de forma', '1 fatia de queijo', '1 fatia de presunto', '1 colher (chá) de manteiga'], steps: ['Passe manteiga nas fatias de pão.', 'Recheie com queijo e presunto.', 'Leve à frigideira em fogo baixo, tampe e deixe dourar dos dois lados.'], tip: 'Tampar a frigideira faz o queijo derreter mais rápido sem queimar o pão.' },
+  { id: 'gelatina', name: 'Gelatina Colorida', emoji: '🍮', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Simples, barata e todo mundo gosta. Só precisa de paciência.', ingredients: ['1 caixa de gelatina em pó (sabor preferido)', '500ml de água quente', '500ml de água gelada'], steps: ['Ferva 500ml de água.', 'Dissolva a gelatina na água quente mexendo bem.', 'Adicione a água gelada e mexa.', 'Coloque em uma forma ou tigela e leve à geladeira por 3 horas.'], tip: 'Não use água quente demais: pode estragar o sabor da gelatina.' },
+  { id: 'suco-limao', name: 'Limonada Suíça', emoji: '🍋', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'bebida', tag: 'Bebida', desc: 'Cremosa, gelada e refrescante. Muito melhor que a de pacote.', ingredients: ['2 limões', '1 litro de água gelada', '4 colheres (sopa) de açúcar', 'Gelo a gosto'], steps: ['Lave bem os limões e corte em pedaços (deixe a casca).', 'Bata no liquidificador com a água e o açúcar por 30 segundos.', 'Coe e sirva com gelo.'], tip: 'Bater com a casca deixa a limonada cremosa, mas não bata por muito tempo: pode amargar.' },
+
+  // --- FÁCEIS / REFEIÇÕES ---
+  { id: 'macarrao', name: 'Macarrão do Tio Lucas', emoji: '🍝', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Clássico', desc: 'O prato que salva qualquer fome. Pronto em 15 minutos e sempre aprovado.', ingredients: ['200g de macarrão', '1 colher (sopa) de sal', '2 colheres (sopa) de molho de tomate', '1 dente de alho picado', 'Queijo ralado a gosto'], steps: ['Ferva água em uma panela grande e adicione o sal.', 'Coloque o macarrão e cozinhe pelo tempo indicado na embalagem.', 'Escorra com cuidado.', 'Volte à panela com o molho e misture em fogo baixo por 1 minuto.', 'Sirva com queijo.'], tip: 'Reserve um pouco da água do cozimento: ela ajuda o molho a grudar melhor.' },
+  { id: 'arroz', name: 'Arroz Soltinho', emoji: '🍚', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 25, servings: 2, category: 'refeicao', tag: 'Básico', desc: 'O acompanhamento obrigatório. Aprenda a fazer sem virar papa.', ingredients: ['1 xícara de arroz', '2 xícaras de água quente', '1 colher (sopa) de óleo', '1 dente de alho picado', 'Sal a gosto'], steps: ['Lave o arroz até a água ficar clara.', 'Refogue o alho no óleo quente.', 'Adicione o arroz e refogue por 2 minutos.', 'Adicione a água quente e o sal.', 'Tampe e cozinhe em fogo baixo por 15 minutos ou até secar a água.'], tip: 'Não mexa o arroz enquanto cozinha! Isso evita que ele fique empapado.' },
+  { id: 'miojo', name: 'Miojo Turbinado', emoji: '🍜', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Salva-vidas', desc: 'Aquele miojo básico, mas com temperos e ingredientes extras.', ingredients: ['1 pacote de miojo', '1 ovo', '1 colher (sopa) de manteiga', 'Cebolinha (opcional)', 'Queijo ralado (opcional)'], steps: ['Ferva 400ml de água.', 'Adicione o miojo e cozinhe por 3 minutos.', 'Em outra frigideira, frite o ovo com manteiga.', 'Misture o pó do tempero ao miojo, adicione o ovo e sirva.'], tip: 'Jogue fora o pó de tempero metade das vezes. Substitua por temperos naturais e a receita fica muito mais saudável.' },
+  { id: 'omelete', name: 'Omelete de Queijo', emoji: '🥚', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Proteína', desc: 'Um clássico que nunca falha e aceita qualquer recheio.', ingredients: ['2 ovos', '2 colheres (sopa) de queijo ralado', 'Sal e pimenta a gosto', '1 colher (chá) de manteiga'], steps: ['Bata os ovos com sal e pimenta.', 'Derreta a manteiga em fogo baixo.', 'Despeje os ovos e espere firmar.', 'Adicione o queijo, dobre ao meio e sirva.'], tip: 'Não mexa os ovos se quiser uma omelete fechada. Se quiser mexida, mexa sempre!' },
+  { id: 'torrada', name: 'Torrada na Frigideira', emoji: '🍞', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Sem torradeira? Sem problema. Dá pra fazer na frigideira!', ingredients: ['2 fatias de pão de forma', '1 colher (chá) de manteiga'], steps: ['Aqueça a frigideira em fogo médio.', 'Passe manteiga nas fatias de pão.', 'Doure dos dois lados na frigideira (cerca de 2 minutos cada lado).'], tip: 'Sirva na hora: torrada esfria e fica dura rápido.' },
+  { id: 'canja', name: 'Canja de Galinha Rápida', emoji: '🍲', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'refeicao', tag: 'Conforto', desc: 'Sopa reconfortante para os dias frios ou quando está gripado.', ingredients: ['1 xícara de arroz', '1 peito de frango pequeno', '1 litro de água', '1 cubo de caldo de galinha', 'Sal e cheiro-verde'], steps: ['Cozinhe o frango na água por 10 minutos e desfie.', 'Volte o frango à água com o arroz e o caldo.', 'Cozinhe por 15 minutos em fogo baixo.', 'Finalize com cheiro-verde e sirva.'], tip: 'Desfiar o frango com dois garfos enquanto ainda está quente é muito mais fácil.' },
+
+  // --- MÉDIOS / REFEIÇÕES ---
+  { id: 'batata-frita', name: 'Batata Rústica', emoji: '🍟', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 30, servings: 2, category: 'lanche', tag: 'Acompanhamento', desc: 'Batatas crocantes assadas no forno, sem fritura e sem bagunça.', ingredients: ['3 batatas médias', '2 colheres (sopa) de óleo', '1 colher (chá) de sal', '1 colher (chá) de páprica', 'Orégano a gosto'], steps: ['Lave bem as batatas e corte em palitos.', 'Seque com um pano limpo ou papel-toalha.', 'Misture as batatas com o óleo, o sal e a páprica.', 'Espalhe em uma assadeira e leve ao forno a 200°C por 25 minutos.', 'Vire na metade do tempo.'], tip: 'Secar bem as batatas antes de assar é o que garante a crocância.' },
+  { id: 'bolo-caneca', name: 'Bolo de Caneca', emoji: '🧁', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'sobremesa', tag: 'Sobremesa', desc: 'Bolo de chocolate no micro-ondas em 5 minutos. Perfeito para matar a vontade.', ingredients: ['4 colheres (sopa) de farinha de trigo', '4 colheres (sopa) de açúcar', '2 colheres (sopa) de chocolate em pó', '1 ovo', '3 colheres (sopa) de leite', '2 colheres (sopa) de óleo', '1 colher (café) de fermento em pó'], steps: ['Coloque todos os ingredientes na caneca e misture bem.', 'Adicione o fermento por último.', 'Leve ao micro-ondas por 3 minutos em potência alta.', 'Espere esfriar antes de comer.'], tip: 'Use uma caneca grande, porque o bolo cresce bastante.' },
+  { id: 'suco-verde', name: 'Suco Verde do Tio', emoji: '🥤', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Refrescante, saudável e pronto em 5 minutos. Combina com tudo.', ingredients: ['1 maçã', '1 folha de couve', 'Suco de 1 limão', '1 copo de água gelada', 'Açúcar a gosto'], steps: ['Lave bem a maçã e a couve.', 'Corte a maçã em pedaços.', 'Bata tudo no liquidificador com a água.', 'Coe, adoce e sirva gelado.'], tip: 'Bata a couve com o limão para conservar o sabor e a cor.' },
+  { id: 'brigadeiro', name: 'Brigadeiro de Panela', emoji: '🍫', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 25, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'O clássico brasileiro que todo mundo ama. Atenção ao ponto!', ingredients: ['1 lata de leite condensado', '2 colheres (sopa) de chocolate em pó', '1 colher (sopa) de manteiga', 'Chocolate granulado'], steps: ['Coloque o leite condensado, o chocolate e a manteiga na panela.', 'Misture em fogo baixo, mexendo sempre, por 10 a 15 minutos.', 'O ponto é quando desgruda do fundo da panela.', 'Despeje em um prato untado e espere esfriar.', 'Enrole e passe no granulado.'], tip: 'Fogo baixo e paciência: brigadeiro não tem pressa.' },
+  { id: 'panqueca', name: 'Panqueca Doce', emoji: '🥞', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 20, servings: 3, category: 'sobremesa', tag: 'Sobremesa', desc: 'Panquecas macias e docinhas para o café da manhã especial.', ingredients: ['1 xícara de farinha', '2 colheres (sopa) de açúcar', '1 ovo', '1 xícara de leite', '1 colher (chá) de fermento', 'Mel ou calda para servir'], steps: ['Misture a farinha, açúcar e fermento.', 'Adicione o ovo e o leite e misture até ficar homogêneo.', 'Aqueça uma frigideira antiaderente em fogo baixo.', 'Coloque pequenas porções de massa e vire quando aparecerem bolhas.', 'Sirva com mel ou calda.'], tip: 'Não mexa muito a massa: panqueca boa é massa levemente empelotada.' },
+  { id: 'hamburguer', name: 'Hambúrguer Caseiro', emoji: '🍔', color: '#FFE9DD', level: 'medio', levelLabel: 'Médio', time: 25, servings: 2, category: 'refeicao', tag: 'Lanche', desc: 'Carne suculenta, queijo derretido e pão quentinho. Sem fast food.', ingredients: ['300g de carne moída', '1 pão de hambúrguer', '2 fatias de queijo', 'Alface, tomate e cebola', 'Sal e pimenta'], steps: ['Tempere a carne e modele em 2 discos.', 'Asse ou frite na frigideira em fogo alto por 3 minutos cada lado.', 'Coloque o queijo no final para derreter.', 'Monte com os vegetais e molhos favoritos.'], tip: 'Não aperte o hambúrguer com a espátula: você tira todo o suco da carne.' },
+  { id: 'frango-frito', name: 'Frango Frito Crocante', emoji: '🍗', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 35, servings: 3, category: 'refeicao', tag: 'Proteína', desc: 'Frango super crocante por fora e suculento por dentro. Cuidado com o óleo!', ingredients: ['500g de frango (coxas ou peito)', '1 xícara de farinha de trigo', '1 ovo batido', 'Sal, pimenta e páprica', 'Óleo para fritar'], steps: ['Tempere o frango.', 'Passe no ovo batido e depois na farinha.', 'Aqueça o óleo em fogo médio.', 'Frite o frango até dourar (cerca de 10 minutos).', 'Escorra em papel-toalha.'], tip: 'Nunca coloque o frango congelado no óleo quente. Espere descongelar.' },
+  { id: 'salada-caesar', name: 'Salada Caesar Simples', emoji: '🥗', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Saudável', desc: 'Uma salada diferente, com molho cremoso e crocante.', ingredients: ['1 pé de alface', '1/2 xícara de croutons', '2 colheres (sopa) de maionese', '1 colher (sopa) de parmesão', 'Suco de limão'], steps: ['Lave e corte a alface.', 'Misture a maionese, parmesão e limão.', 'Junte tudo em uma tigela e finalize com croutons.'], tip: 'Molho separado da salada evita que ela murche antes de servir.' },
+  { id: 'strogonoff', name: 'Strogonoff de Frango', emoji: '🍛', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 30, servings: 3, category: 'refeicao', tag: 'Clássico', desc: 'O prato que impressiona qualquer visita. Cremoso e delicioso.', ingredients: ['500g de frango em cubos', '1 cebola picada', '2 colheres (sopa) de ketchup', '1 caixinha de creme de leite', 'Sal e pimenta'], steps: ['Refogue o frango e a cebola.', 'Adicione o ketchup e misture bem.', 'Desligue o fogo e adicione o creme de leite.', 'Sirva com arroz e batata palha.'], tip: 'Nunca deixe o creme de leite ferver: ele talha e estraga o prato.' },
+  { id: 'lasanha', name: 'Lasanha de Frigideira', emoji: '🍲', color: '#FFE9DD', level: 'medio', levelLabel: 'Médio', time: 35, servings: 3, category: 'refeicao', tag: 'Comfort', desc: 'Uma lasanha rápida que não precisa de forno.', ingredients: ['Massa de lasanha pré-cozida', 'Molho de tomate', 'Queijo muçarela', 'Presunto'], steps: ['Monte camadas em uma frigideira alta.', 'Alterne molho, massa, presunto e queijo.', 'Tampe e cozinhe em fogo baixo por 15 minutos.', 'Finalize com queijo derretido em fogo alto.'], tip: 'Tampar é essencial: o vapor cozinha a massa e derrete o queijo.' },
+
+  // --- SOBREMESAS E BEBIDAS ---
+  { id: 'mousse-maracuja', name: 'Mousse de Maracujá', emoji: '🍮', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Doce, azedinho e cremoso. Só 3 ingredientes e uma geladeira.', ingredients: ['1 lata de leite condensado', '1 caixinha de creme de leite', '1 caixinha de suco de maracujá concentrado'], steps: ['Bata tudo no liquidificador por 2 minutos.', 'Coloque em taças ou tigela.', 'Leve à geladeira por 4 horas.'], tip: 'Se quiser mais firme, adicione 1 envelope de gelatina sem sabor dissolvida.' },
+  { id: 'pudim', name: 'Pudim de Leite Rápido', emoji: '🍮', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 45, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'O pudim clássico, liso e sem furinhos.', ingredients: ['1 lata de leite condensado', '2 latas de leite', '3 ovos', '1 xícara de açúcar (para a calda)'], steps: ['Faça a calda derretendo o açúcar em fogo baixo.', 'Bata o leite condensado, leite e ovos no liquidificador.', 'Despeje na forma caramelizada.', 'Asse em banho-maria a 180°C por 40 minutos.'], tip: 'Coe a mistura antes de assar: isso tira as bolhas e deixa o pudim lisinho.' },
+  { id: 'cookie', name: 'Cookie de Micro-ondas', emoji: '🍪', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'sobremesa', tag: 'Sobremesa', desc: 'Um cookie quentinho em 5 minutos. Impossível resistir.', ingredients: ['2 colheres (sopa) de farinha', '1 colher (sopa) de açúcar', '1 colher (sopa) de manteiga', '1 colher (sopa) de gotas de chocolate', '1 colher (sopa) de leite'], steps: ['Misture tudo em um prato.', 'Achate com uma colher.', 'Leve ao micro-ondas por 1 minuto.'], tip: 'Não passe de 1 minuto: o cookie pode ficar duro como pedra.' },
+  { id: 'vitamina', name: 'Vitamina de Banana', emoji: '🥛', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Cremosa, nutritiva e perfeita para o café da manhã.', ingredients: ['2 bananas', '1 copo de leite', '1 colher (sopa) de aveia', 'Açúcar a gosto'], steps: ['Bata tudo no liquidificador.', 'Sirva imediatamente.'], tip: 'Use bananas bem maduras: elas deixam a vitamina naturalmente mais doce.' },
+  { id: 'chocolate-quente', name: 'Chocolate Quente Cremoso', emoji: '☕', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Para aquecer o coração (e as mãos) nos dias frios.', ingredients: ['2 xícaras de leite', '3 colheres (sopa) de chocolate em pó', '1 colher (sopa) de amido de milho', 'Açúcar a gosto'], steps: ['Misture tudo em uma panela fria.', 'Leve ao fogo baixo mexendo sempre.', 'Quando engrossar, desligue e sirva.'], tip: 'Misturar tudo antes de ligar o fogo evita que o chocolate empelote.' },
+  { id: 'picole', name: 'Picolé de Fruta Caseiro', emoji: '🍧', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Refrescante, natural e sem conservantes. Faça com a fruta que quiser.', ingredients: ['2 xícaras de polpa de fruta', '1/2 xícara de água', 'Açúcar a gosto', 'Forminhas de picolé'], steps: ['Bata a polpa, água e açúcar no liquidificador.', 'Despeje nas forminhas.', 'Leve ao congelador por 4 horas.'], tip: 'Se não tiver forminha, use copos descartáveis e palitos de sorvete.' },
+  { id: 'torta-limao', name: 'Torta de Limão Gelada', emoji: '🍋', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 30, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'Cremosa, azedinha e sem precisar de forno.', ingredients: ['1 pacote de bolacha maisena', '3 colheres (sopa) de manteiga derretida', '1 lata de leite condensado', 'Suco de 3 limões', '1 caixinha de creme de leite'], steps: ['Triture a bolacha e misture com a manteiga.', 'Forre o fundo de uma forma e leve à geladeira.', 'Bata o leite condensado, limão e creme de leite.', 'Despeje sobre a massa e leve à geladeira por 4 horas.'], tip: 'Se quiser um acabamento bonito, decore com raspas de limão antes de servir.' },
+  { id: 'cuscuz', name: 'Cuscuz Nordestino', emoji: '🌽', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Regional', desc: 'O clássico do café da manhã nordestino. Simples e delicioso.', ingredients: ['1 xícara de flocos de milho para cuscuz', '1/2 xícara de água', 'Sal a gosto', 'Manteiga para servir'], steps: ['Misture o flocos com a água e o sal.', 'Deixe descansar por 5 minutos.', 'Coloque na cuscuzeira e cozinhe no vapor por 10 minutos.', 'Sirva com manteiga.'], tip: 'Não coloque água demais, senão o cuscuz vira papa. A medida certa é até umedecer, não encharcar.' },
+  { id: 'pao-queijo', name: 'Pão de Queijo de Frigideira', emoji: '🧆', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Aquele pão de queijo quentinho em versão ultra rápida.', ingredients: ['4 colheres (sopa) de polvilho doce', '2 colheres (sopa) de queijo ralado', '3 colheres (sopa) de leite', '1 colher (sopa) de manteiga'], steps: ['Misture tudo em uma tigela.', 'Aqueça a frigideira em fogo baixo.', 'Coloque colheradas da massa e tampe.', 'Vire quando dourar embaixo e sirva quente.'], tip: 'Tampe a frigideira: o vapor faz o pão de queijo cozinhar por dentro.' }
+];
+
+// Preenchendo as 40 receitas (completando o array com receitas extras)
+const EXTRA_RECIPES = [
+  { id: 'macarrao-alho', name: 'Macarrão Alho e Óleo', emoji: '🍝', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Clássico', desc: 'Simples, saboroso e resolve o almoço em minutos.', ingredients: ['200g de espaguete', '3 dentes de alho fatiados', '3 colheres (sopa) de azeite', 'Sal e pimenta'], steps: ['Cozinhe o macarrão.', 'Doure o alho no azeite em fogo baixo.', 'Misture o macarrão escorrido ao azeite com alho.', 'Tempere e sirva.'], tip: 'Não deixe o alho queimar: ele fica amargo e estraga o prato.' },
+  { id: 'batata-frita-caseira', name: 'Batata Frita Caseira', emoji: '🍟', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 25, servings: 2, category: 'lanche', tag: 'Acompanhamento', desc: 'Crocante por fora, macia por dentro. Cuidado com o óleo quente!', ingredients: ['3 batatas', 'Óleo para fritar', 'Sal a gosto'], steps: ['Corte as batatas em palitos.', 'Seque bem.', 'Frite em óleo quente (180°C) até dourar.', 'Escorra em papel-toalha e salgue.'], tip: 'Fritar em óleo não muito quente primeiro (150°C) e depois aumentar a temperatura deixa mais crocante.' },
+  { id: 'bolo-cenoura', name: 'Bolo de Cenoura Fofinho', emoji: '🍰', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 45, servings: 8, category: 'sobremesa', tag: 'Sobremesa', desc: 'Fofinho, dourado e com cobertura de chocolate. O clássico das festas.', ingredients: ['3 cenouras médias', '3 ovos', '2 xícaras de açúcar', '2 xícaras de farinha', '1 xícara de óleo', '1 colher (sopa) de fermento'], steps: ['Bata cenoura, ovos e óleo no liquidificador.', 'Misture com o açúcar e a farinha.', 'Adicione o fermento e mexa devagar.', 'Asse em forno pré-aquecido a 180°C por 35 minutos.'], tip: 'Não bata a cenoura com o fermento: o bolo pode solar.' },
+  { id: 'sorvete-banana', name: 'Sorvete de Banana Fit', emoji: '🍨', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'sobremesa', tag: 'Sobremesa', desc: 'Só banana congelada. Sem leite, sem açúcar, muito gostoso.', ingredients: ['4 bananas congeladas em rodelas', '1 colher (sopa) de pasta de amendoim (opcional)'], steps: ['Bata as bananas congeladas no processador ou liquidificador potente.', 'Quando virar creme, sirva imediatamente ou leve ao freezer por 1 hora.'], tip: 'Se o liquidificador travar, adicione 1 colher de leite ou água e continue batendo.' },
+  { id: 'ovo-frito', name: 'Ovo Frito Perfeito', emoji: '🍳', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'refeicao', tag: 'Básico', desc: 'Gema mole, bordas crocantes. O básico que todo mundo deveria saber.', ingredients: ['1 ovo', '1 colher (sopa) de óleo ou manteiga', 'Sal a gosto'], steps: ['Aqueça o óleo em fogo médio.', 'Quebre o ovo com cuidado.', 'Deixe fritar sem mexer por 2 minutos.', 'Tempere com sal e sirva.'], tip: 'Se quiser a gema mole, tampe a frigideira por 30 segundos: o vapor cozinha a clara sem endurecer a gema.' },
+  { id: 'vitamina-morango', name: 'Vitamina de Morango', emoji: '🥤', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Rosa, cremosa e deliciosa. Perfeita para o café da manhã.', ingredients: ['1 xícara de morangos', '1 copo de leite', '1 colher (sopa) de açúcar', 'Gelo a gosto'], steps: ['Bata tudo no liquidificador.', 'Sirva imediatamente.'], tip: 'Morangos congelados deixam a vitamina mais cremosa e gelada.' },
+  { id: 'pipoca-doce', name: 'Pipoca Doce de Panela', emoji: '🍿', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 15, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Crocante, caramelizada e muito viciante. Para dividir com os amigos.', ingredients: ['1/2 xícara de milho de pipoca', '1/2 xícara de açúcar', '2 colheres (sopa) de óleo', '1 pitada de sal'], steps: ['Aqueça o óleo com o açúcar em fogo baixo até virar calda.', 'Adicione o milho e mexa até começar a estourar.', 'Tampe e agite até parar de estourar.', 'Espalhe em uma assadeira para esfriar.'], tip: 'Fique longe da panela nos primeiros estouros! Cuidado com respingos de calda quente.' },
+  { id: 'macarrao-instantaneo', name: 'Macarrão Instantâneo Melhorado', emoji: '🍜', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Salva-vidas', desc: 'Aquele macarrão instantâneo, mas com cara de comida de verdade.', ingredients: ['1 pacote de macarrão instantâneo', '1 ovo cozido', '1 colher (sopa) de manteiga', 'Cebolinha picada'], steps: ['Cozinhe o macarrão conforme a embalagem.', 'Adicione metade do tempero e a manteiga.', 'Misture o ovo cozido cortado e a cebolinha.'], tip: 'Substituir metade do pó por temperos naturais faz toda a diferença no sabor.' },
+  { id: 'frango-grelhado', name: 'Frango Grelhado Rápido', emoji: '🍗', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'refeicao', tag: 'Proteína', desc: 'Suculento, temperado e pronto em 20 minutos. Perfeito com arroz e salada.', ingredients: ['2 filés de peito de frango', '2 dentes de alho', 'Suco de 1 limão', 'Sal e pimenta', '1 colher (sopa) de azeite'], steps: ['Tempere o frango com alho, limão, sal e pimenta.', 'Deixe descansar por 10 minutos.', 'Grelhe na frigideira com azeite por 5 minutos cada lado.'], tip: 'Não fure o frango enquanto grelha: os sucos escapam e a carne fica seca.' },
+  { id: 'sanduiche-natural', name: 'Sanduíche Natural Fitness', emoji: '🥪', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Leve, gostoso e perfeito para levar para a escola.', ingredients: ['2 fatias de pão integral', '1 colher (sopa) de cream cheese', '1 fatia de peito de peru', 'Alface e tomate'], steps: ['Passe o cream cheese no pão.', 'Adicione o peito de peru, alface e tomate.', 'Feche e corte ao meio.'], tip: 'Embrulhe em papel-filme para não desmontar na mochila.' },
+  { id: 'limonada', name: 'Limonada de Capim-Limão', emoji: '🍋', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'bebida', tag: 'Bebida', desc: 'Refrescante e aromática. Perfeita para dias quentes.', ingredients: ['2 limões', '1 litro de água gelada', '3 colheres (sopa) de açúcar', '2 folhas de capim-limão'], steps: ['Bata os limões, a água e o açúcar no liquidificador.', 'Adicione o capim-limão e bata por 10 segundos.', 'Coe e sirva com gelo.'], tip: 'Não bata demais o capim-limão: ele pode amargar.' }
+];
+
+// Junta as receitas base com as extras para chegar a 40
+RECIPES.push(...EXTRA_RECIPES);
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+let state = {
+  filter: 'all',
+  search: '',
+  favorites: JSON.parse(localStorage.getItem('rdtl_favs') || '[]')
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function toast(msg) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function saveFavs() {
+  localStorage.setItem('rdtl_favs', JSON.stringify(state.favorites));
+  $('#favCount').textContent = state.favorites.length;
+}
+
+/* ============================================================
+   RENDER DAS RECEITAS
+   ============================================================ */
+function recipeCard(r, idx) {
+  const isFav = state.favorites.includes(r.id);
+  const card = document.createElement('article');
+  card.className = 'recipe-card';
+  card.style.animationDelay = (idx * 0.02) + 's';
+  card.innerHTML = `
+    <div class="recipe-thumb" style="background:${r.color}">
+      <span class="level">${r.levelLabel}</span>
+      <button class="fav ${isFav ? 'saved' : ''}" data-fav="${r.id}" aria-label="Favoritar">${isFav ? '❤️' : '🤍'}</button>
+      <span>${r.emoji}</span>
+    </div>
+    <div class="recipe-body">
+      <span class="tag-mini">${r.tag}</span>
+      <h3>${r.name}</h3>
+      <p class="desc">${r.desc}</p>
+      <div class="recipe-meta">
+        <span>⏱️ ${r.time} min</span>
+        <span>🍽️ ${r.servings} porç.</span>
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('[data-fav]')) return;
+    openRecipe(r.id);
+  });
+  card.querySelector('[data-fav]').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleFav(r.id);
+  });
+  return card;
+}
+
+function toggleFav(id) {
+  const i = state.favorites.indexOf(id);
+  if (i >= 0) {
+    state.favorites.splice(i, 1);
+    toast('Removida das favoritas 💔');
+  } else {
+    state.favorites.push(id);
+    toast('Salva nas favoritas ❤️');
+  }
+  saveFavs();
+  renderRecipes();
+}
+
+function renderRecipes() {
+  const grid = $('#recipeGrid');
+  grid.innerHTML = '';
+
+  const filtered = RECIPES.filter(r => {
+    let matchesFilter;
+    if (state.filter === 'favoritos') {
+      matchesFilter = state.favorites.includes(r.id);
+    } else {
+      matchesFilter = state.filter === 'all' || r.level === state.filter || r.category === state.filter;
+    }
+    const matchesSearch = !state.search || (r.name + ' ' + r.desc + ' ' + r.tag).toLowerCase().includes(state.search.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="big">${state.filter === 'favoritos' ? '🤍' : '🍽️'}</div>
+        <h3 style="font-family:var(--font-title);font-size:1.3rem;color:var(--ink);margin-bottom:6px">
+          ${state.filter === 'favoritos' ? 'Nenhuma favorita ainda' : 'Nada encontrado'}
+        </h3>
+        <p>${state.filter === 'favoritos' 
+          ? 'Clique no coração de qualquer receita para salvar aqui.' 
+          : 'Tente outro filtro ou busque por outro nome de receita.'}</p>
+      </div>`;
+    return;
+  }
+
+  filtered.forEach((r, i) => grid.appendChild(recipeCard(r, i)));
+}
+
+/* ============================================================
+   MODAL RECEITA
+   ============================================================ */
+function openRecipe(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return;
+  const isFav = state.favorites.includes(r.id);
+
+  const modal = $('#modalContent');
+  modal.innerHTML = `
+    <div class="modal-hero" style="background:${r.color}">
+      <button class="modal-close" id="modalClose">✕</button>
+      <span>${r.emoji}</span>
+    </div>
+    <div class="modal-body">
+      <div class="badges">
+        <span class="badge" style="background:#FFF1E0;color:var(--primary-dark)">${r.levelLabel}</span>
+        <span class="badge" style="background:#E5F9F6;color:#1F8A7E">${r.tag}</span>
+      </div>
+      <h2>${r.name}</h2>
+      <p class="lead">${r.desc}</p>
+
+      <div class="modal-info">
+        <div class="box"><strong>${r.time} min</strong><span>Tempo</span></div>
+        <div class="box"><strong>${r.servings}</strong><span>Porções</span></div>
+        <div class="box"><strong>${r.levelLabel}</strong><span>Dificuldade</span></div>
+      </div>
+
+      <div class="modal-section">
+        <h3>🛒 Ingredientes <span style="font-size:.75rem;font-weight:500;color:var(--muted);font-family:var(--font-body)">(clique para marcar)</span></h3>
+        <ul class="ingredients-list">
+          ${r.ingredients.map((ing, i) => `
+            <li data-ing="${i}">
+              <span class="check">✓</span>
+              <span>${ing}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div class="modal-section">
+        <h3>👨‍🍳 Modo de preparo</h3>
+        <ol class="steps-list">
+          ${r.steps.map(s => `<li><p>${s}</p></li>`).join('')}
+        </ol>
+      </div>
+
+      <div class="modal-section">
+        <div class="tip-box">
+          <strong>💡 Dica do Tio:</strong> ${r.tip}
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+        <button class="btn btn-save ${isFav ? 'saved' : ''}" id="modalFavBtn">
+          ${isFav ? '❤️ Salva' : '🤍 Salvar receita'}
+        </button>
+        <button class="btn btn-ghost" id="modalBackBtn">← Voltar</button>
+      </div>
+    </div>
+  `;
+
+  $('#modalClose').addEventListener('click', closeModal);
+  $('#modalBackBtn').addEventListener('click', closeModal);
+  $('#modalFavBtn').addEventListener('click', () => {
+    toggleFav(r.id);
+    const btn = $('#modalFavBtn');
+    const fav = state.favorites.includes(r.id);
+    btn.classList.toggle('saved', fav);
+    btn.innerHTML = fav ? '❤️ Salva' : '🤍 Salvar receita';
+  });
+
+  modal.querySelectorAll('.ingredients-list li').forEach(li => {
+    li.addEventListener('click', () => li.classList.toggle('checked'));
+  });
+
+  $('#modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  $('#modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+$('#modalOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modalOverlay') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ============================================================
+   FILTROS E BUSCA
+   ============================================================ */
+$('#filters').addEventListener('click', (e) => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  $$('#filters .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  state.filter = chip.dataset.filter;
+  renderRecipes();
+});
+
+$('#searchInput').addEventListener('input', (e) => {
+  state.search = e.target.value.trim();
+  renderRecipes();
+});
+
+/* ============================================================
+   MENU MOBILE
+   ============================================================ */
+$('#burger').addEventListener('click', () => {
+  $('#mainMenu').classList.toggle('open');
+});
+
+$$('#mainMenu a').forEach(a => {
+  a.addEventListener('click', () => {
+    $('#mainMenu').classList.remove('open');
+    $$('#mainMenu a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+
+/* ============================================================
+   FAVORITOS NO HEADER
+   ============================================================ */
+$('#btnFavs').addEventListener('click', () => {
+  const isFavFilter = state.filter === 'favoritos';
+  if (isFavFilter) {
+    state.filter = 'all';
+    $$('#filters .chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
+  } else {
+    state.filter = 'favoritos';
+    $$('#filters .chip').forEach(c => c.classList.remove('active'));
+  }
+  renderRecipes();
+
+  if (state.favorites.length === 0) {
+    toast('Você ainda não salvou nenhuma receita 🤍');
+  } else {
+    document.querySelector('#receitas').scrollIntoView({ behavior: 'smooth' });
+    toast(`Mostrando suas ${state.favorites.length} favoritas ❤️`);
+  }
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+saveFavs();
+renderRecipes();
+</script>
 </body>
 </html>
