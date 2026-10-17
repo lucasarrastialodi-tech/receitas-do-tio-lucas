@@ -27,7 +27,6 @@
   .section-title{font-family:var(--font-title);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.15;letter-spacing:-.5px}
   .section-sub{color:var(--muted);max-width:560px;margin-top:10px;font-size:1.02rem}
 
-  /* HEADER */
   header.site-header{position:sticky;top:0;z-index:100;background:rgba(255,248,240,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:20px}
   .logo{display:flex;align-items:center;gap:12px;font-family:var(--font-title);font-weight:700;font-size:1.15rem}
@@ -45,7 +44,6 @@
   .btn-ghost{background:#fff;border:2px solid var(--line);color:var(--ink-soft)}
   .btn-ghost:hover{border-color:var(--primary);color:var(--primary-dark)}
 
-  /* HERO */
   .hero{position:relative;padding:70px 0 90px;overflow:hidden}
   .hero::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,#FFE0C7 0%,transparent 70%);top:-140px;right:-120px;z-index:0}
   .hero::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,#FFF0B8 0%,transparent 70%);bottom:-160px;left:-100px;z-index:0}
@@ -74,13 +72,11 @@
     .hero-logo-container .fallback{font-size:7rem}
   }
 
-  /* STRIP */
   .strip{background:var(--ink);color:#fff;padding:26px 0}
   .strip .container{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between;align-items:center}
   .strip-item{display:flex;align-items:center;gap:12px;font-size:.9rem;font-weight:500;opacity:.92}
   .strip-item .ico{font-size:1.4rem}
 
-  /* RECEITAS POR CATEGORIA */
   .recipes-section{background:var(--bg-alt);border-radius:60px 60px 0 0;padding-top:60px}
   .category-header{display:flex;align-items:center;gap:14px;margin:50px 0 24px;padding-bottom:14px;border-bottom:3px dashed var(--line)}
   .category-header:first-of-type{margin-top:20px}
@@ -110,7 +106,6 @@
   .recipe-details li{margin-bottom:3px;font-size:.84rem}
   .recipe-details .tip{background:#FFF6D9;border-left:3px solid var(--accent);padding:8px 12px;border-radius:8px;margin-top:10px;font-size:.82rem}
 
-  /* SEGURANÇA */
   .safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:44px}
   .safety-card{background:#fff;border-radius:var(--radius);padding:26px;border:2px solid var(--line);transition:.25s}
   .safety-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
@@ -118,7 +113,6 @@
   .safety-card h3{font-family:var(--font-title);font-size:1.1rem;margin-bottom:8px}
   .safety-card p{font-size:.88rem;color:var(--muted)}
 
-  /* STEPS */
   .steps-section{background:var(--ink);color:#fff;border-radius:60px;margin:0 4%;padding:70px 0}
   .steps-section .section-sub{color:rgba(255,255,255,.65)}
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:50px}
@@ -126,25 +120,22 @@
   .step h3{font-family:var(--font-title);font-size:1.15rem;margin:10px 0 8px}
   .step p{font-size:.88rem;color:rgba(255,255,255,.65)}
 
-  /* CTA */
   .cta-final{background:linear-gradient(135deg,var(--primary),var(--pink));border-radius:40px;padding:60px 40px;text-align:center;color:#fff;position:relative;overflow:hidden}
   .cta-final h2{font-family:var(--font-title);font-size:clamp(1.7rem,4vw,2.6rem);position:relative;z-index:2}
   .cta-final p{position:relative;z-index:2;margin:14px auto 28px;max-width:520px;opacity:.92}
   .cta-final .btn{position:relative;z-index:2;background:#fff;color:var(--primary-dark)}
 
-  /* FOOTER */
   footer.site-footer{background:var(--bg-alt);padding:60px 0 30px;margin-top:60px}
   .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
   .footer-grid h4{font-family:var(--font-title);font-size:.95rem;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
   .footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .footer-grid ul a{font-size:.88rem;color:var(--muted)}
+  .footer-grid ul a{font-size:.88rem;color:var(--muted);transition:.2s}
   .footer-grid ul a:hover{color:var(--primary-dark)}
   .footer-brand p{font-size:.88rem;color:var(--muted);margin-top:14px;max-width:280px}
   .footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
   @media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
   @media(max-width:520px){.footer-grid{grid-template-columns:1fr}.section{padding:60px 0}.category-count{display:none}}
 
-  /* NAV CATEGORIAS */
   .cat-nav{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 10px}
   .cat-nav a{padding:9px 18px;border-radius:999px;background:#fff;font-weight:600;font-size:.86rem;color:var(--ink-soft);box-shadow:0 2px 8px rgba(31,27,22,.04);transition:.2s}
   .cat-nav a:hover{background:var(--primary);color:#fff}
@@ -1741,7 +1732,13 @@
       </div>
       <div><h4>Explorar</h4><ul><li><a href="#receitas">Receitas</a></li><li><a href="#primeiros">Primeiros Passos</a></li><li><a href="#seguranca">Segurança</a></li></ul></div>
       <div><h4>Categorias</h4><ul><li><a href="#cat-cafe">Café da manhã</a></li><li><a href="#cat-lanches">Lanches</a></li><li><a href="#cat-refeicoes">Refeições</a></li><li><a href="#cat-sobremesas">Sobremesas</a></li><li><a href="#cat-bebidas">Bebidas</a></li></ul></div>
-      <div><h4>Contato</h4><ul><li><a href="#">Instagram</a></li><li></li><li><a href="#">Fale com o Tio</a></li></ul></div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/lucasarrastia.ads/" target="_blank" rel="noopener noreferrer">📸 Instagram</a></li>
+          <li><a href="mailto:lucaslodibulio@gmail.com">✉️ Fale com o Tio</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Receita do Tio Lucas. Todos os direitos reservados.</span>
