@@ -19,386 +19,281 @@
     --line:#F0E2D0;
     --primary:#FF6B35;
     --primary-dark:#E4572E;
-    --accent:#FFC93C;
-    --green:#2EC4B6;
-    --pink:#FF5D8F;
-    --purple:#8E7DBE;
+    --accent:#2EC4B6;
+    --accent-dark:#21A395;
+    --yellow:#FFBF00;
     --card:#FFFFFF;
-    --radius:22px;
-    --radius-sm:14px;
-    --shadow:0 10px 30px rgba(31,27,22,.08);
-    --shadow-hover:0 18px 40px rgba(255,107,53,.20);
-    --font-title:'Fredoka',sans-serif;
-    --font-body:'Inter',sans-serif;
+    --shadow:0 4px 16px rgba(31,27,22,.08);
+    --shadow-lg:0 12px 32px rgba(31,27,22,.12);
+    --radius:18px;
+    --radius-sm:12px;
   }
+
   html{scroll-behavior:smooth}
   body{
-    font-family:var(--font-body);
+    font-family:'Inter',system-ui,sans-serif;
     background:var(--bg);
     color:var(--ink);
     line-height:1.6;
-    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
   }
+  h1,h2,h3,h4{font-family:'Fredoka',sans-serif;line-height:1.15;font-weight:600}
+  a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   button{font-family:inherit;cursor:pointer;border:none;background:none}
-  a{color:inherit;text-decoration:none}
 
-  /* ============ LAYOUT UTIL ============ */
-  .container{width:min(1200px,92%);margin-inline:auto}
-  .hidden{display:none !important}
-  .badge{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;
-    text-transform:uppercase;letter-spacing:.5px;
-  }
-  .section{padding:80px 0}
-  .section-title{
-    font-family:var(--font-title);
-    font-size:clamp(1.8rem,4vw,2.8rem);
-    font-weight:700;line-height:1.15;letter-spacing:-.5px;
-  }
-  .section-sub{color:var(--muted);max-width:560px;margin-top:10px;font-size:1.02rem}
+  /* ============ LAYOUT ============ */
+  .container{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
 
   /* ============ HEADER ============ */
-  header.site-header{
-    position:sticky;top:0;z-index:100;
+  .site-header{
+    position:sticky;top:0;z-index:50;
     background:rgba(255,248,240,.88);
-    backdrop-filter:blur(14px);
+    backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line);
   }
-  .nav{
+  .header-inner{
     display:flex;align-items:center;justify-content:space-between;
-    padding:14px 0;
+    height:72px;
   }
-  .logo{display:flex;align-items:center;gap:12px;font-family:var(--font-title);font-weight:700;font-size:1.15rem}
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.35rem;
+  }
   .logo-mark{
-    width:50px;height:50px;border-radius:50%;
-    background:#FFC93C;
-    display:grid;place-items:center;overflow:hidden;
-    box-shadow:0 6px 16px rgba(255,201,60,.35);
-    border:2px solid var(--ink);
-    flex-shrink: 0;
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,var(--primary),var(--yellow));
+    display:grid;place-items:center;font-size:1.3rem;
+    box-shadow:var(--shadow);
   }
-  .logo-mark img{width:100%;height:100%;object-fit:cover;}
-  .logo-text{line-height:1.1;display:flex;flex-direction:column}
-  .logo-text small{font-family:var(--font-body);font-weight:500;font-size:.7rem;color:var(--muted);letter-spacing:.5px;margin-top:4px}
-
-  nav.main-menu{display:flex;gap:6px;align-items:center}
-  nav.main-menu a{
-    padding:9px 14px;border-radius:999px;font-size:.92rem;font-weight:500;
-    color:var(--ink-soft);transition:all .2s;
+  .logo span{color:var(--primary-dark)}
+  .nav{display:flex;gap:28px;align-items:center}
+  .nav a{
+    font-weight:500;font-size:.95rem;color:var(--ink-soft);
+    transition:color .2s;
   }
-  nav.main-menu a:hover,nav.main-menu a.active{background:#FFE9DD;color:var(--primary-dark)}
-  .btn{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:11px 20px;border-radius:999px;font-weight:600;font-size:.92rem;
-    transition:transform .18s, box-shadow .18s, background .2s;
-    white-space:nowrap;
+  .nav a:hover{color:var(--primary)}
+  .btn-nav{
+    background:var(--primary);color:#fff;padding:10px 20px;
+    border-radius:999px;font-weight:600;font-size:.9rem;
+    transition:transform .15s, background .2s;
   }
-  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(255,107,53,.32)}
-  .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
-  .btn-ghost{background:#fff;border:2px solid var(--line);color:var(--ink-soft)}
-  .btn-ghost:hover{border-color:var(--primary);color:var(--primary-dark)}
-  .btn-save{background:#fff;border:2px solid var(--line);color:var(--ink-soft);padding:9px 16px;border-radius:999px;font-weight:600;font-size:.85rem;display:inline-flex;gap:6px;align-items:center;transition:.2s}
-  .btn-save.saved{background:var(--pink);border-color:var(--pink);color:#fff}
-  .btn-save:hover{border-color:var(--pink)}
-
-  .burger{display:none;width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--line);align-items:center;justify-content:center;font-size:1.2rem}
-  @media (max-width:900px){
-    nav.main-menu{
-      position:fixed;inset:80px 0 auto 0;background:#fff;flex-direction:column;
-      padding:20px;gap:4px;border-bottom:1px solid var(--line);
-      transform:translateY(-140%);transition:transform .3s;box-shadow:var(--shadow);
-    }
-    nav.main-menu.open{transform:translateY(0)}
-    nav.main-menu a{width:100%}
-    .burger{display:flex}
-    .nav-actions .btn-ghost{display:none}
-  }
+  .btn-nav:hover{background:var(--primary-dark);transform:translateY(-1px)}
+  .menu-toggle{display:none;font-size:1.6rem;color:var(--ink)}
 
   /* ============ HERO ============ */
-  .hero{position:relative;padding:70px 0 90px;overflow:hidden}
-  .hero::before{
-    content:"";position:absolute;width:520px;height:520px;border-radius:50%;
-    background:radial-gradient(circle,#FFE0C7 0%,transparent 70%);
-    top:-140px;right:-120px;z-index:0;
-  }
-  .hero::after{
-    content:"";position:absolute;width:380px;height:380px;border-radius:50%;
-    background:radial-gradient(circle,#FFF0B8 0%,transparent 70%);
-    bottom:-160px;left:-100px;z-index:0;
-  }
-  .hero-grid{
-    position:relative;z-index:2;
-    display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;
-  }
-  .hero .badge{background:#FFE9DD;color:var(--primary-dark);margin-bottom:20px}
-  .hero h1{
-    font-family:var(--font-title);
-    font-size:clamp(2.4rem,5.5vw,4.2rem);
-    line-height:1.02;font-weight:700;letter-spacing:-1.5px;
-  }
-  .hero h1 .highlight{
-    background:linear-gradient(180deg,transparent 62%,var(--accent) 62%);
-    padding:0 4px;border-radius:4px;
-  }
-  .hero p.lead{margin-top:22px;font-size:1.12rem;color:var(--ink-soft);max-width:520px}
-  .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-  .hero-stats{
-    display:flex;gap:32px;margin-top:44px;padding-top:32px;
-    border-top:2px dashed var(--line);flex-wrap:wrap;
-  }
-  .hero-stats .stat strong{font-family:var(--font-title);font-size:1.7rem;display:block;color:var(--primary-dark);line-height:1}
-  .hero-stats .stat span{font-size:.82rem;color:var(--muted);font-weight:500}
-
-  .hero-visual{position:relative;display:flex;justify-content:center}
-  
-  /* Logo Hero */
-  .hero-logo-container {
-    width: min(420px, 100%);
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background: #FFC93C;
-    border: 8px solid #1F1B16;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(31,27,22,.18);
-    transform: rotate(-2deg);
-    transition: transform .4s;
-    position: relative;
-    z-index: 2;
-  }
-  .hero-logo-container:hover { transform: rotate(0) scale(1.02); }
-  .hero-logo-container img { width: 100%; height: 100%; object-fit: cover; }
-
-  .float-tag{
-    position:absolute;background:#fff;padding:10px 16px;border-radius:14px;
-    box-shadow:var(--shadow);font-weight:600;font-size:.82rem;
-    display:flex;align-items:center;gap:8px;
-    z-index: 3;
-  }
-  .float-tag.t1{top:10px;left:0;transform:rotate(-6deg)}
-  .float-tag.t2{bottom:20px;right:0;transform:rotate(5deg)}
-
-  @media (max-width:900px){
-    .hero-grid{grid-template-columns:1fr;gap:50px;text-align:center}
-    .hero p.lead{margin-inline:auto}
-    .hero-actions,.hero-stats{justify-content:center}
-    .hero-visual{margin-top:10px}
-    .hero-logo-container { width: min(320px, 90%); }
-    .float-tag.t1{left:10px}
-    .float-tag.t2{right:10px}
-  }
-
-  /* ============ STRIP DE BENEFÍCIOS ============ */
-  .strip{background:var(--ink);color:#fff;padding:26px 0}
-  .strip .container{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between;align-items:center}
-  .strip-item{display:flex;align-items:center;gap:12px;font-size:.9rem;font-weight:500;opacity:.92}
-  .strip-item .ico{font-size:1.4rem}
-
-  /* ============ FILTROS + RECEITAS ============ */
-  .recipes-section{background:var(--bg-alt);border-radius:60px 60px 0 0}
-  .recipes-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:36px}
-  .filters{display:flex;gap:10px;flex-wrap:wrap}
-  .chip{
-    padding:9px 18px;border-radius:999px;background:#fff;border:2px solid transparent;
-    font-weight:600;font-size:.86rem;color:var(--ink-soft);
-    transition:.2s;box-shadow:0 2px 8px rgba(31,27,22,.04);
-  }
-  .chip:hover{border-color:#FFD9C6}
-  .chip.active{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(255,107,53,.3)}
-
-  .search-box{position:relative;max-width:320px;flex:1;min-width:220px}
-  .search-box input{
-    width:100%;padding:12px 16px 12px 44px;border-radius:999px;border:2px solid #fff;
-    background:#fff;font-family:inherit;font-size:.92rem;outline:none;transition:.2s;
-    box-shadow:0 2px 8px rgba(31,27,22,.05);
-  }
-  .search-box input:focus{border-color:var(--primary)}
-  .search-box::before{content:"🔍";position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:.95rem}
-
-  .recipe-grid{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;
-  }
-  .recipe-card{
-    background:var(--card);border-radius:var(--radius);overflow:hidden;
-    box-shadow:var(--shadow);cursor:pointer;
-    transition:transform .25s, box-shadow .25s;
-    display:flex;flex-direction:column;
-    animation:fadeUp .5s both;
-  }
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-  .recipe-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
-  .recipe-thumb{
-    height:180px;position:relative;display:grid;place-items:center;font-size:4rem;
-    overflow:hidden;
-  }
-  .recipe-thumb .level{
-    position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);
-    padding:5px 12px;border-radius:999px;font-size:.7rem;font-weight:700;
-    text-transform:uppercase;letter-spacing:.4px;
-  }
-  .recipe-thumb .fav{
-    position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;
-    background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:1rem;
-    transition:.2s;
-  }
-  .recipe-thumb .fav.saved{background:var(--pink);color:#fff}
-  .recipe-body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
-  .recipe-body h3{font-family:var(--font-title);font-size:1.15rem;line-height:1.25}
-  .recipe-body .desc{font-size:.85rem;color:var(--muted);flex:1}
-  .recipe-meta{display:flex;gap:14px;font-size:.76rem;color:var(--ink-soft);font-weight:600;flex-wrap:wrap}
-  .recipe-meta span{display:flex;align-items:center;gap:4px}
-  .tag-mini{
-    display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;
-    padding:3px 9px;border-radius:6px;background:#FFF1E0;color:var(--primary-dark);
-    letter-spacing:.3px;align-self:flex-start;
-  }
-
-  .empty-state{
-    grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);
-  }
-  .empty-state .big{font-size:3rem;margin-bottom:10px}
-
-  /* ============ SEGURANÇA ============ */
-  .safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:44px}
-  .safety-card{
-    background:#fff;border-radius:var(--radius);padding:26px;
-    border:2px solid var(--line);transition:.25s;
-  }
-  .safety-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
-  .safety-card .ico{
-    width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
-    font-size:1.5rem;margin-bottom:16px;
-  }
-  .safety-card h3{font-family:var(--font-title);font-size:1.1rem;margin-bottom:8px}
-  .safety-card p{font-size:.88rem;color:var(--muted)}
-
-  /* ============ PRIMEIROS PASSOS ============ */
-  .steps-section{background:var(--ink);color:#fff;border-radius:60px;margin:0 4%;padding:70px 0}
-  .steps-section .section-sub{color:rgba(255,255,255,.65)}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:50px}
-  .step{position:relative;padding-left:0}
-  .step .num{
-    font-family:var(--font-title);font-size:3rem;font-weight:700;
-    background:linear-gradient(135deg,var(--primary),var(--accent));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    line-height:1;
-  }
-  .step h3{font-family:var(--font-title);font-size:1.15rem;margin:10px 0 8px}
-  .step p{font-size:.88rem;color:rgba(255,255,255,.65)}
-
-  /* ============ CTA FINAL ============ */
-  .cta-final{
-    background:linear-gradient(135deg,var(--primary),var(--pink));
-    border-radius:40px;padding:60px 40px;text-align:center;color:#fff;
+  .hero{
+    padding:72px 0 64px;
     position:relative;overflow:hidden;
   }
-  .cta-final::before{content:"🍳";position:absolute;font-size:10rem;opacity:.12;top:-20px;left:20px}
-  .cta-final::after{content:"🥗";position:absolute;font-size:9rem;opacity:.12;bottom:-30px;right:20px}
-  .cta-final h2{font-family:var(--font-title);font-size:clamp(1.7rem,4vw,2.6rem);position:relative;z-index:2}
-  .cta-final p{position:relative;z-index:2;margin:14px auto 28px;max-width:520px;opacity:.92}
-  .cta-final .btn{position:relative;z-index:2;background:#fff;color:var(--primary-dark)}
-  .cta-final .btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+  .hero::before{
+    content:"";position:absolute;top:-120px;right:-120px;
+    width:380px;height:380px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,107,53,.14),transparent 70%);
+  }
+  .hero::after{
+    content:"";position:absolute;bottom:-140px;left:-100px;
+    width:320px;height:320px;border-radius:50%;
+    background:radial-gradient(circle,rgba(46,196,182,.14),transparent 70%);
+  }
+  .hero-inner{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;
+    position:relative;z-index:1;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--bg-alt);border:1px solid var(--line);
+    padding:6px 14px;border-radius:999px;
+    font-size:.82rem;font-weight:600;color:var(--primary-dark);
+    margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:clamp(2.2rem,4.5vw,3.4rem);
+    font-weight:700;letter-spacing:-.02em;margin-bottom:18px;
+  }
+  .hero h1 em{color:var(--primary);font-style:normal}
+  .hero p{
+    font-size:1.08rem;color:var(--ink-soft);max-width:480px;margin-bottom:32px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 26px;border-radius:999px;font-weight:600;font-size:.98rem;
+    transition:transform .15s, box-shadow .2s, background .2s;
+  }
+  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(255,107,53,.3)}
+  .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-2px)}
+
+  .hero-visual{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+    transform:rotate(-2deg);
+  }
+  .dish-card{
+    background:var(--card);border-radius:var(--radius);
+    padding:18px;box-shadow:var(--shadow);
+    transition:transform .25s;
+  }
+  .dish-card:hover{transform:translateY(-6px) rotate(1deg)}
+  .dish-card:nth-child(2){margin-top:28px}
+  .dish-card:nth-child(3){margin-top:-14px}
+  .dish-emoji{font-size:2.6rem;margin-bottom:8px;display:block}
+  .dish-card h4{font-size:1rem;margin-bottom:2px}
+  .dish-card small{color:var(--muted);font-size:.8rem}
+
+  /* ============ SECTIONS ============ */
+  section{padding:64px 0}
+  .section-head{text-align:center;max-width:620px;margin:0 auto 44px}
+  .section-head h2{
+    font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:12px;
+  }
+  .section-head p{color:var(--muted);font-size:1.02rem}
+
+  /* ============ CATEGORIAS ============ */
+  .categories{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;
+  }
+  .cat-pill{
+    padding:10px 20px;border-radius:999px;background:var(--card);
+    border:1.5px solid var(--line);font-weight:600;font-size:.9rem;
+    color:var(--ink-soft);transition:all .2s;
+  }
+  .cat-pill:hover{border-color:var(--primary);color:var(--primary)}
+  .cat-pill.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+  /* ============ RECIPE GRID ============ */
+  .recipe-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .recipe-card{
+    background:var(--card);border-radius:var(--radius);
+    overflow:hidden;box-shadow:var(--shadow);
+    transition:transform .25s, box-shadow .25s;
+    display:flex;flex-direction:column;
+  }
+  .recipe-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+  .recipe-thumb{
+    height:170px;display:grid;place-items:center;font-size:3.6rem;
+    position:relative;
+  }
+  .recipe-thumb.t1{background:linear-gradient(135deg,#FFE0C2,#FFD1A8)}
+  .recipe-thumb.t2{background:linear-gradient(135deg,#C2F0EA,#A8E6DE)}
+  .recipe-thumb.t3{background:linear-gradient(135deg,#FFE9A8,#FFD97A)}
+  .recipe-thumb.t4{background:linear-gradient(135deg,#FFC9C9,#FFB3B3)}
+  .recipe-thumb.t5{background:linear-gradient(135deg,#D9C2FF,#C4A8FF)}
+  .recipe-thumb.t6{background:linear-gradient(135deg,#C9E4FF,#A8D1FF)}
+  .recipe-tag{
+    position:absolute;top:12px;left:12px;
+    background:rgba(255,255,255,.92);padding:4px 12px;
+    border-radius:999px;font-size:.72rem;font-weight:700;
+    color:var(--primary-dark);text-transform:uppercase;letter-spacing:.04em;
+  }
+  .recipe-body{padding:20px;flex:1;display:flex;flex-direction:column}
+  .recipe-body h3{font-size:1.15rem;margin-bottom:6px}
+  .recipe-body p{color:var(--muted);font-size:.88rem;flex:1;margin-bottom:16px}
+  .recipe-meta{
+    display:flex;gap:16px;font-size:.8rem;color:var(--ink-soft);
+    padding-top:14px;border-top:1px solid var(--line);
+    font-weight:500;
+  }
+  .recipe-meta span{display:flex;align-items:center;gap:5px}
+
+  /* ============ SOBRE ============ */
+  .about{background:var(--bg-alt)}
+  .about-inner{
+    display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+  }
+  .about-visual{
+    background:var(--card);border-radius:var(--radius);
+    padding:40px;box-shadow:var(--shadow);text-align:center;
+  }
+  .about-emoji{font-size:5rem;margin-bottom:16px}
+  .about-quote{
+    font-family:'Fredoka',sans-serif;font-size:1.25rem;font-weight:500;
+    color:var(--ink);line-height:1.4;margin-bottom:12px;
+  }
+  .about-quote::before{content:"“";color:var(--primary);font-size:2rem;vertical-align:-.3em;margin-right:2px}
+  .about-quote::after{content:"”";color:var(--primary);font-size:2rem;vertical-align:-.3em;margin-left:2px}
+  .about-cite{color:var(--muted);font-size:.9rem;font-weight:500}
+  .about h2{font-size:clamp(1.7rem,3.5vw,2.3rem);margin-bottom:18px}
+  .about p{color:var(--ink-soft);margin-bottom:16px}
+  .about-stats{display:flex;gap:32px;margin-top:28px}
+  .stat strong{
+    display:block;font-family:'Fredoka',sans-serif;font-size:1.9rem;
+    color:var(--primary);font-weight:700;
+  }
+  .stat span{font-size:.85rem;color:var(--muted)}
+
+  /* ============ NEWSLETTER ============ */
+  .newsletter{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    border-radius:var(--radius);padding:56px 40px;text-align:center;
+    color:#fff;position:relative;overflow:hidden;
+  }
+  .newsletter::before{
+    content:"🍳";position:absolute;font-size:8rem;opacity:.12;
+    top:-20px;left:20px;transform:rotate(-15deg);
+  }
+  .newsletter::after{
+    content:"🥗";position:absolute;font-size:8rem;opacity:.12;
+    bottom:-30px;right:20px;transform:rotate(15deg);
+  }
+  .newsletter h2{font-size:clamp(1.6rem,3.5vw,2.2rem);margin-bottom:10px;position:relative}
+  .newsletter p{opacity:.9;margin-bottom:28px;position:relative}
+  .newsletter-form{
+    display:flex;gap:10px;max-width:460px;margin:0 auto;position:relative;
+    flex-wrap:wrap;justify-content:center;
+  }
+  .newsletter-form input{
+    flex:1;min-width:220px;padding:14px 20px;border-radius:999px;
+    border:none;font-family:inherit;font-size:.95rem;outline:none;
+  }
+  .newsletter-form button{
+    background:var(--ink);color:#fff;padding:14px 28px;border-radius:999px;
+    font-weight:600;font-size:.95rem;transition:transform .15s, background .2s;
+  }
+  .newsletter-form button:hover{background:#000;transform:translateY(-2px)}
+  .newsletter-msg{margin-top:16px;font-size:.9rem;font-weight:600;min-height:1.2em;position:relative}
 
   /* ============ FOOTER ============ */
-  footer.site-footer{background:var(--bg-alt);padding:60px 0 30px;margin-top:60px}
-  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-  .footer-grid h4{font-family:var(--font-title);font-size:.95rem;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
-  .footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .footer-grid ul a{font-size:.88rem;color:var(--muted);transition:.2s}
-  .footer-grid ul a:hover{color:var(--primary-dark)}
-  .footer-brand p{font-size:.88rem;color:var(--muted);margin-top:14px;max-width:280px}
+  .site-footer{
+    border-top:1px solid var(--line);padding:48px 0 32px;margin-top:32px;
+  }
+  .footer-inner{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:32px;flex-wrap:wrap;margin-bottom:32px;
+  }
+  .footer-brand{max-width:300px}
+  .footer-brand p{color:var(--muted);font-size:.9rem;margin-top:12px}
+  .footer-links{display:flex;gap:48px;flex-wrap:wrap}
+  .footer-col h4{font-size:.95rem;margin-bottom:12px}
+  .footer-col a{
+    display:block;color:var(--muted);font-size:.88rem;
+    margin-bottom:8px;transition:color .2s;
+  }
+  .footer-col a:hover{color:var(--primary)}
   .footer-bottom{
-    border-top:1px solid var(--line);padding-top:24px;display:flex;
-    justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:24px;
+    text-align:center;color:var(--muted);font-size:.82rem;
   }
-  @media (max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
-  @media (max-width:520px){.footer-grid{grid-template-columns:1fr}}
 
-  /* ============ MODAL RECEITA ============ */
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(31,27,22,.55);backdrop-filter:blur(6px);
-    z-index:200;display:flex;align-items:flex-start;justify-content:center;
-    padding:40px 16px;overflow-y:auto;
-    opacity:0;pointer-events:none;transition:opacity .25s;
+  /* ============ RESPONSIVO ============ */
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr;gap:40px}
+    .hero-visual{max-width:420px;margin:0 auto;transform:none}
+    .recipe-grid{grid-template-columns:repeat(2,1fr)}
+    .about-inner{grid-template-columns:1fr;gap:40px}
   }
-  .modal-overlay.open{opacity:1;pointer-events:auto}
-  .modal{
-    background:var(--bg);border-radius:28px;max-width:760px;width:100%;
-    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3);
-    transform:translateY(20px) scale(.98);transition:transform .3s;
-  }
-  .modal-overlay.open .modal{transform:none}
-  .modal-hero{
-    height:200px;display:grid;place-items:center;font-size:6rem;position:relative;
-  }
-  .modal-close{
-    position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;
-    background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:1.1rem;
-    font-weight:700;color:var(--ink);z-index:5;
-  }
-  .modal-body{padding:30px}
-  .modal-body .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-  .modal-body h2{font-family:var(--font-title);font-size:1.9rem;line-height:1.1;margin-bottom:10px}
-  .modal-body .lead{color:var(--muted);font-size:.95rem;margin-bottom:24px}
-  .modal-info{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;
-    margin-bottom:28px;
-  }
-  .modal-info .box{background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid var(--line)}
-  .modal-info .box strong{display:block;font-family:var(--font-title);font-size:1.2rem;color:var(--primary-dark)}
-  .modal-info .box span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
-  .modal-section{margin-bottom:28px}
-  .modal-section h3{
-    font-family:var(--font-title);font-size:1.2rem;margin-bottom:14px;
-    display:flex;align-items:center;gap:8px;
-  }
-  .ingredients-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .ingredients-list li{
-    display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;
-    border-radius:12px;font-size:.92rem;border:1px solid var(--line);cursor:pointer;
-    transition:.2s;
-  }
-  .ingredients-list li:hover{border-color:var(--accent)}
-  .ingredients-list li .check{
-    width:20px;height:20px;border-radius:6px;border:2px solid var(--line);
-    display:grid;place-items:center;font-size:.7rem;color:#fff;flex-shrink:0;transition:.2s;
-  }
-  .ingredients-list li.checked .check{background:var(--green);border-color:var(--green)}
-  .ingredients-list li.checked span{text-decoration:line-through;color:var(--muted)}
-  .steps-list{list-style:none;display:flex;flex-direction:column;gap:16px;counter-reset:step}
-  .steps-list li{
-    display:flex;gap:16px;padding:16px;background:#fff;border-radius:14px;
-    border:1px solid var(--line);
-  }
-  .steps-list li::before{
-    counter-increment:step;content:counter(step);
-    width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;
-    display:grid;place-items:center;font-weight:700;font-family:var(--font-title);
-    flex-shrink:0;font-size:.9rem;
-  }
-  .steps-list li p{font-size:.92rem;color:var(--ink-soft);padding-top:4px}
-  .tip-box{
-    background:#FFF6D9;border-left:4px solid var(--accent);border-radius:12px;
-    padding:16px 20px;font-size:.9rem;color:var(--ink-soft);
-  }
-  .tip-box strong{color:var(--primary-dark)}
-
-  /* ============ TOAST ============ */
-  .toast{
-    position:fixed;bottom:24px;left:50%;transform:translate(-50%,120%);
-    background:var(--ink);color:#fff;padding:14px 24px;border-radius:999px;
-    font-size:.9rem;font-weight:500;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.3);
-    transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
-    display:flex;align-items:center;gap:10px;
-  }
-  .toast.show{transform:translate(-50%,0)}
-
-  @media (max-width:520px){
-    .section{padding:60px 0}
-    .modal-body{padding:22px}
-    .hero-stats{gap:24px}
-    .strip .container{gap:20px;justify-content:flex-start}
+  @media (max-width:640px){
+    .nav{display:none}
+    .menu-toggle{display:block}
+    .recipe-grid{grid-template-columns:1fr}
+    .hero{padding:48px 0}
+    section{padding:48px 0}
+    .newsletter{padding:40px 24px}
+    .about-stats{gap:20px}
+    .footer-links{gap:32px}
   }
 </style>
 </head>
@@ -406,169 +301,209 @@
 
 <!-- ============ HEADER ============ -->
 <header class="site-header">
-  <div class="container nav">
+  <div class="container header-inner">
     <a href="#" class="logo">
-      <div class="logo-mark">
-        <img src="./tio-lucas.png" alt="Logo Tio Lucas" onerror="this.src='https://via.placeholder.com/50/FFC93C/1F1B16?text=👨‍🍳'">
-      </div>
-      <span class="logo-text">
-        Receita do Tio Lucas
-        <small>Na cozinha, quem manda é você!</small>
-      </span>
+      <span class="logo-mark">🍳</span>
+      Receita do <span>Tio Lucas</span>
     </a>
-
-    <nav class="main-menu" id="mainMenu">
-      <a href="#receitas" class="active">Receitas</a>
-      <a href="#primeiros">Primeiros Passos</a>
-      <a href="#seguranca">Segurança</a>
+    <nav class="nav">
+      <a href="#receitas">Receitas</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#newsletter">Newsletter</a>
+      <a href="#newsletter" class="btn-nav">Começar grátis</a>
     </nav>
-
-    <div class="nav-actions" style="display:flex;gap:10px;align-items:center">
-      <button class="btn btn-ghost" id="btnFavs">❤️ Favoritos <span id="favCount" style="background:var(--pink);color:#fff;border-radius:999px;padding:1px 8px;font-size:.75rem">0</span></button>
-      <a href="#receitas" class="btn btn-primary">Começar agora</a>
-      <button class="burger" id="burger" aria-label="Menu">☰</button>
-    </div>
+    <button class="menu-toggle" aria-label="Abrir menu">☰</button>
   </div>
 </header>
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="container hero-grid">
-    <div>
-      <span class="badge">👨‍🍳 Feito para adolescentes</span>
-      <h1>Aprenda a cozinhar <span class="highlight">sem medo</span> e com muito sabor.</h1>
-      <p class="lead">Receitas fáceis, rápidas e seguras para você sair do miojo e impressionar todo mundo. Aqui, você aprende na prática — do primeiro ovo mexido ao prato que vira meme bom.</p>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <span class="badge">👨‍🍳 +2.500 receitas testadas</span>
+      <h1>Na cozinha, quem manda <em>é você</em>!</h1>
+      <p>Receitas simples, rápidas e cheias de sabor para o dia a dia. Sem complicação, sem ingredientes impossíveis — só comida boa feita em casa.</p>
       <div class="hero-actions">
-        <a href="#receitas" class="btn btn-primary">🍽️ Ver receitas</a>
-        <a href="#primeiros" class="btn btn-ghost">📖 Primeiros passos</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><strong>40+</strong><span>Receitas testadas</span></div>
-        <div class="stat"><strong>5min</strong><span>Para começar</span></div>
-        <div class="stat"><strong>100%</strong><span>Seguro e divertido</span></div>
+        <a href="#receitas" class="btn btn-primary">Ver receitas →</a>
+        <a href="#sobre" class="btn btn-ghost">Conhecer o Tio Lucas</a>
       </div>
     </div>
-
     <div class="hero-visual">
-      <!-- Logo em destaque -->
-      <div class="hero-logo-container">
-        <img src="./tio-lucas.png" alt="Tio Lucas" onerror="this.src='https://via.placeholder.com/400/FFC93C/1F1B16?text=👨‍🍳'">
+      <div class="dish-card">
+        <span class="dish-emoji">🍝</span>
+        <h4>Macarrão Cremoso</h4>
+        <small>20 min · Fácil</small>
       </div>
-      <div class="float-tag t1">✨ Zero experiência</div>
-      <div class="float-tag t2">🔥 Resultado garantido</div>
+      <div class="dish-card">
+        <span class="dish-emoji">🥞</span>
+        <h4>Panqueca Fofa</h4>
+        <small>15 min · Fácil</small>
+      </div>
+      <div class="dish-card">
+        <span class="dish-emoji">🥗</span>
+        <h4>Salada Fresca</h4>
+        <small>10 min · Rápido</small>
+      </div>
+      <div class="dish-card">
+        <span class="dish-emoji">🍰</span>
+        <h4>Bolo de Cenoura</h4>
+        <small>45 min · Médio</small>
+      </div>
     </div>
   </div>
 </section>
-
-<!-- ============ STRIP ============ -->
-<div class="strip">
-  <div class="container">
-    <div class="strip-item"><span class="ico">⚡</span> Receitas em até 20 minutos</div>
-    <div class="strip-item"><span class="ico">🛡️</span> Dicas de segurança na cozinha</div>
-    <div class="strip-item"><span class="ico">🎓</span> Linguagem simples e direta</div>
-    <div class="strip-item"><span class="ico">❤️</span> Salve suas favoritas</div>
-  </div>
-</div>
 
 <!-- ============ RECEITAS ============ -->
-<section class="section recipes-section" id="receitas">
+<section id="receitas">
   <div class="container">
-    <div class="recipes-head">
-      <div>
-        <span class="badge" style="background:#FFE9DD;color:var(--primary-dark)">🍴 Catálogo</span>
-        <h2 class="section-title" style="margin-top:12px">Escolha sua próxima missão</h2>
-        <p class="section-sub">Filtre por dificuldade, tempo ou tipo de prato. Clique em qualquer receita para abrir o passo a passo completo.</p>
-      </div>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar receita (ex: macarrão, ovo...)" />
-      </div>
+    <div class="section-head">
+      <h2>Receitas em destaque</h2>
+      <p>Escolha uma categoria e encontre a receita perfeita para hoje.</p>
     </div>
 
-    <div class="filters" id="filters">
-      <button class="chip active" data-filter="all">Todas</button>
-      <button class="chip" data-filter="facil">Fácil</button>
-      <button class="chip" data-filter="medio">Médio</button>
-      <button class="chip" data-filter="lanche">Lanches</button>
-      <button class="chip" data-filter="sobremesa">Sobremesas</button>
-      <button class="chip" data-filter="refeicao">Refeições</button>
-      <button class="chip" data-filter="bebida">Bebidas</button>
+    <div class="categories">
+      <button class="cat-pill active" data-cat="todas">Todas</button>
+      <button class="cat-pill" data-cat="rapidas">Rápidas</button>
+      <button class="cat-pill" data-cat="doces">Doces</button>
+      <button class="cat-pill" data-cat="salgadas">Salgadas</button>
+      <button class="cat-pill" data-cat="fit">Fit</button>
     </div>
 
-    <div class="recipe-grid" id="recipeGrid" style="margin-top:30px"></div>
+    <div class="recipe-grid" id="recipeGrid">
+      <article class="recipe-card" data-cat="rapidas salgadas">
+        <div class="recipe-thumb t1">
+          <span class="recipe-tag">Rápida</span>
+          🍝
+        </div>
+        <div class="recipe-body">
+          <h3>Macarrão Cremoso</h3>
+          <p>Um clássico que fica pronto em 20 minutos com poucos ingredientes.</p>
+          <div class="recipe-meta">
+            <span>⏱ 20 min</span>
+            <span>👤 2 porções</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="recipe-card" data-cat="rapidas doces">
+        <div class="recipe-thumb t3">
+          <span class="recipe-tag">Doce</span>
+          🥞
+        </div>
+        <div class="recipe-body">
+          <h3>Panqueca Fofa</h3>
+          <p>Panquecas altas e macias para um café da manhã especial.</p>
+          <div class="recipe-meta">
+            <span>⏱ 15 min</span>
+            <span>👤 4 porções</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="recipe-card" data-cat="rapidas fit">
+        <div class="recipe-thumb t2">
+          <span class="recipe-tag">Fit</span>
+          🥗
+        </div>
+        <div class="recipe-body">
+          <h3>Salada Fresca</h3>
+          <p>Leve, colorida e pronta em 10 minutos. Perfeita para o verão.</p>
+          <div class="recipe-meta">
+            <span>⏱ 10 min</span>
+            <span>👤 2 porções</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="recipe-card" data-cat="doces">
+        <div class="recipe-thumb t4">
+          <span class="recipe-tag">Doce</span>
+          🍰
+        </div>
+        <div class="recipe-body">
+          <h3>Bolo de Cenoura</h3>
+          <p>Fofinho, com cobertura de chocolate. O favorito da família.</p>
+          <div class="recipe-meta">
+            <span>⏱ 45 min</span>
+            <span>👤 8 porções</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="recipe-card" data-cat="salgadas">
+        <div class="recipe-thumb t5">
+          <span class="recipe-tag">Salgada</span>
+          🍕
+        </div>
+        <div class="recipe-body">
+          <h3>Pizza Caseira</h3>
+          <p>Massa fininha e crocante do jeito que você gosta.</p>
+          <div class="recipe-meta">
+            <span>⏱ 60 min</span>
+            <span>👤 4 porções</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="recipe-card" data-cat="fit salgadas">
+        <div class="recipe-thumb t6">
+          <span class="recipe-tag">Fit</span>
+          🍗
+        </div>
+        <div class="recipe-body">
+          <h3>Frango Grelhado</h3>
+          <p>Marinado em ervas, suculento e cheio de sabor.</p>
+          <div class="recipe-meta">
+            <span>⏱ 25 min</span>
+            <span>👤 3 porções</span>
+          </div>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
-<!-- ============ SEGURANÇA ============ -->
-<section class="section" id="seguranca">
-  <div class="container">
-    <span class="badge" style="background:#E5F9F6;color:#1F8A7E">🛡️ Segurança em 1º lugar</span>
-    <h2 class="section-title" style="margin-top:12px">Regras de ouro na cozinha</h2>
-    <p class="section-sub">Cozinhar é divertido — mas com atenção. Siga essas dicas e evite acidentes (e vergonha na cozinha).</p>
-
-    <div class="safety-grid">
-      <div class="safety-card">
-        <div class="ico" style="background:#FFE9DD">🔥</div>
-        <h3>Fogo & panelas</h3>
-        <p>Nunca deixe o cabo da panela virado para fora. E nada de correr perto do fogão aceso.</p>
-      </div>
-      <div class="safety-card">
-        <div class="ico" style="background:#FFF6D9">🔪</div>
-        <h3>Facas afiadas</h3>
-        <p>Faca cega escorrega mais. Corte em tábua firme e nunca leve a faca à pia com a lâmina para cima.</p>
-      </div>
-      <div class="safety-card">
-        <div class="ico" style="background:#E5F9F6">🧼</div>
-        <h3>Higiene sempre</h3>
-        <p>Lave as mãos antes de começar. Não use a mesma tábua para carne crua e alimentos prontos.</p>
-      </div>
-      <div class="safety-card">
-        <div class="ico" style="background:#F0ECFA">💧</div>
-        <h3>Óleo & água</h3>
-        <p>Água e óleo quente não se misturam! Nunca jogue água em panela com óleo fervendo.</p>
+<!-- ============ SOBRE ============ -->
+<section id="sobre" class="about">
+  <div class="container about-inner">
+    <div class="about-visual">
+      <div class="about-emoji">👨‍🍳</div>
+      <div class="about-quote">Cozinhar é um ato de amor — e de coragem.</div>
+      <div class="about-cite">— Tio Lucas</div>
+    </div>
+    <div class="about-content">
+      <h2>Quem é o Tio Lucas?</h2>
+      <p>Desde criança, o Tio Lucas passava as tardes na cozinha da avó, aprendendo que comida boa não precisa ser complicada. Hoje, ele compartilha receitas testadas e aprovadas pela família — sempre com um toque de humor e muita praticidade.</p>
+      <p>Aqui você vai encontrar desde pratos rápidos para a correria do dia a dia até doces que impressionam. Tudo com passo a passo claro, dicas de substituições e truques que fazem diferença.</p>
+      <div class="about-stats">
+        <div class="stat">
+          <strong>2.500+</strong>
+          <span>Receitas testadas</span>
+        </div>
+        <div class="stat">
+          <strong>15 anos</strong>
+          <span>De cozinha</span>
+        </div>
+        <div class="stat">
+          <strong>100%</strong>
+          <span>Feito em casa</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PRIMEIROS PASSOS ============ -->
-<section class="steps-section" id="primeiros">
+<!-- ============ NEWSLETTER ============ -->
+<section id="newsletter">
   <div class="container">
-    <span class="badge" style="background:rgba(255,255,255,.1);color:var(--accent)">🚀 Comece por aqui</span>
-    <h2 class="section-title" style="margin-top:12px;color:#fff">Seu caminho até virar mestre</h2>
-    <p class="section-sub">Nunca cozinhou? Sem problema. Siga esse passo a passo e em poucos dias você já está mandando bem.</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="num">01</div>
-        <h3>Escolha uma receita fácil</h3>
-        <p>Comece por ovos, macarrão instantâneo ou torradas. O importante é fazer a primeira vez.</p>
-      </div>
-      <div class="step">
-        <div class="num">02</div>
-        <h3>Separe os ingredientes</h3>
-        <p>Deixe tudo à mão antes de ligar o fogo. Isso evita correria e queimaduras.</p>
-      </div>
-      <div class="step">
-        <div class="num">03</div>
-        <h3>Siga o passo a passo</h3>
-        <p>Leia a receita inteira antes de começar. Marque os ingredientes na lista do site.</p>
-      </div>
-      <div class="step">
-        <div class="num">04</div>
-        <h3>Prove, ajuste e compartilhe</h3>
-        <p>Confira o tempero, sirva e mostre para a família. Próxima receita: mais difícil!</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CTA FINAL ============ -->
-<section class="section">
-  <div class="container">
-    <div class="cta-final">
-      <h2>Bora pra cozinha? 🍳</h2>
-      <p>Escolha sua primeira receita agora mesmo. Sem enrolação, sem complicação — só sabor e diversão.</p>
-      <a href="#receitas" class="btn">Escolher receita</a>
+    <div class="newsletter">
+      <h2>Receba uma receita nova toda semana</h2>
+      <p>Sem spam. Só comida boa, dicas e truques direto no seu e-mail.</p>
+      <form class="newsletter-form" id="newsletterForm" novalidate>
+        <input type="email" id="emailInput" placeholder="Seu melhor e-mail" aria-label="E-mail" required>
+        <button type="submit">Quero receber</button>
+      </form>
+      <p class="newsletter-msg" id="newsletterMsg" role="status"></p>
     </div>
   </div>
 </section>
@@ -576,435 +511,98 @@
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-grid">
+    <div class="footer-inner">
       <div class="footer-brand">
-        <div class="logo">
-          <div class="logo-mark">
-            <img src="./tio-lucas.png" alt="Logo Tio Lucas" onerror="this.src='https://via.placeholder.com/50/FFC93C/1F1B16?text=👨‍🍳'">
-          </div>
-          <span class="logo-text">Receita do Tio Lucas<small>Na cozinha, quem manda é você!</small></span>
+        <a href="#" class="logo">
+          <span class="logo-mark">🍳</span>
+          Receita do <span>Tio Lucas</span>
+        </a>
+        <p>Na cozinha, quem manda é você. Receitas simples para pessoas reais.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Receitas</h4>
+          <a href="#receitas">Rápidas</a>
+          <a href="#receitas">Doces</a>
+          <a href="#receitas">Salgadas</a>
+          <a href="#receitas">Fit</a>
         </div>
-        <p>A plataforma que ensina adolescentes a cozinhar com segurança, prática e muita personalidade.</p>
-      </div>
-      <div>
-        <h4>Explorar</h4>
-        <ul>
-          <li><a href="#receitas">Receitas</a></li>
-          <li><a href="#primeiros">Primeiros Passos</a></li>
-          <li><a href="#seguranca">Segurança</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Receitas</h4>
-        <ul>
-          <li><a href="#" onclick="return false">Lanches rápidos</a></li>
-          <li><a href="#" onclick="return false">Sobremesas</a></li>
-          <li><a href="#" onclick="return false">Refeições</a></li>
-          <li><a href="#" onclick="return false">Bebidas</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Contato</h4>
-        <ul>
-          <li><a href="#" onclick="return false">Instagram</a></li>
-          <li><a href="#" onclick="return false">TikTok</a></li>
-          <li><a href="#" onclick="return false">YouTube</a></li>
-          <li><a href="#" onclick="return false">Fale com o Tio</a></li>
-        </ul>
+        <div class="footer-col">
+          <h4>Sobre</h4>
+          <a href="#sobre">O Tio Lucas</a>
+          <a href="#newsletter">Newsletter</a>
+          <a href="#">Contato</a>
+        </div>
+        <div class="footer-col">
+          <h4>Social</h4>
+          <a href="#">Instagram</a>
+          <a href="#">YouTube</a>
+          <a href="#">TikTok</a>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Receita do Tio Lucas. Todos os direitos reservados.</span>
-      <span>Feito com 🧡 para adolescentes que querem aprender a cozinhar.</span>
+      © 2026 Receita do Tio Lucas. Feito com 🧡 e muita farinha.
     </div>
   </div>
 </footer>
 
-<!-- ============ MODAL RECEITA ============ -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modalContent"></div>
-</div>
-
-<!-- ============ TOAST ============ -->
-<div class="toast" id="toast"></div>
-
 <script>
-/* ============================================================
-   DADOS DAS RECEITAS (40 RECEITAS)
-   ============================================================ */
-const RECIPES = [
-  // --- FÁCEIS / LANCHES ---
-  { id: 'ovo-mexido', name: 'Ovo Mexido do Tio', emoji: '🍳', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'refeicao', tag: 'Café da manhã', desc: 'O primeiro passo de todo cozinheiro. Simples, rápido e delicioso.', ingredients: ['2 ovos', '1 colher (sopa) de manteiga ou óleo', '1 pitada de sal', '1 pitada de pimenta (opcional)', '1 fatia de queijo (opcional)'], steps: ['Quebre os ovos em uma tigela e bata levemente com um garfo.', 'Aqueça a manteiga em uma frigideira em fogo baixo.', 'Despeje os ovos e mexa devagar com uma espátula.', 'Quando estiverem quase firmes, adicione o sal e desligue o fogo.', 'Sirva com queijo por cima, se quiser.'], tip: 'Fogo baixo é o segredo para um ovo cremoso. Não deixe secar demais!' },
-  { id: 'sanduiche', name: 'Sanduíche do Tio', emoji: '🥪', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Um sanduíche quente e caprichado para o intervalo da escola.', ingredients: ['2 fatias de pão de forma', '1 fatia de queijo', '1 fatia de presunto', '1 colher (chá) de manteiga', 'Tomate e alface a gosto'], steps: ['Passe a manteiga nas fatias de pão.', 'Monte o sanduíche com queijo, presunto, tomate e alface.', 'Aqueça na frigideira em fogo baixo até o queijo derreter.', 'Corte ao meio e sirva.'], tip: 'Não coloque o alface antes de aquecer: ele murcha. Coloque depois que o queijo derreter.' },
-  { id: 'pizza-pao', name: 'Pizza de Pão de Forma', emoji: '🍕', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Uma pizza rápida usando pão de forma. Funciona e fica uma delícia.', ingredients: ['4 fatias de pão de forma', '4 colheres (sopa) de molho de tomate', '100g de queijo muçarela ralado', 'Orégano a gosto', 'Recheio a gosto (presunto, tomate, azeitona)'], steps: ['Passe o molho de tomate nas fatias de pão.', 'Distribua o queijo e os recheios escolhidos.', 'Polvilhe orégano.', 'Leve ao forno pré-aquecido a 180°C por 10 minutos (ou na frigideira com tampa em fogo baixo).', 'Sirva quente.'], tip: 'Não sobrecarregue o pão com recheios: ele pode ficar mole. Menos é mais!' },
-  { id: 'tapioca', name: 'Tapioca Recheada', emoji: '🫓', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Rápida, versátil e combina com doce ou salgado. A rainha do lanche.', ingredients: ['4 colheres (sopa) de goma de tapioca', '1 fatia de queijo (ou recheio de sua preferência)', '1 pitada de sal'], steps: ['Peneire a goma de tapioca em uma frigideira fria.', 'Ligue o fogo baixo e deixe a goma firmar (cerca de 2 minutos).', 'Coloque o recheio no centro e dobre ao meio com uma espátula.', 'Deixe mais 1 minuto de cada lado e sirva.'], tip: 'A frigideira precisa estar fria quando você colocar a goma. Isso faz a tapioca ficar no ponto certo.' },
-  { id: 'cachorro-quente', name: 'Cachorro-Quente Caseiro', emoji: '🌭', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'O clássico americano que todo mundo ama. Fácil e rápido.', ingredients: ['2 salsichas', '2 pães de hot dog', 'Molho de tomate', 'Batata palha', 'Mostarda e ketchup'], steps: ['Cozinhe a salsicha na água fervente por 5 minutos ou frite na frigideira.', 'Aqueça o pão no micro-ondas por 20 segundos ou na frigideira.', 'Monte com a salsicha, molho, batata palha e condimentos.'], tip: 'Dê pequenos cortes na salsicha antes de cozinhar: ela não estoura e absorve melhor o sabor.' },
-  { id: 'pipoca', name: 'Pipoca de Micro-ondas', emoji: '🍿', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'O lanche perfeito para ver filme. Cuidado para não queimar!', ingredients: ['1 saquinho de milho de pipoca para micro-ondas'], steps: ['Coloque o saquinho no micro-ondas com a aba para cima.', 'Programe conforme a embalagem (geralmente 2 a 3 minutos).', 'Espere os estouros diminuírem, retire com cuidado e abra longe do rosto.'], tip: 'Nunca abra o saquinho logo que sair do micro-ondas. O vapor quente pode queimar.' },
-  { id: 'salada-frutas', name: 'Salada de Frutas', emoji: '🍓', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'sobremesa', tag: 'Sobremesa', desc: 'Refrescante, saudável e colorida. Perfeita para o calor.', ingredients: ['1 banana', '1 maçã', '1 laranja', '5 morangos', '1 colher (sopa) de mel ou suco de limão'], steps: ['Lave bem as frutas.', 'Corte tudo em pedaços pequenos em uma tigela.', 'Adicione o mel ou o suco de limão para não escurecer.', 'Misture e leve à geladeira por 10 minutos antes de servir.'], tip: 'Corte a banana por último e passe no limão para ela não escurecer.' },
-  { id: 'misto-quente', name: 'Misto Quente na Frigideira', emoji: '🧀', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 8, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'O lanche mais rápido do mundo. Pão, queijo e presunto.', ingredients: ['2 fatias de pão de forma', '1 fatia de queijo', '1 fatia de presunto', '1 colher (chá) de manteiga'], steps: ['Passe manteiga nas fatias de pão.', 'Recheie com queijo e presunto.', 'Leve à frigideira em fogo baixo, tampe e deixe dourar dos dois lados.'], tip: 'Tampar a frigideira faz o queijo derreter mais rápido sem queimar o pão.' },
-  { id: 'gelatina', name: 'Gelatina Colorida', emoji: '🍮', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Simples, barata e todo mundo gosta. Só precisa de paciência.', ingredients: ['1 caixa de gelatina em pó (sabor preferido)', '500ml de água quente', '500ml de água gelada'], steps: ['Ferva 500ml de água.', 'Dissolva a gelatina na água quente mexendo bem.', 'Adicione a água gelada e mexa.', 'Coloque em uma forma ou tigela e leve à geladeira por 3 horas.'], tip: 'Não use água quente demais: pode estragar o sabor da gelatina.' },
-  { id: 'suco-limao', name: 'Limonada Suíça', emoji: '🍋', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'bebida', tag: 'Bebida', desc: 'Cremosa, gelada e refrescante. Muito melhor que a de pacote.', ingredients: ['2 limões', '1 litro de água gelada', '4 colheres (sopa) de açúcar', 'Gelo a gosto'], steps: ['Lave bem os limões e corte em pedaços (deixe a casca).', 'Bata no liquidificador com a água e o açúcar por 30 segundos.', 'Coe e sirva com gelo.'], tip: 'Bater com a casca deixa a limonada cremosa, mas não bata por muito tempo: pode amargar.' },
+  // ===== Filtro de categorias =====
+  const pills = document.querySelectorAll('.cat-pill');
+  const cards = document.querySelectorAll('.recipe-card');
 
-  // --- FÁCEIS / REFEIÇÕES ---
-  { id: 'macarrao', name: 'Macarrão do Tio Lucas', emoji: '🍝', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Clássico', desc: 'O prato que salva qualquer fome. Pronto em 15 minutos e sempre aprovado.', ingredients: ['200g de macarrão', '1 colher (sopa) de sal', '2 colheres (sopa) de molho de tomate', '1 dente de alho picado', 'Queijo ralado a gosto'], steps: ['Ferva água em uma panela grande e adicione o sal.', 'Coloque o macarrão e cozinhe pelo tempo indicado na embalagem.', 'Escorra com cuidado.', 'Volte à panela com o molho e misture em fogo baixo por 1 minuto.', 'Sirva com queijo.'], tip: 'Reserve um pouco da água do cozimento: ela ajuda o molho a grudar melhor.' },
-  { id: 'arroz', name: 'Arroz Soltinho', emoji: '🍚', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 25, servings: 2, category: 'refeicao', tag: 'Básico', desc: 'O acompanhamento obrigatório. Aprenda a fazer sem virar papa.', ingredients: ['1 xícara de arroz', '2 xícaras de água quente', '1 colher (sopa) de óleo', '1 dente de alho picado', 'Sal a gosto'], steps: ['Lave o arroz até a água ficar clara.', 'Refogue o alho no óleo quente.', 'Adicione o arroz e refogue por 2 minutos.', 'Adicione a água quente e o sal.', 'Tampe e cozinhe em fogo baixo por 15 minutos ou até secar a água.'], tip: 'Não mexa o arroz enquanto cozinha! Isso evita que ele fique empapado.' },
-  { id: 'miojo', name: 'Miojo Turbinado', emoji: '🍜', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Salva-vidas', desc: 'Aquele miojo básico, mas com temperos e ingredientes extras.', ingredients: ['1 pacote de miojo', '1 ovo', '1 colher (sopa) de manteiga', 'Cebolinha (opcional)', 'Queijo ralado (opcional)'], steps: ['Ferva 400ml de água.', 'Adicione o miojo e cozinhe por 3 minutos.', 'Em outra frigideira, frite o ovo com manteiga.', 'Misture o pó do tempero ao miojo, adicione o ovo e sirva.'], tip: 'Jogue fora o pó de tempero metade das vezes. Substitua por temperos naturais e a receita fica muito mais saudável.' },
-  { id: 'omelete', name: 'Omelete de Queijo', emoji: '🥚', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Proteína', desc: 'Um clássico que nunca falha e aceita qualquer recheio.', ingredients: ['2 ovos', '2 colheres (sopa) de queijo ralado', 'Sal e pimenta a gosto', '1 colher (chá) de manteiga'], steps: ['Bata os ovos com sal e pimenta.', 'Derreta a manteiga em fogo baixo.', 'Despeje os ovos e espere firmar.', 'Adicione o queijo, dobre ao meio e sirva.'], tip: 'Não mexa os ovos se quiser uma omelete fechada. Se quiser mexida, mexa sempre!' },
-  { id: 'torrada', name: 'Torrada na Frigideira', emoji: '🍞', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Sem torradeira? Sem problema. Dá pra fazer na frigideira!', ingredients: ['2 fatias de pão de forma', '1 colher (chá) de manteiga'], steps: ['Aqueça a frigideira em fogo médio.', 'Passe manteiga nas fatias de pão.', 'Doure dos dois lados na frigideira (cerca de 2 minutos cada lado).'], tip: 'Sirva na hora: torrada esfria e fica dura rápido.' },
-  { id: 'canja', name: 'Canja de Galinha Rápida', emoji: '🍲', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'refeicao', tag: 'Conforto', desc: 'Sopa reconfortante para os dias frios ou quando está gripado.', ingredients: ['1 xícara de arroz', '1 peito de frango pequeno', '1 litro de água', '1 cubo de caldo de galinha', 'Sal e cheiro-verde'], steps: ['Cozinhe o frango na água por 10 minutos e desfie.', 'Volte o frango à água com o arroz e o caldo.', 'Cozinhe por 15 minutos em fogo baixo.', 'Finalize com cheiro-verde e sirva.'], tip: 'Desfiar o frango com dois garfos enquanto ainda está quente é muito mais fácil.' },
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const cat = pill.dataset.cat;
 
-  // --- MÉDIOS / REFEIÇÕES ---
-  { id: 'batata-frita', name: 'Batata Rústica', emoji: '🍟', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 30, servings: 2, category: 'lanche', tag: 'Acompanhamento', desc: 'Batatas crocantes assadas no forno, sem fritura e sem bagunça.', ingredients: ['3 batatas médias', '2 colheres (sopa) de óleo', '1 colher (chá) de sal', '1 colher (chá) de páprica', 'Orégano a gosto'], steps: ['Lave bem as batatas e corte em palitos.', 'Seque com um pano limpo ou papel-toalha.', 'Misture as batatas com o óleo, o sal e a páprica.', 'Espalhe em uma assadeira e leve ao forno a 200°C por 25 minutos.', 'Vire na metade do tempo.'], tip: 'Secar bem as batatas antes de assar é o que garante a crocância.' },
-  { id: 'bolo-caneca', name: 'Bolo de Caneca', emoji: '🧁', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'sobremesa', tag: 'Sobremesa', desc: 'Bolo de chocolate no micro-ondas em 5 minutos. Perfeito para matar a vontade.', ingredients: ['4 colheres (sopa) de farinha de trigo', '4 colheres (sopa) de açúcar', '2 colheres (sopa) de chocolate em pó', '1 ovo', '3 colheres (sopa) de leite', '2 colheres (sopa) de óleo', '1 colher (café) de fermento em pó'], steps: ['Coloque todos os ingredientes na caneca e misture bem.', 'Adicione o fermento por último.', 'Leve ao micro-ondas por 3 minutos em potência alta.', 'Espere esfriar antes de comer.'], tip: 'Use uma caneca grande, porque o bolo cresce bastante.' },
-  { id: 'suco-verde', name: 'Suco Verde do Tio', emoji: '🥤', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Refrescante, saudável e pronto em 5 minutos. Combina com tudo.', ingredients: ['1 maçã', '1 folha de couve', 'Suco de 1 limão', '1 copo de água gelada', 'Açúcar a gosto'], steps: ['Lave bem a maçã e a couve.', 'Corte a maçã em pedaços.', 'Bata tudo no liquidificador com a água.', 'Coe, adoce e sirva gelado.'], tip: 'Bata a couve com o limão para conservar o sabor e a cor.' },
-  { id: 'brigadeiro', name: 'Brigadeiro de Panela', emoji: '🍫', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 25, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'O clássico brasileiro que todo mundo ama. Atenção ao ponto!', ingredients: ['1 lata de leite condensado', '2 colheres (sopa) de chocolate em pó', '1 colher (sopa) de manteiga', 'Chocolate granulado'], steps: ['Coloque o leite condensado, o chocolate e a manteiga na panela.', 'Misture em fogo baixo, mexendo sempre, por 10 a 15 minutos.', 'O ponto é quando desgruda do fundo da panela.', 'Despeje em um prato untado e espere esfriar.', 'Enrole e passe no granulado.'], tip: 'Fogo baixo e paciência: brigadeiro não tem pressa.' },
-  { id: 'panqueca', name: 'Panqueca Doce', emoji: '🥞', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 20, servings: 3, category: 'sobremesa', tag: 'Sobremesa', desc: 'Panquecas macias e docinhas para o café da manhã especial.', ingredients: ['1 xícara de farinha', '2 colheres (sopa) de açúcar', '1 ovo', '1 xícara de leite', '1 colher (chá) de fermento', 'Mel ou calda para servir'], steps: ['Misture a farinha, açúcar e fermento.', 'Adicione o ovo e o leite e misture até ficar homogêneo.', 'Aqueça uma frigideira antiaderente em fogo baixo.', 'Coloque pequenas porções de massa e vire quando aparecerem bolhas.', 'Sirva com mel ou calda.'], tip: 'Não mexa muito a massa: panqueca boa é massa levemente empelotada.' },
-  { id: 'hamburguer', name: 'Hambúrguer Caseiro', emoji: '🍔', color: '#FFE9DD', level: 'medio', levelLabel: 'Médio', time: 25, servings: 2, category: 'refeicao', tag: 'Lanche', desc: 'Carne suculenta, queijo derretido e pão quentinho. Sem fast food.', ingredients: ['300g de carne moída', '1 pão de hambúrguer', '2 fatias de queijo', 'Alface, tomate e cebola', 'Sal e pimenta'], steps: ['Tempere a carne e modele em 2 discos.', 'Asse ou frite na frigideira em fogo alto por 3 minutos cada lado.', 'Coloque o queijo no final para derreter.', 'Monte com os vegetais e molhos favoritos.'], tip: 'Não aperte o hambúrguer com a espátula: você tira todo o suco da carne.' },
-  { id: 'frango-frito', name: 'Frango Frito Crocante', emoji: '🍗', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 35, servings: 3, category: 'refeicao', tag: 'Proteína', desc: 'Frango super crocante por fora e suculento por dentro. Cuidado com o óleo!', ingredients: ['500g de frango (coxas ou peito)', '1 xícara de farinha de trigo', '1 ovo batido', 'Sal, pimenta e páprica', 'Óleo para fritar'], steps: ['Tempere o frango.', 'Passe no ovo batido e depois na farinha.', 'Aqueça o óleo em fogo médio.', 'Frite o frango até dourar (cerca de 10 minutos).', 'Escorra em papel-toalha.'], tip: 'Nunca coloque o frango congelado no óleo quente. Espere descongelar.' },
-  { id: 'salada-caesar', name: 'Salada Caesar Simples', emoji: '🥗', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Saudável', desc: 'Uma salada diferente, com molho cremoso e crocante.', ingredients: ['1 pé de alface', '1/2 xícara de croutons', '2 colheres (sopa) de maionese', '1 colher (sopa) de parmesão', 'Suco de limão'], steps: ['Lave e corte a alface.', 'Misture a maionese, parmesão e limão.', 'Junte tudo em uma tigela e finalize com croutons.'], tip: 'Molho separado da salada evita que ela murche antes de servir.' },
-  { id: 'strogonoff', name: 'Strogonoff de Frango', emoji: '🍛', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 30, servings: 3, category: 'refeicao', tag: 'Clássico', desc: 'O prato que impressiona qualquer visita. Cremoso e delicioso.', ingredients: ['500g de frango em cubos', '1 cebola picada', '2 colheres (sopa) de ketchup', '1 caixinha de creme de leite', 'Sal e pimenta'], steps: ['Refogue o frango e a cebola.', 'Adicione o ketchup e misture bem.', 'Desligue o fogo e adicione o creme de leite.', 'Sirva com arroz e batata palha.'], tip: 'Nunca deixe o creme de leite ferver: ele talha e estraga o prato.' },
-  { id: 'lasanha', name: 'Lasanha de Frigideira', emoji: '🍲', color: '#FFE9DD', level: 'medio', levelLabel: 'Médio', time: 35, servings: 3, category: 'refeicao', tag: 'Comfort', desc: 'Uma lasanha rápida que não precisa de forno.', ingredients: ['Massa de lasanha pré-cozida', 'Molho de tomate', 'Queijo muçarela', 'Presunto'], steps: ['Monte camadas em uma frigideira alta.', 'Alterne molho, massa, presunto e queijo.', 'Tampe e cozinhe em fogo baixo por 15 minutos.', 'Finalize com queijo derretido em fogo alto.'], tip: 'Tampar é essencial: o vapor cozinha a massa e derrete o queijo.' },
-
-  // --- SOBREMESAS E BEBIDAS ---
-  { id: 'mousse-maracuja', name: 'Mousse de Maracujá', emoji: '🍮', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Doce, azedinho e cremoso. Só 3 ingredientes e uma geladeira.', ingredients: ['1 lata de leite condensado', '1 caixinha de creme de leite', '1 caixinha de suco de maracujá concentrado'], steps: ['Bata tudo no liquidificador por 2 minutos.', 'Coloque em taças ou tigela.', 'Leve à geladeira por 4 horas.'], tip: 'Se quiser mais firme, adicione 1 envelope de gelatina sem sabor dissolvida.' },
-  { id: 'pudim', name: 'Pudim de Leite Rápido', emoji: '🍮', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 45, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'O pudim clássico, liso e sem furinhos.', ingredients: ['1 lata de leite condensado', '2 latas de leite', '3 ovos', '1 xícara de açúcar (para a calda)'], steps: ['Faça a calda derretendo o açúcar em fogo baixo.', 'Bata o leite condensado, leite e ovos no liquidificador.', 'Despeje na forma caramelizada.', 'Asse em banho-maria a 180°C por 40 minutos.'], tip: 'Coe a mistura antes de assar: isso tira as bolhas e deixa o pudim lisinho.' },
-  { id: 'cookie', name: 'Cookie de Micro-ondas', emoji: '🍪', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'sobremesa', tag: 'Sobremesa', desc: 'Um cookie quentinho em 5 minutos. Impossível resistir.', ingredients: ['2 colheres (sopa) de farinha', '1 colher (sopa) de açúcar', '1 colher (sopa) de manteiga', '1 colher (sopa) de gotas de chocolate', '1 colher (sopa) de leite'], steps: ['Misture tudo em um prato.', 'Achate com uma colher.', 'Leve ao micro-ondas por 1 minuto.'], tip: 'Não passe de 1 minuto: o cookie pode ficar duro como pedra.' },
-  { id: 'vitamina', name: 'Vitamina de Banana', emoji: '🥛', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Cremosa, nutritiva e perfeita para o café da manhã.', ingredients: ['2 bananas', '1 copo de leite', '1 colher (sopa) de aveia', 'Açúcar a gosto'], steps: ['Bata tudo no liquidificador.', 'Sirva imediatamente.'], tip: 'Use bananas bem maduras: elas deixam a vitamina naturalmente mais doce.' },
-  { id: 'chocolate-quente', name: 'Chocolate Quente Cremoso', emoji: '☕', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Para aquecer o coração (e as mãos) nos dias frios.', ingredients: ['2 xícaras de leite', '3 colheres (sopa) de chocolate em pó', '1 colher (sopa) de amido de milho', 'Açúcar a gosto'], steps: ['Misture tudo em uma panela fria.', 'Leve ao fogo baixo mexendo sempre.', 'Quando engrossar, desligue e sirva.'], tip: 'Misturar tudo antes de ligar o fogo evita que o chocolate empelote.' },
-  { id: 'picole', name: 'Picolé de Fruta Caseiro', emoji: '🍧', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Refrescante, natural e sem conservantes. Faça com a fruta que quiser.', ingredients: ['2 xícaras de polpa de fruta', '1/2 xícara de água', 'Açúcar a gosto', 'Forminhas de picolé'], steps: ['Bata a polpa, água e açúcar no liquidificador.', 'Despeje nas forminhas.', 'Leve ao congelador por 4 horas.'], tip: 'Se não tiver forminha, use copos descartáveis e palitos de sorvete.' },
-  { id: 'torta-limao', name: 'Torta de Limão Gelada', emoji: '🍋', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 30, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'Cremosa, azedinha e sem precisar de forno.', ingredients: ['1 pacote de bolacha maisena', '3 colheres (sopa) de manteiga derretida', '1 lata de leite condensado', 'Suco de 3 limões', '1 caixinha de creme de leite'], steps: ['Triture a bolacha e misture com a manteiga.', 'Forre o fundo de uma forma e leve à geladeira.', 'Bata o leite condensado, limão e creme de leite.', 'Despeje sobre a massa e leve à geladeira por 4 horas.'], tip: 'Se quiser um acabamento bonito, decore com raspas de limão antes de servir.' },
-  { id: 'cuscuz', name: 'Cuscuz Nordestino', emoji: '🌽', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Regional', desc: 'O clássico do café da manhã nordestino. Simples e delicioso.', ingredients: ['1 xícara de flocos de milho para cuscuz', '1/2 xícara de água', 'Sal a gosto', 'Manteiga para servir'], steps: ['Misture o flocos com a água e o sal.', 'Deixe descansar por 5 minutos.', 'Coloque na cuscuzeira e cozinhe no vapor por 10 minutos.', 'Sirva com manteiga.'], tip: 'Não coloque água demais, senão o cuscuz vira papa. A medida certa é até umedecer, não encharcar.' },
-  { id: 'pao-queijo', name: 'Pão de Queijo de Frigideira', emoji: '🧆', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Aquele pão de queijo quentinho em versão ultra rápida.', ingredients: ['4 colheres (sopa) de polvilho doce', '2 colheres (sopa) de queijo ralado', '3 colheres (sopa) de leite', '1 colher (sopa) de manteiga'], steps: ['Misture tudo em uma tigela.', 'Aqueça a frigideira em fogo baixo.', 'Coloque colheradas da massa e tampe.', 'Vire quando dourar embaixo e sirva quente.'], tip: 'Tampe a frigideira: o vapor faz o pão de queijo cozinhar por dentro.' }
-];
-
-// Preenchendo as 40 receitas (completando o array com receitas extras)
-const EXTRA_RECIPES = [
-  { id: 'macarrao-alho', name: 'Macarrão Alho e Óleo', emoji: '🍝', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Clássico', desc: 'Simples, saboroso e resolve o almoço em minutos.', ingredients: ['200g de espaguete', '3 dentes de alho fatiados', '3 colheres (sopa) de azeite', 'Sal e pimenta'], steps: ['Cozinhe o macarrão.', 'Doure o alho no azeite em fogo baixo.', 'Misture o macarrão escorrido ao azeite com alho.', 'Tempere e sirva.'], tip: 'Não deixe o alho queimar: ele fica amargo e estraga o prato.' },
-  { id: 'batata-frita-caseira', name: 'Batata Frita Caseira', emoji: '🍟', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 25, servings: 2, category: 'lanche', tag: 'Acompanhamento', desc: 'Crocante por fora, macia por dentro. Cuidado com o óleo quente!', ingredients: ['3 batatas', 'Óleo para fritar', 'Sal a gosto'], steps: ['Corte as batatas em palitos.', 'Seque bem.', 'Frite em óleo quente (180°C) até dourar.', 'Escorra em papel-toalha e salgue.'], tip: 'Fritar em óleo não muito quente primeiro (150°C) e depois aumentar a temperatura deixa mais crocante.' },
-  { id: 'bolo-cenoura', name: 'Bolo de Cenoura Fofinho', emoji: '🍰', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 45, servings: 8, category: 'sobremesa', tag: 'Sobremesa', desc: 'Fofinho, dourado e com cobertura de chocolate. O clássico das festas.', ingredients: ['3 cenouras médias', '3 ovos', '2 xícaras de açúcar', '2 xícaras de farinha', '1 xícara de óleo', '1 colher (sopa) de fermento'], steps: ['Bata cenoura, ovos e óleo no liquidificador.', 'Misture com o açúcar e a farinha.', 'Adicione o fermento e mexa devagar.', 'Asse em forno pré-aquecido a 180°C por 35 minutos.'], tip: 'Não bata a cenoura com o fermento: o bolo pode solar.' },
-  { id: 'sorvete-banana', name: 'Sorvete de Banana Fit', emoji: '🍨', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'sobremesa', tag: 'Sobremesa', desc: 'Só banana congelada. Sem leite, sem açúcar, muito gostoso.', ingredients: ['4 bananas congeladas em rodelas', '1 colher (sopa) de pasta de amendoim (opcional)'], steps: ['Bata as bananas congeladas no processador ou liquidificador potente.', 'Quando virar creme, sirva imediatamente ou leve ao freezer por 1 hora.'], tip: 'Se o liquidificador travar, adicione 1 colher de leite ou água e continue batendo.' },
-  { id: 'ovo-frito', name: 'Ovo Frito Perfeito', emoji: '🍳', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'refeicao', tag: 'Básico', desc: 'Gema mole, bordas crocantes. O básico que todo mundo deveria saber.', ingredients: ['1 ovo', '1 colher (sopa) de óleo ou manteiga', 'Sal a gosto'], steps: ['Aqueça o óleo em fogo médio.', 'Quebre o ovo com cuidado.', 'Deixe fritar sem mexer por 2 minutos.', 'Tempere com sal e sirva.'], tip: 'Se quiser a gema mole, tampe a frigideira por 30 segundos: o vapor cozinha a clara sem endurecer a gema.' },
-  { id: 'vitamina-morango', name: 'Vitamina de Morango', emoji: '🥤', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Rosa, cremosa e deliciosa. Perfeita para o café da manhã.', ingredients: ['1 xícara de morangos', '1 copo de leite', '1 colher (sopa) de açúcar', 'Gelo a gosto'], steps: ['Bata tudo no liquidificador.', 'Sirva imediatamente.'], tip: 'Morangos congelados deixam a vitamina mais cremosa e gelada.' },
-  { id: 'pipoca-doce', name: 'Pipoca Doce de Panela', emoji: '🍿', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 15, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Crocante, caramelizada e muito viciante. Para dividir com os amigos.', ingredients: ['1/2 xícara de milho de pipoca', '1/2 xícara de açúcar', '2 colheres (sopa) de óleo', '1 pitada de sal'], steps: ['Aqueça o óleo com o açúcar em fogo baixo até virar calda.', 'Adicione o milho e mexa até começar a estourar.', 'Tampe e agite até parar de estourar.', 'Espalhe em uma assadeira para esfriar.'], tip: 'Fique longe da panela nos primeiros estouros! Cuidado com respingos de calda quente.' },
-  { id: 'macarrao-instantaneo', name: 'Macarrão Instantâneo Melhorado', emoji: '🍜', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Salva-vidas', desc: 'Aquele macarrão instantâneo, mas com cara de comida de verdade.', ingredients: ['1 pacote de macarrão instantâneo', '1 ovo cozido', '1 colher (sopa) de manteiga', 'Cebolinha picada'], steps: ['Cozinhe o macarrão conforme a embalagem.', 'Adicione metade do tempero e a manteiga.', 'Misture o ovo cozido cortado e a cebolinha.'], tip: 'Substituir metade do pó por temperos naturais faz toda a diferença no sabor.' },
-  { id: 'frango-grelhado', name: 'Frango Grelhado Rápido', emoji: '🍗', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'refeicao', tag: 'Proteína', desc: 'Suculento, temperado e pronto em 20 minutos. Perfeito com arroz e salada.', ingredients: ['2 filés de peito de frango', '2 dentes de alho', 'Suco de 1 limão', 'Sal e pimenta', '1 colher (sopa) de azeite'], steps: ['Tempere o frango com alho, limão, sal e pimenta.', 'Deixe descansar por 10 minutos.', 'Grelhe na frigideira com azeite por 5 minutos cada lado.'], tip: 'Não fure o frango enquanto grelha: os sucos escapam e a carne fica seca.' },
-  { id: 'sanduiche-natural', name: 'Sanduíche Natural Fitness', emoji: '🥪', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Leve, gostoso e perfeito para levar para a escola.', ingredients: ['2 fatias de pão integral', '1 colher (sopa) de cream cheese', '1 fatia de peito de peru', 'Alface e tomate'], steps: ['Passe o cream cheese no pão.', 'Adicione o peito de peru, alface e tomate.', 'Feche e corte ao meio.'], tip: 'Embrulhe em papel-filme para não desmontar na mochila.' },
-  { id: 'limonada', name: 'Limonada de Capim-Limão', emoji: '🍋', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'bebida', tag: 'Bebida', desc: 'Refrescante e aromática. Perfeita para dias quentes.', ingredients: ['2 limões', '1 litro de água gelada', '3 colheres (sopa) de açúcar', '2 folhas de capim-limão'], steps: ['Bata os limões, a água e o açúcar no liquidificador.', 'Adicione o capim-limão e bata por 10 segundos.', 'Coe e sirva com gelo.'], tip: 'Não bata demais o capim-limão: ele pode amargar.' }
-   { id: "crepioca", name: "Crepioca Fácil", emoji: "🥞", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "lanche", tag: "Lanche", desc: "Uma opção rápida com ovo e tapioca.", ingredients: ["1 ovo", "2 colheres (sopa) de goma de tapioca", "1 pitada de sal", "Queijo opcional"], steps: ["Bata o ovo com a goma e o sal.", "Aqueça uma frigideira antiaderente em fogo baixo.", "Despeje a mistura e cozinhe até firmar.", "Vire com cuidado, recheie se quiser e dobre."], tip: "Use uma espátula larga para virar sem quebrar." },
-  { id: "pao-ovo", name: "Pão com Ovo", emoji: "🍞", color: "#FFE9DD", level: "facil", levelLabel: "Fácil", time: 8, servings: 1, category: "lanche", tag: "Café da manhã", desc: "Um clássico simples para matar a fome.", ingredients: ["1 pão francês ou 2 fatias de pão", "1 ovo", "1 colher (chá) de manteiga", "Sal a gosto"], steps: ["Aqueça a manteiga na frigideira.", "Quebre o ovo e cozinhe até a clara firmar.", "Tempere com sal.", "Coloque no pão e sirva."], tip: "Peça ajuda se ainda não tiver prática com frigideira." },
-  { id: "wrap-frango", name: "Wrap de Frango Simples", emoji: "🌯", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "lanche", tag: "Lanche", desc: "Tortilha recheada para montar em poucos minutos.", ingredients: ["1 tortilha pronta", "1/2 xícara de frango cozido e desfiado", "1 colher (sopa) de requeijão", "Alface lavada"], steps: ["Misture o frango com o requeijão.", "Coloque a mistura no centro da tortilha.", "Acrescente a alface.", "Dobre as laterais e enrole."], tip: "Use frango já cozido e mantido refrigerado." },
-  { id: "wrap-queijo", name: "Wrap de Queijo e Tomate", emoji: "🌯", color: "#FFE9DD", level: "facil", levelLabel: "Fácil", time: 8, servings: 1, category: "lanche", tag: "Lanche", desc: "Um lanche quentinho com poucos ingredientes.", ingredients: ["1 tortilha", "2 fatias de queijo", "1/2 tomate em fatias", "Orégano a gosto"], steps: ["Coloque o queijo e o tomate sobre a tortilha.", "Polvilhe orégano.", "Dobre ao meio e aqueça na frigideira em fogo baixo.", "Vire para dourar dos dois lados."], tip: "Não exagere no recheio para facilitar na hora de dobrar." },
-  { id: "tostex-frango", name: "Tostex de Frango", emoji: "🥪", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "lanche", tag: "Lanche", desc: "Sanduíche tostado com recheio cremoso.", ingredients: ["2 fatias de pão", "3 colheres (sopa) de frango cozido desfiado", "1 colher (sopa) de requeijão", "1 fatia de queijo"], steps: ["Misture o frango com o requeijão.", "Recheie o pão com o frango e o queijo.", "Aqueça na frigideira tampada em fogo baixo.", "Doure dos dois lados até o queijo derreter."], tip: "Use recheio frio e frango bem cozido." },
-  { id: "bruschetta", name: "Bruschetta de Tomate", emoji: "🍅", color: "#FFE9DD", level: "facil", levelLabel: "Fácil", time: 12, servings: 2, category: "lanche", tag: "Entrada", desc: "Pão crocante com tomate temperado.", ingredients: ["2 fatias de pão", "1 tomate picado", "1 colher (chá) de azeite", "Orégano e sal a gosto"], steps: ["Misture o tomate com azeite, sal e orégano.", "Doure as fatias de pão na frigideira.", "Distribua o tomate sobre o pão.", "Sirva logo após montar."], tip: "Retire o excesso de líquido do tomate para o pão não amolecer." },
-  { id: "pipoca-panela", name: "Pipoca de Panela", emoji: "🍿", color: "#FFF6D9", level: "medio", levelLabel: "Médio", time: 10, servings: 2, category: "lanche", tag: "Lanche", desc: "Pipoca feita na panela para a sessão de filmes.", ingredients: ["1/2 xícara de milho para pipoca", "2 colheres (sopa) de óleo", "Sal a gosto"], steps: ["Coloque o óleo e alguns grãos em uma panela com tampa.", "Quando os grãos estourarem, adicione o restante do milho.", "Tampe e mantenha em fogo médio, movimentando a panela com cuidado.", "Desligue quando os estouros ficarem espaçados e tempere."], tip: "Abra a tampa longe do rosto e cuidado com o vapor." },
-  { id: "chips-maca", name: "Chips de Maçã", emoji: "🍎", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 25, servings: 2, category: "lanche", tag: "Lanche", desc: "Fatias de maçã assadas para um lanche crocante.", ingredients: ["1 maçã", "Canela a gosto"], steps: ["Lave a maçã e peça ajuda para cortá-la em fatias finas.", "Disponha as fatias em uma assadeira com papel próprio para forno.", "Polvilhe canela.", "Asse a 150°C, observando e virando até secarem."], tip: "O tempo varia conforme a espessura; peça ajuda com o forno quente." },
-  { id: "iogurte-frutas", name: "Iogurte com Frutas e Aveia", emoji: "🥣", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 5, servings: 1, category: "sobremesa", tag: "Lanche", desc: "Uma tigela colorida para o café da manhã.", ingredients: ["1 pote de iogurte natural", "1/2 banana", "1/2 maçã", "2 colheres (sopa) de aveia"], steps: ["Lave as frutas.", "Corte as frutas em pedaços pequenos.", "Coloque o iogurte em uma tigela.", "Acrescente as frutas e a aveia."], tip: "Monte na hora de comer para manter a textura." },
-  { id: "banana-canela", name: "Banana com Canela", emoji: "🍌", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 5, servings: 1, category: "sobremesa", tag: "Sobremesa", desc: "Doce rápido com banana e canela.", ingredients: ["1 banana", "Canela a gosto", "1 colher (chá) de aveia opcional"], steps: ["Descasque e corte a banana em rodelas.", "Coloque em um prato próprio para micro-ondas.", "Aqueça por 30 a 45 segundos.", "Finalize com canela e aveia."], tip: "Use um recipiente próprio para micro-ondas." },
-  { id: "maca-micro", name: "Maçã Quente com Canela", emoji: "🍎", color: "#FFE3EE", level: "facil", levelLabel: "Fácil", time: 5, servings: 1, category: "sobremesa", tag: "Sobremesa", desc: "Uma sobremesa quentinha feita no micro-ondas.", ingredients: ["1 maçã", "Canela a gosto", "1 colher (chá) de mel opcional"], steps: ["Lave a maçã e corte em pedaços, retirando as sementes.", "Coloque em recipiente próprio para micro-ondas.", "Aqueça por 1 a 2 minutos até amolecer.", "Espere esfriar um pouco e finalize com canela."], tip: "O recipiente e a fruta ficam quentes; retire com cuidado." },
-  { id: "morangos-chocolate", name: "Morangos com Chocolate", emoji: "🍓", color: "#FFE3EE", level: "facil", levelLabel: "Fácil", time: 10, servings: 2, category: "sobremesa", tag: "Sobremesa", desc: "Frutas frescas com cobertura de chocolate.", ingredients: ["1 xícara de morangos", "100 g de chocolate ao leite"], steps: ["Lave os morangos e seque muito bem.", "Peça ajuda para derreter o chocolate em intervalos curtos no micro-ondas.", "Mergulhe parte dos morangos no chocolate.", "Leve à geladeira até firmar."], tip: "Água no chocolate pode deixá-lo empelotado; seque bem os morangos." },
-  { id: "brigadeiro-micro", name: "Brigadeiro de Micro-ondas", emoji: "🍫", color: "#FFE3EE", level: "facil", levelLabel: "Fácil", time: 8, servings: 4, category: "sobremesa", tag: "Sobremesa", desc: "Versão prática do doce brasileiro.", ingredients: ["1/2 lata de leite condensado", "2 colheres (sopa) de chocolate em pó", "1 colher (chá) de manteiga"], steps: ["Misture tudo em uma tigela grande própria para micro-ondas.", "Aqueça por 1 minuto e mexa.", "Continue em intervalos de 30 segundos, mexendo a cada pausa.", "Espere esfriar antes de comer."], tip: "A mistura borbulha e fica muito quente; use luvas térmicas e supervisão." },
-  { id: "beijinho-colher", name: "Beijinho de Colher", emoji: "🥥", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 10, servings: 4, category: "sobremesa", tag: "Sobremesa", desc: "Doce de coco cremoso para comer de colher.", ingredients: ["1/2 lata de leite condensado", "50 g de coco ralado", "1 colher (chá) de manteiga"], steps: ["Coloque tudo em uma panela.", "Cozinhe em fogo baixo, mexendo sempre.", "Quando engrossar, desligue o fogo.", "Espere esfriar antes de servir."], tip: "Peça ajuda para usar o fogão e não pare de mexer." },
-  { id: "mousse-limao", name: "Mousse de Limão", emoji: "🍋", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 10, servings: 4, category: "sobremesa", tag: "Sobremesa", desc: "Mousse cremosa com poucos ingredientes.", ingredients: ["1 lata de leite condensado", "1 caixinha de creme de leite", "1/2 xícara de suco de limão"], steps: ["Coloque todos os ingredientes no liquidificador.", "Bata até ficar cremoso.", "Distribua em potinhos.", "Leve à geladeira por pelo menos 2 horas."], tip: "Peça ajuda para espremer o limão e manusear o liquidificador." },
-  { id: "creme-abacate", name: "Creme de Abacate", emoji: "🥑", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 5, servings: 2, category: "sobremesa", tag: "Sobremesa", desc: "Creme suave e rápido de abacate.", ingredients: ["1/2 abacate maduro", "2 colheres (sopa) de leite", "Açúcar ou mel a gosto"], steps: ["Retire a polpa do abacate com uma colher.", "Amasse com um garfo.", "Misture o leite e adoce a gosto.", "Sirva gelado."], tip: "Escolha um abacate maduro para ficar mais cremoso." },
-  { id: "geladinho-morango", name: "Geladinho de Morango", emoji: "🍓", color: "#FFE3EE", level: "facil", levelLabel: "Fácil", time: 10, servings: 6, category: "sobremesa", tag: "Sobremesa", desc: "Geladinho caseiro para os dias quentes.", ingredients: ["1 xícara de morangos", "500 ml de leite", "2 colheres (sopa) de açúcar"], steps: ["Lave os morangos.", "Bata os morangos, o leite e o açúcar no liquidificador.", "Distribua em saquinhos próprios para alimentos.", "Feche e congele por 4 horas ou até endurecer."], tip: "Peça ajuda para encher e fechar os saquinhos sem derramar." },
-  { id: "arroz-ovo", name: "Arroz com Ovo", emoji: "🍚", color: "#FFF1E0", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "refeicao", tag: "Refeição", desc: "Uma refeição simples para aproveitar arroz pronto.", ingredients: ["1 xícara de arroz cozido refrigerado", "1 ovo", "1 colher (chá) de óleo", "Cebolinha opcional"], steps: ["Aqueça o óleo em uma frigideira.", "Adicione o arroz já cozido e mexa até aquecer bem.", "Em outra parte da frigideira, cozinhe o ovo até ficar firme.", "Misture e finalize com cebolinha."], tip: "Use arroz armazenado corretamente e aqueça até ficar bem quente." },
-  { id: "arroz-legumes", name: "Arroz Colorido com Legumes", emoji: "🥕", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 12, servings: 2, category: "refeicao", tag: "Refeição", desc: "Um jeito fácil de deixar o arroz mais colorido.", ingredients: ["2 xícaras de arroz cozido", "1/2 xícara de cenoura e ervilha cozidas", "1 colher (chá) de azeite", "Sal a gosto"], steps: ["Aqueça o azeite em uma panela.", "Adicione os legumes cozidos e mexa por 2 minutos.", "Junte o arroz cozido.", "Misture até tudo ficar bem quente."], tip: "Use legumes já cozidos para deixar a receita mais simples." },
-  { id: "macarrao-manteiga", name: "Macarrão na Manteiga", emoji: "🍝", color: "#FFF1E0", level: "facil", levelLabel: "Fácil", time: 15, servings: 2, category: "refeicao", tag: "Refeição", desc: "Macarrão simples com manteiga e queijo.", ingredients: ["200 g de macarrão", "1 colher (sopa) de manteiga", "2 colheres (sopa) de queijo ralado", "Sal a gosto"], steps: ["Cozinhe o macarrão conforme a embalagem.", "Peça ajuda para escorrer a água quente.", "Misture a manteiga ao macarrão ainda quente.", "Finalize com queijo ralado."], tip: "Escorra a água quente com ajuda de um adulto." },
-  { id: "macarrao-requeijao", name: "Macarrão Cremoso de Requeijão", emoji: "🍝", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 15, servings: 2, category: "refeicao", tag: "Refeição", desc: "Molho cremoso sem complicação.", ingredients: ["200 g de macarrão", "3 colheres (sopa) de requeijão", "1/4 xícara da água do cozimento", "Queijo ralado opcional"], steps: ["Cozinhe o macarrão conforme a embalagem.", "Reserve um pouco da água e escorra com cuidado.", "Misture o requeijão com um pouco da água quente.", "Junte o macarrão e mexa até ficar cremoso."], tip: "A água do cozimento ajuda a deixar o molho mais fácil de misturar." },
-  { id: "macarrao-milho", name: "Macarrão com Milho", emoji: "🌽", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 15, servings: 2, category: "refeicao", tag: "Refeição", desc: "Macarrão rápido com milho e molho suave.", ingredients: ["200 g de macarrão", "1/2 xícara de milho cozido", "3 colheres (sopa) de molho de tomate", "Queijo ralado opcional"], steps: ["Cozinhe o macarrão conforme a embalagem.", "Aqueça o molho com o milho em uma panela.", "Misture o macarrão escorrido ao molho.", "Sirva com queijo, se desejar."], tip: "Escorra a água quente com cuidado." },
-  { id: "pizza-tortilha", name: "Pizza de Tortilha", emoji: "🍕", color: "#FFE9DD", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "lanche", tag: "Lanche", desc: "Pizza individual pronta em poucos minutos.", ingredients: ["1 tortilha pronta", "2 colheres (sopa) de molho de tomate", "Queijo ralado", "Tomate e orégano a gosto"], steps: ["Coloque a tortilha em uma frigideira em fogo baixo.", "Espalhe o molho e distribua o queijo e os complementos.", "Tampe e aqueça até o queijo derreter.", "Retire com uma espátula."], tip: "Não aumente muito o fogo para a base não queimar." },
-  { id: "batata-micro", name: "Batata de Micro-ondas", emoji: "🥔", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 8, servings: 1, category: "refeicao", tag: "Acompanhamento", desc: "Batata macia preparada de um jeito prático.", ingredients: ["1 batata média", "1 colher (chá) de azeite", "Sal e orégano a gosto"], steps: ["Lave bem a batata e faça alguns furos com um garfo.", "Coloque em prato próprio para micro-ondas.", "Aqueça por 4 minutos, vire com cuidado e aqueça mais, se necessário.", "Abra com cuidado e tempere."], tip: "A batata e o vapor ficam muito quentes; peça ajuda para cortar." },
-  { id: "batata-amassada", name: "Batata Amassada Cremosa", emoji: "🥔", color: "#FFF1E0", level: "facil", levelLabel: "Fácil", time: 20, servings: 2, category: "refeicao", tag: "Acompanhamento", desc: "Purê simples para acompanhar o almoço.", ingredients: ["2 batatas médias", "2 colheres (sopa) de leite", "1 colher (chá) de manteiga", "Sal a gosto"], steps: ["Peça ajuda para descascar e cortar as batatas.", "Cozinhe em água até ficarem macias.", "Escorra com ajuda de um adulto e amasse com um garfo.", "Misture leite, manteiga e sal."], tip: "A água da panela pode causar queimaduras; peça ajuda para escorrer." },
-  { id: "salada-milho", name: "Salada de Milho", emoji: "🌽", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 8, servings: 2, category: "refeicao", tag: "Salada", desc: "Salada rápida com milho e tomate.", ingredients: ["1 xícara de milho cozido", "1 tomate", "1/2 pepino", "Suco de limão e sal a gosto"], steps: ["Lave os vegetais.", "Corte o tomate e o pepino em pedaços pequenos, com ajuda se necessário.", "Misture com o milho em uma tigela.", "Tempere com limão e sal."], tip: "Mantenha a salada refrigerada até a hora de servir." },
-  { id: "salada-grao-bico", name: "Salada de Grão-de-Bico", emoji: "🥗", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 10, servings: 2, category: "refeicao", tag: "Salada", desc: "Salada nutritiva usando grão-de-bico já cozido.", ingredients: ["1 xícara de grão-de-bico cozido", "1 tomate", "1 colher (sopa) de azeite", "Limão e sal a gosto"], steps: ["Escorra e enxágue o grão-de-bico pronto.", "Lave e pique o tomate.", "Misture tudo em uma tigela.", "Tempere com azeite, limão e sal."], tip: "Use grão-de-bico já cozido para evitar o preparo longo." },
-  { id: "cuscuz-ovo", name: "Cuscuz com Ovo Mexido", emoji: "🌽", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 15, servings: 1, category: "refeicao", tag: "Café da manhã", desc: "Cuscuz com ovo para uma refeição rápida.", ingredients: ["1/2 xícara de flocos de milho para cuscuz", "1/4 xícara de água", "1 ovo", "Sal a gosto"], steps: ["Hidrate os flocos com água e uma pitada de sal.", "Deixe descansar por 5 minutos e cozinhe na cuscuzeira conforme as instruções.", "Prepare o ovo mexido em uma frigideira.", "Sirva o ovo junto do cuscuz."], tip: "Use a cuscuzeira com supervisão por causa do vapor quente." },
-  { id: "polenta-cremosa", name: "Polenta Cremosa Rápida", emoji: "🌽", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 15, servings: 2, category: "refeicao", tag: "Acompanhamento", desc: "Acompanhamento cremoso e econômico.", ingredients: ["1/2 xícara de fubá pré-cozido", "2 xícaras de água", "1 colher (chá) de manteiga", "Sal a gosto"], steps: ["Misture o fubá com parte da água fria até dissolver.", "Aqueça o restante da água em uma panela.", "Adicione a mistura mexendo continuamente até engrossar.", "Finalize com manteiga e sal."], tip: "A polenta quente pode espirrar; cozinhe em fogo baixo com supervisão." },
-  { id: "sopa-legumes", name: "Sopa Rápida de Legumes", emoji: "🥣", color: "#FFF1E0", level: "facil", levelLabel: "Fácil", time: 20, servings: 2, category: "refeicao", tag: "Sopa", desc: "Sopa simples com legumes já cortados.", ingredients: ["1 xícara de legumes picados", "2 xícaras de água ou caldo", "1/2 xícara de macarrão pequeno", "Sal a gosto"], steps: ["Coloque a água e os legumes em uma panela.", "Cozinhe até os legumes começarem a amolecer.", "Adicione o macarrão e cozinhe conforme a embalagem.", "Confira se tudo está macio e sirva."], tip: "Peça ajuda para cortar os legumes e manusear a panela quente." },
-  { id: "omelete-tomate", name: "Omelete de Tomate", emoji: "🍳", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "refeicao", tag: "Refeição", desc: "Omelete simples com tomate picadinho.", ingredients: ["2 ovos", "1/2 tomate picado", "1 colher (sopa) de queijo ralado", "Sal a gosto"], steps: ["Bata os ovos em uma tigela.", "Misture o tomate, o queijo e o sal.", "Despeje em frigideira untada em fogo baixo.", "Cozinhe até firmar e vire com cuidado."], tip: "Cozinhe os ovos completamente antes de servir." },
-  { id: "omelete-espinafre", name: "Omelete de Espinafre", emoji: "🥬", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 12, servings: 1, category: "refeicao", tag: "Refeição", desc: "Omelete verde com folhas e queijo.", ingredients: ["2 ovos", "1/2 xícara de espinafre lavado e picado", "1 colher (sopa) de queijo", "Sal a gosto"], steps: ["Bata os ovos e misture o espinafre e o queijo.", "Aqueça uma frigideira antiaderente untada.", "Despeje a mistura e cozinhe em fogo baixo.", "Vire com cuidado e cozinhe até firmar."], tip: "Lave bem as folhas e cozinhe o ovo por completo." },
-  { id: "frango-wrap-salada", name: "Salada de Frango Desfiado", emoji: "🥗", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 10, servings: 2, category: "refeicao", tag: "Salada", desc: "Salada prática com frango já cozido.", ingredients: ["1 xícara de frango cozido e desfiado", "Folhas de alface lavadas", "1 tomate", "1 colher (sopa) de iogurte natural"], steps: ["Lave as folhas e o tomate.", "Misture o frango com o iogurte.", "Monte a salada em uma tigela.", "Sirva imediatamente ou mantenha refrigerada."], tip: "Use frango já cozido e conservado na geladeira." },
-  { id: "arroz-atum", name: "Arroz com Atum", emoji: "🐟", color: "#FFF1E0", level: "facil", levelLabel: "Fácil", time: 10, servings: 2, category: "refeicao", tag: "Refeição", desc: "Uma refeição rápida usando arroz pronto.", ingredients: ["2 xícaras de arroz cozido", "1 lata de atum escorrido", "2 colheres (sopa) de milho", "Azeite a gosto"], steps: ["Escorra o atum e o milho.", "Aqueça o arroz em uma panela com um fio de azeite.", "Misture o atum e o milho.", "Mexa até tudo ficar bem quente."], tip: "Depois de abrir a lata, transfira as sobras para um recipiente fechado e refrigere." },
-  { id: "tapioca-banana", name: "Tapioca de Banana e Canela", emoji: "🍌", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 8, servings: 1, category: "lanche", tag: "Lanche", desc: "Tapioca docinha para o café da manhã.", ingredients: ["4 colheres (sopa) de goma de tapioca", "1 banana", "Canela a gosto"], steps: ["Espalhe a goma em uma frigideira fria.", "Aqueça em fogo baixo até a goma se unir.", "Recheie com banana fatiada e canela.", "Dobre e sirva."], tip: "Peça ajuda para cortar a banana se não tiver prática com faca." },
-  { id: "tapioca-frango", name: "Tapioca de Frango", emoji: "🫓", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "lanche", tag: "Lanche", desc: "Tapioca salgada com recheio de frango.", ingredients: ["4 colheres (sopa) de goma de tapioca", "1/2 xícara de frango cozido desfiado", "1 colher (sopa) de requeijão"], steps: ["Espalhe a goma em uma frigideira fria.", "Aqueça em fogo baixo até firmar.", "Misture o frango com o requeijão e aqueça o recheio.", "Coloque o recheio na tapioca e dobre."], tip: "O frango precisa estar completamente cozido e bem refrigerado." },
-  { id: "panqueca-banana", name: "Panqueca de Banana com 2 Ingredientes", emoji: "🥞", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 10, servings: 1, category: "sobremesa", tag: "Café da manhã", desc: "Panquequinhas práticas com banana e ovo.", ingredients: ["1 banana madura", "1 ovo", "Canela opcional"], steps: ["Amasse a banana com um garfo.", "Misture o ovo até formar uma massa.", "Coloque pequenas porções em frigideira antiaderente em fogo baixo.", "Vire quando firmar e cozinhe o outro lado."], tip: "Faça panquecas pequenas para virar com mais facilidade." },
-  { id: "overnight-aveia", name: "Aveia Adormecida", emoji: "🥣", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 5, servings: 1, category: "sobremesa", tag: "Café da manhã", desc: "Café da manhã preparado na noite anterior.", ingredients: ["1/2 xícara de aveia", "1/2 xícara de leite", "2 colheres (sopa) de iogurte", "Fruta picada"], steps: ["Misture a aveia, o leite e o iogurte em um pote.", "Tampe o pote.", "Deixe na geladeira durante a noite.", "Adicione a fruta antes de comer."], tip: "Mantenha sempre refrigerado e consuma no dia seguinte." },
-  { id: "mingau-aveia", name: "Mingau de Aveia", emoji: "🥣", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 7, servings: 1, category: "sobremesa", tag: "Café da manhã", desc: "Mingau quentinho para começar o dia.", ingredients: ["1 xícara de leite", "3 colheres (sopa) de aveia", "Canela ou banana a gosto"], steps: ["Misture o leite e a aveia em uma panela pequena.", "Aqueça em fogo baixo mexendo sempre até engrossar.", "Desligue o fogo e deixe amornar.", "Finalize com canela ou banana."], tip: "O leite quente pode queimar; mexa com cuidado e espere amornar." },
-  { id: "smoothie-manga", name: "Smoothie de Manga", emoji: "🥭", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 5, servings: 2, category: "bebida", tag: "Bebida", desc: "Bebida cremosa de manga com iogurte.", ingredients: ["1 manga madura picada", "1 pote de iogurte natural", "1/2 xícara de água gelada"], steps: ["Coloque a manga, o iogurte e a água no liquidificador.", "Bata até ficar homogêneo.", "Sirva em copos."], tip: "Peça ajuda para cortar a manga e manusear o liquidificador." },
-  { id: "limonada-hortela", name: "Limonada com Hortelã", emoji: "🍋", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 5, servings: 4, category: "bebida", tag: "Bebida", desc: "Limonada refrescante com folhas de hortelã.", ingredients: ["Suco de 3 limões", "1 litro de água gelada", "Açúcar a gosto", "6 folhas de hortelã"], steps: ["Lave as folhas de hortelã.", "Misture o suco dos limões com a água.", "Adoce a gosto.", "Acrescente a hortelã e sirva com gelo."], tip: "Para um sabor mais suave, amasse levemente a hortelã antes de adicionar." },
-  { id: "agua-saborizada", name: "Água Saborizada", emoji: "🍊", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 5, servings: 4, category: "bebida", tag: "Bebida", desc: "Água aromatizada com frutas frescas.", ingredients: ["1 litro de água gelada", "Rodelas de laranja", "Rodelas de limão", "Folhas de hortelã"], steps: ["Lave bem as frutas e a hortelã.", "Coloque tudo em uma jarra.", "Complete com água gelada.", "Leve à geladeira por 15 minutos antes de servir."], tip: "Consuma no mesmo dia e mantenha a jarra refrigerada." },
-  { id: "leite-morango", name: "Leite Batido com Morango", emoji: "🥛", color: "#FFE3EE", level: "facil", levelLabel: "Fácil", time: 5, servings: 2, category: "bebida", tag: "Bebida", desc: "Uma bebida cremosa feita com fruta fresca.", ingredients: ["1 xícara de morangos lavados", "2 xícaras de leite gelado", "Açúcar opcional"], steps: ["Coloque os ingredientes no liquidificador.", "Bata até ficar homogêneo.", "Sirva imediatamente."], tip: "Lave bem os morangos antes de bater." },
-  { id: "cha-gelado", name: "Chá Gelado de Pêssego", emoji: "🧊", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 10, servings: 2, category: "bebida", tag: "Bebida", desc: "Chá suave servido bem gelado.", ingredients: ["2 sachês de chá de sua preferência", "500 ml de água", "Pedaços de pêssego", "Gelo a gosto"], steps: ["Peça ajuda para preparar a água quente e faça o chá conforme a embalagem.", "Deixe esfriar completamente.", "Acrescente o pêssego e leve à geladeira.", "Sirva com gelo."], tip: "Não manuseie água fervente sem a ajuda de um adulto." },
-  { id: "cafe-leite-gelado", name: "Leite Gelado com Cacau", emoji: "🥛", color: "#FFE9DD", level: "facil", levelLabel: "Fácil", time: 5, servings: 1, category: "bebida", tag: "Bebida", desc: "Bebida gelada de leite e chocolate.", ingredients: ["1 copo de leite gelado", "1 colher (sopa) de cacau ou chocolate em pó", "Açúcar opcional"], steps: ["Coloque o leite e o chocolate em um copo com tampa.", "Tampe e agite até misturar.", "Adoce se necessário e sirva."], tip: "Use um recipiente bem fechado para evitar respingos." },
-  { id: "pudim-chia", name: "Pudim de Chia Simples", emoji: "🥣", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 5, servings: 1, category: "sobremesa", tag: "Café da manhã", desc: "Pudim de geladeira com chia.", ingredients: ["1/2 xícara de leite", "2 colheres (sopa) de sementes de chia", "1 colher (chá) de mel opcional", "Fruta para servir"], steps: ["Misture o leite com a chia e o mel.", "Mexa novamente após 5 minutos.", "Tampe e deixe na geladeira por pelo menos 2 horas.", "Sirva com fruta picada."], tip: "Deixe a chia hidratar completamente antes de consumir." },
-  { id: "creme-iogurte-mel", name: "Iogurte com Mel e Granola", emoji: "🥣", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 3, servings: 1, category: "sobremesa", tag: "Lanche", desc: "Sobremesa simples com crocância.", ingredients: ["1 pote de iogurte natural", "1 colher (chá) de mel", "2 colheres (sopa) de granola"], steps: ["Coloque o iogurte em uma tigela.", "Misture o mel.", "Finalize com a granola por cima."], tip: "Adicione a granola só na hora de comer para continuar crocante." },
-  { id: "bolacha-chocolate", name: "Bolacha com Chocolate", emoji: "🍪", color: "#FFE3EE", level: "facil", levelLabel: "Fácil", time: 10, servings: 4, category: "sobremesa", tag: "Sobremesa", desc: "Biscoitos simples cobertos com chocolate.", ingredients: ["8 biscoitos tipo maisena", "80 g de chocolate", "Confeitos opcionais"], steps: ["Peça ajuda para derreter o chocolate.", "Mergulhe metade de cada biscoito no chocolate.", "Adicione confeitos, se desejar.", "Coloque sobre papel-manteiga e leve à geladeira até firmar."], tip: "Chocolate derretido queima; use ajuda para aquecer e manusear." },
-  { id: "torrada-queijo", name: "Torrada com Queijo e Orégano", emoji: "🧀", color: "#FFF6D9", level: "facil", levelLabel: "Fácil", time: 7, servings: 1, category: "lanche", tag: "Lanche", desc: "Torrada salgada para uma pausa rápida.", ingredients: ["2 fatias de pão", "2 fatias de queijo", "Orégano a gosto"], steps: ["Coloque o queijo sobre o pão.", "Polvilhe orégano.", "Aqueça em frigideira tampada em fogo baixo até o queijo derreter.", "Retire com uma espátula."], tip: "Cuidado ao retirar o pão quente da frigideira." },
-  { id: "salada-pepino", name: "Salada de Pepino com Iogurte", emoji: "🥒", color: "#E5F9F6", level: "facil", levelLabel: "Fácil", time: 
-];
-// --- MAIS 50 RECEITAS FÁCEIS PARA INICIANTES ---
- 8, servings: 2, category: "refeicao", tag: "Salada", desc: "Salada refrescante com molho leve.", ingredients: ["1 pepino", "3 colheres (sopa) de iogurte natural", "Suco de limão", "Sal e hortelã a gosto"], steps: ["Lave o pepino e corte em rodelas finas.", "Misture o iogurte com limão, sal e hortelã.", "Junte o molho ao pepino.", "Sirva gelado."], tip: "Use uma tábua firme e peça ajuda se precisar cortar." }
-// Junta as receitas base com as extras para chegar a 40
-RECIPES.push(...EXTRA_RECIPES);
-
-/* ============================================================
-   ESTADO
-   ============================================================ */
-let state = {
-  filter: 'all',
-  search: '',
-  favorites: JSON.parse(localStorage.getItem('rdtl_favs') || '[]')
-};
-
-/* ============================================================
-   HELPERS
-   ============================================================ */
-const $ = (s) => document.querySelector(s);
-const $$ = (s) => document.querySelectorAll(s);
-
-function toast(msg) {
-  const el = $('#toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2200);
-}
-
-function saveFavs() {
-  localStorage.setItem('rdtl_favs', JSON.stringify(state.favorites));
-  $('#favCount').textContent = state.favorites.length;
-}
-
-/* ============================================================
-   RENDER DAS RECEITAS
-   ============================================================ */
-function recipeCard(r, idx) {
-  const isFav = state.favorites.includes(r.id);
-  const card = document.createElement('article');
-  card.className = 'recipe-card';
-  card.style.animationDelay = (idx * 0.02) + 's';
-  card.innerHTML = `
-    <div class="recipe-thumb" style="background:${r.color}">
-      <span class="level">${r.levelLabel}</span>
-      <button class="fav ${isFav ? 'saved' : ''}" data-fav="${r.id}" aria-label="Favoritar">${isFav ? '❤️' : '🤍'}</button>
-      <span>${r.emoji}</span>
-    </div>
-    <div class="recipe-body">
-      <span class="tag-mini">${r.tag}</span>
-      <h3>${r.name}</h3>
-      <p class="desc">${r.desc}</p>
-      <div class="recipe-meta">
-        <span>⏱️ ${r.time} min</span>
-        <span>🍽️ ${r.servings} porç.</span>
-      </div>
-    </div>
-  `;
-  card.addEventListener('click', (e) => {
-    if (e.target.closest('[data-fav]')) return;
-    openRecipe(r.id);
+      cards.forEach(card => {
+        const match = cat === 'todas' || card.dataset.cat.includes(cat);
+        card.style.display = match ? '' : 'none';
+      });
+    });
   });
-  card.querySelector('[data-fav]').addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFav(r.id);
-  });
-  return card;
-}
 
-function toggleFav(id) {
-  const i = state.favorites.indexOf(id);
-  if (i >= 0) {
-    state.favorites.splice(i, 1);
-    toast('Removida das favoritas 💔');
-  } else {
-    state.favorites.push(id);
-    toast('Salva nas favoritas ❤️');
-  }
-  saveFavs();
-  renderRecipes();
-}
+  // ===== Newsletter =====
+  const form = document.getElementById('newsletterForm');
+  const emailInput = document.getElementById('emailInput');
+  const msg = document.getElementById('newsletterMsg');
 
-function renderRecipes() {
-  const grid = $('#recipeGrid');
-  grid.innerHTML = '';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const filtered = RECIPES.filter(r => {
-    let matchesFilter;
-    if (state.filter === 'favoritos') {
-      matchesFilter = state.favorites.includes(r.id);
-    } else {
-      matchesFilter = state.filter === 'all' || r.level === state.filter || r.category === state.filter;
+    if (!valid) {
+      msg.textContent = '⚠️ Digite um e-mail válido, por favor.';
+      msg.style.color = '#FFE0C2';
+      emailInput.focus();
+      return;
     }
-    const matchesSearch = !state.search || (r.name + ' ' + r.desc + ' ' + r.tag).toLowerCase().includes(state.search.toLowerCase());
-    return matchesFilter && matchesSearch;
+
+    msg.textContent = '✅ Pronto! Você vai receber nossa próxima receita.';
+    msg.style.color = '#C2F0EA';
+    form.reset();
   });
 
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="big">${state.filter === 'favoritos' ? '🤍' : '🍽️'}</div>
-        <h3 style="font-family:var(--font-title);font-size:1.3rem;color:var(--ink);margin-bottom:6px">
-          ${state.filter === 'favoritos' ? 'Nenhuma favorita ainda' : 'Nada encontrado'}
-        </h3>
-        <p>${state.filter === 'favoritos' 
-          ? 'Clique no coração de qualquer receita para salvar aqui.' 
-          : 'Tente outro filtro ou busque por outro nome de receita.'}</p>
-      </div>`;
-    return;
-  }
-
-  filtered.forEach((r, i) => grid.appendChild(recipeCard(r, i)));
-}
-
-/* ============================================================
-   MODAL RECEITA
-   ============================================================ */
-function openRecipe(id) {
-  const r = RECIPES.find(x => x.id === id);
-  if (!r) return;
-  const isFav = state.favorites.includes(r.id);
-
-  const modal = $('#modalContent');
-  modal.innerHTML = `
-    <div class="modal-hero" style="background:${r.color}">
-      <button class="modal-close" id="modalClose">✕</button>
-      <span>${r.emoji}</span>
-    </div>
-    <div class="modal-body">
-      <div class="badges">
-        <span class="badge" style="background:#FFF1E0;color:var(--primary-dark)">${r.levelLabel}</span>
-        <span class="badge" style="background:#E5F9F6;color:#1F8A7E">${r.tag}</span>
-      </div>
-      <h2>${r.name}</h2>
-      <p class="lead">${r.desc}</p>
-
-      <div class="modal-info">
-        <div class="box"><strong>${r.time} min</strong><span>Tempo</span></div>
-        <div class="box"><strong>${r.servings}</strong><span>Porções</span></div>
-        <div class="box"><strong>${r.levelLabel}</strong><span>Dificuldade</span></div>
-      </div>
-
-      <div class="modal-section">
-        <h3>🛒 Ingredientes <span style="font-size:.75rem;font-weight:500;color:var(--muted);font-family:var(--font-body)">(clique para marcar)</span></h3>
-        <ul class="ingredients-list">
-          ${r.ingredients.map((ing, i) => `
-            <li data-ing="${i}">
-              <span class="check">✓</span>
-              <span>${ing}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
-
-      <div class="modal-section">
-        <h3>👨‍🍳 Modo de preparo</h3>
-        <ol class="steps-list">
-          ${r.steps.map(s => `<li><p>${s}</p></li>`).join('')}
-        </ol>
-      </div>
-
-      <div class="modal-section">
-        <div class="tip-box">
-          <strong>💡 Dica do Tio:</strong> ${r.tip}
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
-        <button class="btn btn-save ${isFav ? 'saved' : ''}" id="modalFavBtn">
-          ${isFav ? '❤️ Salva' : '🤍 Salvar receita'}
-        </button>
-        <button class="btn btn-ghost" id="modalBackBtn">← Voltar</button>
-      </div>
-    </div>
-  `;
-
-  $('#modalClose').addEventListener('click', closeModal);
-  $('#modalBackBtn').addEventListener('click', closeModal);
-  $('#modalFavBtn').addEventListener('click', () => {
-    toggleFav(r.id);
-    const btn = $('#modalFavBtn');
-    const fav = state.favorites.includes(r.id);
-    btn.classList.toggle('saved', fav);
-    btn.innerHTML = fav ? '❤️ Salva' : '🤍 Salvar receita';
+  // ===== Menu mobile (simples) =====
+  const menuToggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.nav');
+  menuToggle.addEventListener('click', () => {
+    const open = nav.style.display === 'flex';
+    nav.style.display = open ? '' : 'flex';
+    nav.style.position = 'absolute';
+    nav.style.top = '72px';
+    nav.style.right = '20px';
+    nav.style.flexDirection = 'column';
+    nav.style.background = 'var(--card)';
+    nav.style.padding = '20px';
+    nav.style.borderRadius = 'var(--radius-sm)';
+    nav.style.boxShadow = 'var(--shadow-lg)';
+    nav.style.gap = '16px';
   });
-
-  modal.querySelectorAll('.ingredients-list li').forEach(li => {
-    li.addEventListener('click', () => li.classList.toggle('checked'));
-  });
-
-  $('#modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  $('#modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-$('#modalOverlay').addEventListener('click', (e) => {
-  if (e.target.id === 'modalOverlay') closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
-
-/* ============================================================
-   FILTROS E BUSCA
-   ============================================================ */
-$('#filters').addEventListener('click', (e) => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  $$('#filters .chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  state.filter = chip.dataset.filter;
-  renderRecipes();
-});
-
-$('#searchInput').addEventListener('input', (e) => {
-  state.search = e.target.value.trim();
-  renderRecipes();
-});
-
-/* ============================================================
-   MENU MOBILE
-   ============================================================ */
-$('#burger').addEventListener('click', () => {
-  $('#mainMenu').classList.toggle('open');
-});
-
-$$('#mainMenu a').forEach(a => {
-  a.addEventListener('click', () => {
-    $('#mainMenu').classList.remove('open');
-    $$('#mainMenu a').forEach(x => x.classList.remove('active'));
-    a.classList.add('active');
-  });
-});
-
-/* ============================================================
-   FAVORITOS NO HEADER
-   ============================================================ */
-$('#btnFavs').addEventListener('click', () => {
-  const isFavFilter = state.filter === 'favoritos';
-  if (isFavFilter) {
-    state.filter = 'all';
-    $$('#filters .chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
-  } else {
-    state.filter = 'favoritos';
-    $$('#filters .chip').forEach(c => c.classList.remove('active'));
-  }
-  renderRecipes();
-
-  if (state.favorites.length === 0) {
-    toast('Você ainda não salvou nenhuma receita 🤍');
-  } else {
-    document.querySelector('#receitas').scrollIntoView({ behavior: 'smooth' });
-    toast(`Mostrando suas ${state.favorites.length} favoritas ❤️`);
-  }
-});
-
-/* ============================================================
-   INIT
-   ============================================================ */
-saveFavs();
-renderRecipes();
 </script>
 </body>
 </html>
