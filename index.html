@@ -19,16 +19,14 @@
     --line:#F0E2D0;
     --primary:#FF6B35;
     --primary-dark:#E4572E;
-    --accent:#FFC93C;
-    --green:#2EC4B6;
-    --pink:#FF5D8F;
-    --purple:#8E7DBE;
-    --card:#FFFFFF;
-    --radius:22px;
-    --radius-sm:14px;
-    --shadow:0 10px 30px rgba(31,27,22,.08);
-    --shadow-hover:0 18px 40px rgba(255,107,53,.20);
-    --font-title:'Fredoka',sans-serif;
+    --accent:#FFB627;
+    --green:#4CAF50;
+    --red:#E53935;
+    --radius:16px;
+    --radius-sm:10px;
+    --shadow:0 4px 20px rgba(31,27,22,.08);
+    --shadow-lg:0 12px 40px rgba(31,27,22,.12);
+    --font-display:'Fredoka',sans-serif;
     --font-body:'Inter',sans-serif;
   }
   html{scroll-behavior:smooth}
@@ -37,923 +35,732 @@
     background:var(--bg);
     color:var(--ink);
     line-height:1.6;
-    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
   }
   img{max-width:100%;display:block}
-  button{font-family:inherit;cursor:pointer;border:none;background:none}
   a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  ul{list-style:none}
 
-  /* ============ LAYOUT UTIL ============ */
-  .container{width:min(1200px,92%);margin-inline:auto}
-  .hidden{display:none !important}
-  .badge{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;
-    text-transform:uppercase;letter-spacing:.5px;
-  }
-  .section{padding:80px 0}
-  .section-title{
-    font-family:var(--font-title);
-    font-size:clamp(1.8rem,4vw,2.8rem);
-    font-weight:700;line-height:1.15;letter-spacing:-.5px;
-  }
-  .section-sub{color:var(--muted);max-width:560px;margin-top:10px;font-size:1.02rem}
+  /* ============ LAYOUT ============ */
+  .container{width:min(1120px,92%);margin-inline:auto}
+  .section{padding:72px 0}
+  .section--alt{background:var(--bg-alt)}
 
   /* ============ HEADER ============ */
-  header.site-header{
+  .header{
     position:sticky;top:0;z-index:100;
-    background:rgba(255,248,240,.88);
-    backdrop-filter:blur(14px);
+    background:rgba(255,248,240,.92);
+    backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line);
   }
-  .nav{
+  .header__inner{
     display:flex;align-items:center;justify-content:space-between;
-    padding:14px 0;
+    height:72px;gap:24px;
   }
-  .logo{display:flex;align-items:center;gap:12px;font-family:var(--font-title);font-weight:700;font-size:1.15rem}
-  .logo-mark{
-    width:50px;height:50px;border-radius:50%;
-    background:#FFC93C;
-    display:grid;place-items:center;overflow:hidden;
-    box-shadow:0 6px 16px rgba(255,201,60,.35);
-    border:2px solid var(--ink);
-    flex-shrink: 0;
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--font-display);font-weight:700;font-size:1.25rem;
+    color:var(--ink);
   }
-  .logo-mark img{width:100%;height:100%;object-fit:cover;}
-  .logo-text{line-height:1.1;display:flex;flex-direction:column}
-  .logo-text small{font-family:var(--font-body);font-weight:500;font-size:.7rem;color:var(--muted);letter-spacing:.5px;margin-top:4px}
-
-  nav.main-menu{display:flex;gap:6px;align-items:center}
-  nav.main-menu a{
-    padding:9px 14px;border-radius:999px;font-size:.92rem;font-weight:500;
-    color:var(--ink-soft);transition:all .2s;
+  .logo__icon{
+    width:40px;height:40px;border-radius:12px;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    display:grid;place-items:center;font-size:1.3rem;
+    box-shadow:0 4px 12px rgba(255,107,53,.3);
   }
-  nav.main-menu a:hover,nav.main-menu a.active{background:#FFE9DD;color:var(--primary-dark)}
+  .logo__icon span{transform:translateY(1px)}
+  .nav{display:flex;gap:8px}
+  .nav__link{
+    padding:8px 16px;border-radius:999px;
+    font-weight:500;font-size:.95rem;color:var(--ink-soft);
+    transition:background .2s,color .2s;
+  }
+  .nav__link:hover,.nav__link.active{background:var(--primary);color:#fff}
+  .header__actions{display:flex;align-items:center;gap:12px}
   .btn{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:11px 20px;border-radius:999px;font-weight:600;font-size:.92rem;
-    transition:transform .18s, box-shadow .18s, background .2s;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 24px;border-radius:999px;font-weight:600;font-size:.95rem;
+    transition:transform .15s,box-shadow .2s,background .2s;
     white-space:nowrap;
   }
-  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(255,107,53,.32)}
-  .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
-  .btn-ghost{background:#fff;border:2px solid var(--line);color:var(--ink-soft)}
-  .btn-ghost:hover{border-color:var(--primary);color:var(--primary-dark)}
-  .btn-save{background:#fff;border:2px solid var(--line);color:var(--ink-soft);padding:9px 16px;border-radius:999px;font-weight:600;font-size:.85rem;display:inline-flex;gap:6px;align-items:center;transition:.2s}
-  .btn-save.saved{background:var(--pink);border-color:var(--pink);color:#fff}
-  .btn-save:hover{border-color:var(--pink)}
-
-  .burger{display:none;width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--line);align-items:center;justify-content:center;font-size:1.2rem}
-  @media (max-width:900px){
-    nav.main-menu{
-      position:fixed;inset:80px 0 auto 0;background:#fff;flex-direction:column;
-      padding:20px;gap:4px;border-bottom:1px solid var(--line);
-      transform:translateY(-140%);transition:transform .3s;box-shadow:var(--shadow);
-    }
-    nav.main-menu.open{transform:translateY(0)}
-    nav.main-menu a{width:100%}
-    .burger{display:flex}
-    .nav-actions .btn-ghost{display:none}
+  .btn:active{transform:scale(.97)}
+  .btn--primary{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:#fff;box-shadow:0 6px 20px rgba(255,107,53,.35);
   }
+  .btn--primary:hover{box-shadow:0 8px 28px rgba(255,107,53,.45)}
+  .btn--ghost{
+    background:transparent;color:var(--ink-soft);border:2px solid var(--line);
+  }
+  .btn--ghost:hover{border-color:var(--primary);color:var(--primary)}
+  .btn--small{padding:8px 16px;font-size:.85rem}
+  .menu-toggle{display:none;font-size:1.5rem;color:var(--ink);padding:8px}
 
   /* ============ HERO ============ */
-  .hero{position:relative;padding:70px 0 90px;overflow:hidden}
-  .hero::before{
-    content:"";position:absolute;width:520px;height:520px;border-radius:50%;
-    background:radial-gradient(circle,#FFE0C7 0%,transparent 70%);
-    top:-140px;right:-120px;z-index:0;
+  .hero{padding:64px 0 48px;position:relative;overflow:hidden}
+  .hero__inner{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;
   }
-  .hero::after{
-    content:"";position:absolute;width:380px;height:380px;border-radius:50%;
-    background:radial-gradient(circle,#FFF0B8 0%,transparent 70%);
-    bottom:-160px;left:-100px;z-index:0;
+  .hero__badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--bg-alt);border:1px solid var(--line);
+    padding:6px 14px;border-radius:999px;
+    font-size:.85rem;font-weight:600;color:var(--primary-dark);
+    margin-bottom:20px;
   }
-  .hero-grid{
-    position:relative;z-index:2;
-    display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;
+  .hero__title{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;
+    letter-spacing:-.02em;margin-bottom:20px;
   }
-  .hero .badge{background:#FFE9DD;color:var(--primary-dark);margin-bottom:20px}
-  .hero h1{
-    font-family:var(--font-title);
-    font-size:clamp(2.4rem,5.5vw,4.2rem);
-    line-height:1.02;font-weight:700;letter-spacing:-1.5px;
+  .hero__title em{font-style:normal;color:var(--primary)}
+  .hero__text{
+    font-size:1.1rem;color:var(--ink-soft);max-width:480px;margin-bottom:32px;
   }
-  .hero h1 .highlight{
-    background:linear-gradient(180deg,transparent 62%,var(--accent) 62%);
-    padding:0 4px;border-radius:4px;
+  .hero__cta{display:flex;gap:14px;flex-wrap:wrap}
+  .hero__stats{
+    display:flex;gap:32px;margin-top:40px;padding-top:28px;
+    border-top:1px solid var(--line);flex-wrap:wrap;
   }
-  .hero p.lead{margin-top:22px;font-size:1.12rem;color:var(--ink-soft);max-width:520px}
-  .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-  .hero-stats{
-    display:flex;gap:32px;margin-top:44px;padding-top:32px;
-    border-top:2px dashed var(--line);flex-wrap:wrap;
+  .stat__num{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--primary)}
+  .stat__label{font-size:.85rem;color:var(--muted)}
+  .hero__image{
+    position:relative;border-radius:24px;overflow:hidden;
+    aspect-ratio:4/5;box-shadow:var(--shadow-lg);
+    background:linear-gradient(160deg,#FFD5B8,#FF9A76);
+    display:grid;place-items:center;
   }
-  .hero-stats .stat strong{font-family:var(--font-title);font-size:1.7rem;display:block;color:var(--primary-dark);line-height:1}
-  .hero-stats .stat span{font-size:.82rem;color:var(--muted);font-weight:500}
+  .hero__image img{width:100%;height:100%;object-fit:cover}
+  .hero__image::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(31,27,22,.2),transparent 40%);
+  }
+  .hero__image-fallback{
+    font-size:8rem;filter:drop-shadow(0 10px 20px rgba(0,0,0,.15));
+  }
+  .hero__floating{
+    position:absolute;background:#fff;border-radius:var(--radius);
+    padding:14px 18px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:10px;
+    font-size:.85rem;font-weight:600;z-index:2;
+    animation:float 4s ease-in-out infinite;
+  }
+  .hero__floating--1{top:24px;left:-20px}
+  .hero__floating--2{bottom:32px;right:-16px;animation-delay:2s}
+  .hero__floating span:first-child{font-size:1.4rem}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
-  .hero-visual{position:relative;display:flex;justify-content:center}
-  
-  /* Logo Hero */
-  .hero-logo-container {
-    width: min(420px, 100%);
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background: #FFC93C;
-    border: 8px solid #1F1B16;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(31,27,22,.18);
-    transform: rotate(-2deg);
-    transition: transform .4s;
-    position: relative;
-    z-index: 2;
+  /* ============ FILTROS ============ */
+  .filters{
+    display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+    margin-bottom:40px;
   }
-  .hero-logo-container:hover { transform: rotate(0) scale(1.02); }
-  .hero-logo-container img { width: 100%; height: 100%; object-fit: cover; }
-
-  .float-tag{
-    position:absolute;background:#fff;padding:10px 16px;border-radius:14px;
-    box-shadow:var(--shadow);font-weight:600;font-size:.82rem;
-    display:flex;align-items:center;gap:8px;
-    z-index: 3;
+  .filter{
+    padding:10px 20px;border-radius:999px;
+    background:#fff;border:2px solid var(--line);
+    font-weight:600;font-size:.9rem;color:var(--ink-soft);
+    transition:all .2s;
   }
-  .float-tag.t1{top:10px;left:0;transform:rotate(-6deg)}
-  .float-tag.t2{bottom:20px;right:0;transform:rotate(5deg)}
-
-  @media (max-width:900px){
-    .hero-grid{grid-template-columns:1fr;gap:50px;text-align:center}
-    .hero p.lead{margin-inline:auto}
-    .hero-actions,.hero-stats{justify-content:center}
-    .hero-visual{margin-top:10px}
-    .hero-logo-container { width: min(320px, 90%); }
-    .float-tag.t1{left:10px}
-    .float-tag.t2{right:10px}
+  .filter:hover{border-color:var(--primary);color:var(--primary)}
+  .filter.active{
+    background:var(--primary);border-color:var(--primary);color:#fff;
+    box-shadow:0 4px 14px rgba(255,107,53,.3);
   }
 
-  /* ============ STRIP DE BENEFÍCIOS ============ */
-  .strip{background:var(--ink);color:#fff;padding:26px 0}
-  .strip .container{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between;align-items:center}
-  .strip-item{display:flex;align-items:center;gap:12px;font-size:.9rem;font-weight:500;opacity:.92}
-  .strip-item .ico{font-size:1.4rem}
-
-  /* ============ FILTROS + RECEITAS ============ */
-  .recipes-section{background:var(--bg-alt);border-radius:60px 60px 0 0}
-  .recipes-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:36px}
-  .filters{display:flex;gap:10px;flex-wrap:wrap}
-  .chip{
-    padding:9px 18px;border-radius:999px;background:#fff;border:2px solid transparent;
-    font-weight:600;font-size:.86rem;color:var(--ink-soft);
-    transition:.2s;box-shadow:0 2px 8px rgba(31,27,22,.04);
+  /* ============ SECTION HEADER ============ */
+  .section__header{text-align:center;margin-bottom:48px}
+  .section__eyebrow{
+    font-size:.85rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--primary);margin-bottom:10px;
   }
-  .chip:hover{border-color:#FFD9C6}
-  .chip.active{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(255,107,53,.3)}
-
-  .search-box{position:relative;max-width:320px;flex:1;min-width:220px}
-  .search-box input{
-    width:100%;padding:12px 16px 12px 44px;border-radius:999px;border:2px solid #fff;
-    background:#fff;font-family:inherit;font-size:.92rem;outline:none;transition:.2s;
-    box-shadow:0 2px 8px rgba(31,27,22,.05);
+  .section__title{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.15;
+    letter-spacing:-.01em;margin-bottom:12px;
   }
-  .search-box input:focus{border-color:var(--primary)}
-  .search-box::before{content:"🔍";position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:.95rem}
+  .section__subtitle{color:var(--muted);max-width:560px;margin-inline:auto;font-size:1.05rem}
 
-  .recipe-grid{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;
+  /* ============ GRID DE RECEITAS ============ */
+  .recipes{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:28px;
   }
-  .recipe-card{
-    background:var(--card);border-radius:var(--radius);overflow:hidden;
-    box-shadow:var(--shadow);cursor:pointer;
-    transition:transform .25s, box-shadow .25s;
+  .card{
+    background:#fff;border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow);border:1px solid var(--line);
     display:flex;flex-direction:column;
-    animation:fadeUp .5s both;
+    transition:transform .25s,box-shadow .25s;
   }
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-  .recipe-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
-  .recipe-thumb{
-    height:180px;position:relative;display:grid;place-items:center;font-size:4rem;
-    overflow:hidden;
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+  .card__media{
+    position:relative;aspect-ratio:16/11;overflow:hidden;
+    background:linear-gradient(135deg,#FFE2CC,#FFC9A8);
   }
-  .recipe-thumb .level{
-    position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);
-    padding:5px 12px;border-radius:999px;font-size:.7rem;font-weight:700;
-    text-transform:uppercase;letter-spacing:.4px;
+  .card__media img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  .card:hover .card__media img{transform:scale(1.06)}
+  .card__emoji{
+    position:absolute;inset:0;display:grid;place-items:center;
+    font-size:4.5rem;
   }
-  .recipe-thumb .fav{
-    position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;
-    background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:1rem;
-    transition:.2s;
+  .card__fav{
+    position:absolute;top:12px;right:12px;z-index:2;
+    width:38px;height:38px;border-radius:50%;
+    background:rgba(255,255,255,.9);backdrop-filter:blur(4px);
+    display:grid;place-items:center;font-size:1.1rem;
+    transition:transform .2s,background .2s;
   }
-  .recipe-thumb .fav.saved{background:var(--pink);color:#fff}
-  .recipe-body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
-  .recipe-body h3{font-family:var(--font-title);font-size:1.15rem;line-height:1.25}
-  .recipe-body .desc{font-size:.85rem;color:var(--muted);flex:1}
-  .recipe-meta{display:flex;gap:14px;font-size:.76rem;color:var(--ink-soft);font-weight:600;flex-wrap:wrap}
-  .recipe-meta span{display:flex;align-items:center;gap:4px}
-  .tag-mini{
-    display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;
-    padding:3px 9px;border-radius:6px;background:#FFF1E0;color:var(--primary-dark);
-    letter-spacing:.3px;align-self:flex-start;
+  .card__fav:hover{transform:scale(1.15)}
+  .card__fav.active{background:var(--red);color:#fff}
+  .card__tag{
+    position:absolute;bottom:12px;left:12px;
+    background:rgba(31,27,22,.75);backdrop-filter:blur(4px);
+    color:#fff;font-size:.75rem;font-weight:600;
+    padding:4px 12px;border-radius:999px;
   }
+  .card__body{padding:20px;display:flex;flex-direction:column;flex:1;gap:10px}
+  .card__title{
+    font-family:var(--font-display);font-size:1.2rem;font-weight:600;
+    line-height:1.25;
+  }
+  .card__desc{font-size:.9rem;color:var(--muted);flex:1}
+  .card__meta{
+    display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:.82rem;color:var(--ink-soft);
+  }
+  .card__meta span{display:flex;align-items:center;gap:5px}
+  .card__footer{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px 20px;
+  }
+  .card__level{
+    font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:6px;
+  }
+  .level--facil{background:#E8F5E9;color:#2E7D32}
+  .level--medio{background:#FFF3E0;color:#E65100}
+  .level--dificil{background:#FFEBEE;color:#C62828}
+  .card__link{
+    font-weight:600;font-size:.88rem;color:var(--primary);
+    display:flex;align-items:center;gap:4px;
+  }
+  .card__link:hover{text-decoration:underline}
 
-  .empty-state{
-    grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);
+  /* ============ SOBRE / FEATURES ============ */
+  .features{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:28px;
   }
-  .empty-state .big{font-size:3rem;margin-bottom:10px}
+  .feature{
+    background:#fff;border-radius:var(--radius);padding:32px 28px;
+    border:1px solid var(--line);box-shadow:var(--shadow);
+    transition:transform .2s;
+  }
+  .feature:hover{transform:translateY(-4px)}
+  .feature__icon{
+    width:56px;height:56px;border-radius:16px;
+    display:grid;place-items:center;font-size:1.8rem;
+    margin-bottom:18px;background:var(--bg-alt);
+  }
+  .feature__title{
+    font-family:var(--font-display);font-size:1.15rem;font-weight:600;margin-bottom:8px;
+  }
+  .feature__text{font-size:.92rem;color:var(--muted)}
 
-  /* ============ SEGURANÇA ============ */
-  .safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:44px}
-  .safety-card{
-    background:#fff;border-radius:var(--radius);padding:26px;
-    border:2px solid var(--line);transition:.25s;
-  }
-  .safety-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
-  .safety-card .ico{
-    width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
-    font-size:1.5rem;margin-bottom:16px;
-  }
-  .safety-card h3{font-family:var(--font-title);font-size:1.1rem;margin-bottom:8px}
-  .safety-card p{font-size:.88rem;color:var(--muted)}
-
-  /* ============ PRIMEIROS PASSOS ============ */
-  .steps-section{background:var(--ink);color:#fff;border-radius:60px;margin:0 4%;padding:70px 0}
-  .steps-section .section-sub{color:rgba(255,255,255,.65)}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:50px}
-  .step{position:relative;padding-left:0}
-  .step .num{
-    font-family:var(--font-title);font-size:3rem;font-weight:700;
-    background:linear-gradient(135deg,var(--primary),var(--accent));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    line-height:1;
-  }
-  .step h3{font-family:var(--font-title);font-size:1.15rem;margin:10px 0 8px}
-  .step p{font-size:.88rem;color:rgba(255,255,255,.65)}
-
-  /* ============ CTA FINAL ============ */
-  .cta-final{
-    background:linear-gradient(135deg,var(--primary),var(--pink));
-    border-radius:40px;padding:60px 40px;text-align:center;color:#fff;
+  /* ============ CTA BANNER ============ */
+  .cta-banner{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    border-radius:24px;padding:56px 40px;text-align:center;color:#fff;
     position:relative;overflow:hidden;
   }
-  .cta-final::before{content:"🍳";position:absolute;font-size:10rem;opacity:.12;top:-20px;left:20px}
-  .cta-final::after{content:"🥗";position:absolute;font-size:9rem;opacity:.12;bottom:-30px;right:20px}
-  .cta-final h2{font-family:var(--font-title);font-size:clamp(1.7rem,4vw,2.6rem);position:relative;z-index:2}
-  .cta-final p{position:relative;z-index:2;margin:14px auto 28px;max-width:520px;opacity:.92}
-  .cta-final .btn{position:relative;z-index:2;background:#fff;color:var(--primary-dark)}
-  .cta-final .btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+  .cta-banner::before,.cta-banner::after{
+    content:'';position:absolute;border-radius:50%;
+    background:rgba(255,255,255,.1);
+  }
+  .cta-banner::before{width:280px;height:280px;top:-120px;right:-60px}
+  .cta-banner::after{width:200px;height:200px;bottom:-100px;left:-40px}
+  .cta-banner__title{
+    font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);
+    font-weight:700;margin-bottom:12px;position:relative;
+  }
+  .cta-banner__text{
+    opacity:.92;max-width:500px;margin:0 auto 28px;position:relative;
+  }
+  .cta-banner .btn{
+    background:#fff;color:var(--primary-dark);position:relative;
+    box-shadow:0 6px 20px rgba(0,0,0,.15);
+  }
+  .cta-banner .btn:hover{box-shadow:0 8px 28px rgba(0,0,0,.25)}
 
   /* ============ FOOTER ============ */
-  footer.site-footer{background:var(--bg-alt);padding:60px 0 30px;margin-top:60px}
-  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-  .footer-grid h4{font-family:var(--font-title);font-size:.95rem;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
-  .footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .footer-grid ul a{font-size:.88rem;color:var(--muted);transition:.2s}
-  .footer-grid ul a:hover{color:var(--primary-dark)}
-  .footer-brand p{font-size:.88rem;color:var(--muted);margin-top:14px;max-width:280px}
-  .footer-bottom{
-    border-top:1px solid var(--line);padding-top:24px;display:flex;
-    justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);
+  .footer{
+    background:var(--ink);color:#C9BFB4;padding:56px 0 32px;margin-top:72px;
   }
-  @media (max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
-  @media (max-width:520px){.footer-grid{grid-template-columns:1fr}}
+  .footer__grid{
+    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;
+    padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .footer .logo{color:#fff;margin-bottom:14px}
+  .footer__desc{font-size:.9rem;max-width:280px;line-height:1.7}
+  .footer__heading{
+    font-family:var(--font-display);font-weight:600;color:#fff;
+    font-size:1rem;margin-bottom:16px;
+  }
+  .footer__links{display:flex;flex-direction:column;gap:10px}
+  .footer__links a{font-size:.9rem;transition:color .2s}
+  .footer__links a:hover{color:var(--accent)}
+  .footer__bottom{
+    padding-top:24px;display:flex;justify-content:space-between;
+    align-items:center;gap:16px;flex-wrap:wrap;font-size:.82rem;
+  }
+  .footer__social{display:flex;gap:12px}
+  .footer__social a{
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.08);display:grid;place-items:center;
+    transition:background .2s;
+  }
+  .footer__social a:hover{background:var(--primary)}
 
-  /* ============ MODAL RECEITA ============ */
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(31,27,22,.55);backdrop-filter:blur(6px);
-    z-index:200;display:flex;align-items:flex-start;justify-content:center;
-    padding:40px 16px;overflow-y:auto;
-    opacity:0;pointer-events:none;transition:opacity .25s;
+  /* ============ RESPONSIVO ============ */
+  @media (max-width:900px){
+    .hero__inner{grid-template-columns:1fr;gap:40px}
+    .hero__image{aspect-ratio:16/10;max-width:520px;margin-inline:auto}
+    .hero__floating{display:none}
+    .footer__grid{grid-template-columns:1fr 1fr}
   }
-  .modal-overlay.open{opacity:1;pointer-events:auto}
-  .modal{
-    background:var(--bg);border-radius:28px;max-width:760px;width:100%;
-    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3);
-    transform:translateY(20px) scale(.98);transition:transform .3s;
+  @media (max-width:640px){
+    .nav{
+      display:none;position:absolute;top:72px;left:0;right:0;
+      background:var(--bg);flex-direction:column;padding:16px;
+      border-bottom:1px solid var(--line);gap:4px;
+      box-shadow:var(--shadow-lg);
+    }
+    .nav.open{display:flex}
+    .nav__link{width:100%}
+    .menu-toggle{display:block}
+    .header__actions .btn--ghost{display:none}
+    .section{padding:52px 0}
+    .hero{padding:40px 0 32px}
+    .hero__stats{gap:24px}
+    .footer__grid{grid-template-columns:1fr;gap:32px}
+    .cta-banner{padding:40px 24px}
   }
-  .modal-overlay.open .modal{transform:none}
-  .modal-hero{
-    height:200px;display:grid;place-items:center;font-size:6rem;position:relative;
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
   }
-  .modal-close{
-    position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;
-    background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:1.1rem;
-    font-weight:700;color:var(--ink);z-index:5;
-  }
-  .modal-body{padding:30px}
-  .modal-body .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-  .modal-body h2{font-family:var(--font-title);font-size:1.9rem;line-height:1.1;margin-bottom:10px}
-  .modal-body .lead{color:var(--muted);font-size:.95rem;margin-bottom:24px}
-  .modal-info{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;
-    margin-bottom:28px;
-  }
-  .modal-info .box{background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid var(--line)}
-  .modal-info .box strong{display:block;font-family:var(--font-title);font-size:1.2rem;color:var(--primary-dark)}
-  .modal-info .box span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
-  .modal-section{margin-bottom:28px}
-  .modal-section h3{
-    font-family:var(--font-title);font-size:1.2rem;margin-bottom:14px;
-    display:flex;align-items:center;gap:8px;
-  }
-  .ingredients-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .ingredients-list li{
-    display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;
-    border-radius:12px;font-size:.92rem;border:1px solid var(--line);cursor:pointer;
-    transition:.2s;
-  }
-  .ingredients-list li:hover{border-color:var(--accent)}
-  .ingredients-list li .check{
-    width:20px;height:20px;border-radius:6px;border:2px solid var(--line);
-    display:grid;place-items:center;font-size:.7rem;color:#fff;flex-shrink:0;transition:.2s;
-  }
-  .ingredients-list li.checked .check{background:var(--green);border-color:var(--green)}
-  .ingredients-list li.checked span{text-decoration:line-through;color:var(--muted)}
-  .steps-list{list-style:none;display:flex;flex-direction:column;gap:16px;counter-reset:step}
-  .steps-list li{
-    display:flex;gap:16px;padding:16px;background:#fff;border-radius:14px;
-    border:1px solid var(--line);
-  }
-  .steps-list li::before{
-    counter-increment:step;content:counter(step);
-    width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;
-    display:grid;place-items:center;font-weight:700;font-family:var(--font-title);
-    flex-shrink:0;font-size:.9rem;
-  }
-  .steps-list li p{font-size:.92rem;color:var(--ink-soft);padding-top:4px}
-  .tip-box{
-    background:#FFF6D9;border-left:4px solid var(--accent);border-radius:12px;
-    padding:16px 20px;font-size:.9rem;color:var(--ink-soft);
-  }
-  .tip-box strong{color:var(--primary-dark)}
 
-  /* ============ TOAST ============ */
-  .toast{
-    position:fixed;bottom:24px;left:50%;transform:translate(-50%,120%);
-    background:var(--ink);color:#fff;padding:14px 24px;border-radius:999px;
-    font-size:.9rem;font-weight:500;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.3);
-    transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
-    display:flex;align-items:center;gap:10px;
+  /* ============ CATEGORIA HEADER ============ */
+  .categoria__header{
+    display:flex;align-items:center;gap:14px;margin-bottom:28px;
+    padding-bottom:14px;border-bottom:2px solid var(--line);
   }
-  .toast.show{transform:translate(-50%,0)}
-
-  @media (max-width:520px){
-    .section{padding:60px 0}
-    .modal-body{padding:22px}
-    .hero-stats{gap:24px}
-    .strip .container{gap:20px;justify-content:flex-start}
+  .categoria__icon{
+    width:52px;height:52px;border-radius:14px;
+    background:var(--bg-alt);display:grid;place-items:center;
+    font-size:1.6rem;flex-shrink:0;
   }
+  .categoria__title{
+    font-family:var(--font-display);font-weight:700;
+    font-size:1.5rem;line-height:1.2;
+  }
+  .categoria__count{
+    font-size:.85rem;color:var(--muted);font-weight:500;
+  }
+  .categoria{
+    margin-bottom:56px;
+  }
+  .categoria:last-child{margin-bottom:0}
 </style>
 </head>
 <body>
 
-<!-- ============ HEADER ============ -->
-<header class="site-header">
-  <div class="container nav">
-    <a href="#" class="logo">
-      <div class="logo-mark">
-        <img src="./tio-lucas.png" alt="Logo Tio Lucas" onerror="this.src='https://via.placeholder.com/50/FFC93C/1F1B16?text=👨‍🍳'">
-      </div>
-      <span class="logo-text">
-        Receita do Tio Lucas
-        <small>Na cozinha, quem manda é você!</small>
-      </span>
-    </a>
-
-    <nav class="main-menu" id="mainMenu">
-      <a href="#receitas" class="active">Receitas</a>
-      <a href="#primeiros">Primeiros Passos</a>
-      <a href="#seguranca">Segurança</a>
-    </nav>
-
-    <div class="nav-actions" style="display:flex;gap:10px;align-items:center">
-      <button class="btn btn-ghost" id="btnFavs">❤️ Favoritos <span id="favCount" style="background:var(--pink);color:#fff;border-radius:999px;padding:1px 8px;font-size:.75rem">0</span></button>
-      <a href="#receitas" class="btn btn-primary">Começar agora</a>
-      <button class="burger" id="burger" aria-label="Menu">☰</button>
-    </div>
-  </div>
-</header>
-
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="container hero-grid">
-    <div>
-      <span class="badge">👨‍🍳 Feito para adolescentes</span>
-      <h1>Aprenda a cozinhar <span class="highlight">sem medo</span> e com muito sabor.</h1>
-      <p class="lead">Receitas fáceis, rápidas e seguras para você sair do miojo e impressionar todo mundo. Aqui, você aprende na prática — do primeiro ovo mexido ao prato que vira meme bom.</p>
-      <div class="hero-actions">
-        <a href="#receitas" class="btn btn-primary">🍽️ Ver receitas</a>
-        <a href="#primeiros" class="btn btn-ghost">📖 Primeiros passos</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><strong>40+</strong><span>Receitas testadas</span></div>
-        <div class="stat"><strong>5min</strong><span>Para começar</span></div>
-        <div class="stat"><strong>100%</strong><span>Seguro e divertido</span></div>
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo" aria-label="Receita do Tio Lucas — início">
+        <span class="logo__icon"><span>🍳</span></span>
+        <span>Receita do Tio Lucas</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <a href="#receitas" class="nav__link active">Receitas</a>
+        <a href="#sobre" class="nav__link">Sobre</a>
+        <a href="#dicas" class="nav__link">Dicas</a>
+        <a href="#contato" class="nav__link">Contato</a>
+      </nav>
+      <div class="header__actions">
+        <a href="#receitas" class="btn btn--ghost btn--small">Entrar</a>
+        <a href="#receitas" class="btn btn--primary btn--small">Começar agora</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
       </div>
     </div>
+  </header>
 
-    <div class="hero-visual">
-      <!-- Logo em destaque -->
-      <div class="hero-logo-container">
-        <img src="./tio-lucas.png" alt="Tio Lucas" onerror="this.src='https://via.placeholder.com/400/FFC93C/1F1B16?text=👨‍🍳'">
-      </div>
-      <div class="float-tag t1">✨ Zero experiência</div>
-      <div class="float-tag t2">🔥 Resultado garantido</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ STRIP ============ -->
-<div class="strip">
-  <div class="container">
-    <div class="strip-item"><span class="ico">⚡</span> Receitas em até 20 minutos</div>
-    <div class="strip-item"><span class="ico">🛡️</span> Dicas de segurança na cozinha</div>
-    <div class="strip-item"><span class="ico">🎓</span> Linguagem simples e direta</div>
-    <div class="strip-item"><span class="ico">❤️</span> Salve suas favoritas</div>
-  </div>
-</div>
-
-<!-- ============ RECEITAS ============ -->
-<section class="section recipes-section" id="receitas">
-  <div class="container">
-    <div class="recipes-head">
-      <div>
-        <span class="badge" style="background:#FFE9DD;color:var(--primary-dark)">🍴 Catálogo</span>
-        <h2 class="section-title" style="margin-top:12px">Escolha sua próxima missão</h2>
-        <p class="section-sub">Filtre por dificuldade, tempo ou tipo de prato. Clique em qualquer receita para abrir o passo a passo completo.</p>
-      </div>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar receita (ex: macarrão, ovo...)" />
-      </div>
-    </div>
-
-    <div class="filters" id="filters">
-      <button class="chip active" data-filter="all">Todas</button>
-      <button class="chip" data-filter="facil">Fácil</button>
-      <button class="chip" data-filter="medio">Médio</button>
-      <button class="chip" data-filter="lanche">Lanches</button>
-      <button class="chip" data-filter="sobremesa">Sobremesas</button>
-      <button class="chip" data-filter="refeicao">Refeições</button>
-      <button class="chip" data-filter="bebida">Bebidas</button>
-    </div>
-
-    <div class="recipe-grid" id="recipeGrid" style="margin-top:30px"></div>
-  </div>
-</section>
-
-<!-- ============ SEGURANÇA ============ -->
-<section class="section" id="seguranca">
-  <div class="container">
-    <span class="badge" style="background:#E5F9F6;color:#1F8A7E">🛡️ Segurança em 1º lugar</span>
-    <h2 class="section-title" style="margin-top:12px">Regras de ouro na cozinha</h2>
-    <p class="section-sub">Cozinhar é divertido — mas com atenção. Siga essas dicas e evite acidentes (e vergonha na cozinha).</p>
-
-    <div class="safety-grid">
-      <div class="safety-card">
-        <div class="ico" style="background:#FFE9DD">🔥</div>
-        <h3>Fogo & panelas</h3>
-        <p>Nunca deixe o cabo da panela virado para fora. E nada de correr perto do fogão aceso.</p>
-      </div>
-      <div class="safety-card">
-        <div class="ico" style="background:#FFF6D9">🔪</div>
-        <h3>Facas afiadas</h3>
-        <p>Faca cega escorrega mais. Corte em tábua firme e nunca leve a faca à pia com a lâmina para cima.</p>
-      </div>
-      <div class="safety-card">
-        <div class="ico" style="background:#E5F9F6">🧼</div>
-        <h3>Higiene sempre</h3>
-        <p>Lave as mãos antes de começar. Não use a mesma tábua para carne crua e alimentos prontos.</p>
-      </div>
-      <div class="safety-card">
-        <div class="ico" style="background:#F0ECFA">💧</div>
-        <h3>Óleo & água</h3>
-        <p>Água e óleo quente não se misturam! Nunca jogue água em panela com óleo fervendo.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PRIMEIROS PASSOS ============ -->
-<section class="steps-section" id="primeiros">
-  <div class="container">
-    <span class="badge" style="background:rgba(255,255,255,.1);color:var(--accent)">🚀 Comece por aqui</span>
-    <h2 class="section-title" style="margin-top:12px;color:#fff">Seu caminho até virar mestre</h2>
-    <p class="section-sub">Nunca cozinhou? Sem problema. Siga esse passo a passo e em poucos dias você já está mandando bem.</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="num">01</div>
-        <h3>Escolha uma receita fácil</h3>
-        <p>Comece por ovos, macarrão instantâneo ou torradas. O importante é fazer a primeira vez.</p>
-      </div>
-      <div class="step">
-        <div class="num">02</div>
-        <h3>Separe os ingredientes</h3>
-        <p>Deixe tudo à mão antes de ligar o fogo. Isso evita correria e queimaduras.</p>
-      </div>
-      <div class="step">
-        <div class="num">03</div>
-        <h3>Siga o passo a passo</h3>
-        <p>Leia a receita inteira antes de começar. Marque os ingredientes na lista do site.</p>
-      </div>
-      <div class="step">
-        <div class="num">04</div>
-        <h3>Prove, ajuste e compartilhe</h3>
-        <p>Confira o tempero, sirva e mostre para a família. Próxima receita: mais difícil!</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CTA FINAL ============ -->
-<section class="section">
-  <div class="container">
-    <div class="cta-final">
-      <h2>Bora pra cozinha? 🍳</h2>
-      <p>Escolha sua primeira receita agora mesmo. Sem enrolação, sem complicação — só sabor e diversão.</p>
-      <a href="#receitas" class="btn">Escolher receita</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="logo">
-          <div class="logo-mark">
-            <img src="./tio-lucas.png" alt="Logo Tio Lucas" onerror="this.src='https://via.placeholder.com/50/FFC93C/1F1B16?text=👨‍🍳'">
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div>
+          <span class="hero__badge">🔥 Mais de 100 receitas testadas</span>
+          <h1 class="hero__title">Na cozinha, <em>quem manda é você!</em></h1>
+          <p class="hero__text">
+            Receitas fáceis, práticas e cheias de sabor para o dia a dia.
+            Do café da manhã ao jantar, o Tio Lucas te ajuda a cozinhar sem medo — e sem complicação.
+          </p>
+          <div class="hero__cta">
+            <a href="#receitas" class="btn btn--primary">🍽️ Ver receitas</a>
+            <a href="#sobre" class="btn btn--ghost">Conheça o Tio Lucas</a>
           </div>
-          <span class="logo-text">Receita do Tio Lucas<small>Na cozinha, quem manda é você!</small></span>
+          <div class="hero__stats">
+            <div class="stat">
+              <div class="stat__num">100</div>
+              <div class="stat__label">Receitas</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">4.9★</div>
+              <div class="stat__label">Avaliação média</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">120k</div>
+              <div class="stat__label">Cozinheiros felizes</div>
+            </div>
+          </div>
         </div>
-        <p>A plataforma que ensina adolescentes a cozinhar com segurança, prática e muita personalidade.</p>
-      </div>
-      <div>
-        <h4>Explorar</h4>
-        <ul>
-          <li><a href="#receitas">Receitas</a></li>
-          <li><a href="#primeiros">Primeiros Passos</a></li>
-          <li><a href="#seguranca">Segurança</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Receitas</h4>
-        <ul>
-          <li><a href="#" onclick="return false">Lanches rápidos</a></li>
-          <li><a href="#" onclick="return false">Sobremesas</a></li>
-          <li><a href="#" onclick="return false">Refeições</a></li>
-          <li><a href="#" onclick="return false">Bebidas</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Contato</h4>
-        <ul>
-          <li><a href="#" onclick="return false">Instagram</a></li>
-          <li><a href="#" onclick="return false">TikTok</a></li>
-          <li><a href="#" onclick="return false">YouTube</a></li>
-          <li><a href="#" onclick="return false">Fale com o Tio</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Receita do Tio Lucas. Todos os direitos reservados.</span>
-      <span>Feito com 🧡 para adolescentes que querem aprender a cozinhar.</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ============ MODAL RECEITA ============ -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modalContent"></div>
-</div>
-
-<!-- ============ TOAST ============ -->
-<div class="toast" id="toast"></div>
-
-<script>
-/* ============================================================
-   DADOS DAS RECEITAS (40 RECEITAS)
-   ============================================================ */
-const RECIPES = [
-  // --- FÁCEIS / LANCHES ---
-  { id: 'ovo-mexido', name: 'Ovo Mexido do Tio', emoji: '🍳', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'refeicao', tag: 'Café da manhã', desc: 'O primeiro passo de todo cozinheiro. Simples, rápido e delicioso.', ingredients: ['2 ovos', '1 colher (sopa) de manteiga ou óleo', '1 pitada de sal', '1 pitada de pimenta (opcional)', '1 fatia de queijo (opcional)'], steps: ['Quebre os ovos em uma tigela e bata levemente com um garfo.', 'Aqueça a manteiga em uma frigideira em fogo baixo.', 'Despeje os ovos e mexa devagar com uma espátula.', 'Quando estiverem quase firmes, adicione o sal e desligue o fogo.', 'Sirva com queijo por cima, se quiser.'], tip: 'Fogo baixo é o segredo para um ovo cremoso. Não deixe secar demais!' },
-  { id: 'sanduiche', name: 'Sanduíche do Tio', emoji: '🥪', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Um sanduíche quente e caprichado para o intervalo da escola.', ingredients: ['2 fatias de pão de forma', '1 fatia de queijo', '1 fatia de presunto', '1 colher (chá) de manteiga', 'Tomate e alface a gosto'], steps: ['Passe a manteiga nas fatias de pão.', 'Monte o sanduíche com queijo, presunto, tomate e alface.', 'Aqueça na frigideira em fogo baixo até o queijo derreter.', 'Corte ao meio e sirva.'], tip: 'Não coloque o alface antes de aquecer: ele murcha. Coloque depois que o queijo derreter.' },
-  { id: 'pizza-pao', name: 'Pizza de Pão de Forma', emoji: '🍕', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Uma pizza rápida usando pão de forma. Funciona e fica uma delícia.', ingredients: ['4 fatias de pão de forma', '4 colheres (sopa) de molho de tomate', '100g de queijo muçarela ralado', 'Orégano a gosto', 'Recheio a gosto (presunto, tomate, azeitona)'], steps: ['Passe o molho de tomate nas fatias de pão.', 'Distribua o queijo e os recheios escolhidos.', 'Polvilhe orégano.', 'Leve ao forno pré-aquecido a 180°C por 10 minutos (ou na frigideira com tampa em fogo baixo).', 'Sirva quente.'], tip: 'Não sobrecarregue o pão com recheios: ele pode ficar mole. Menos é mais!' },
-  { id: 'tapioca', name: 'Tapioca Recheada', emoji: '🫓', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Rápida, versátil e combina com doce ou salgado. A rainha do lanche.', ingredients: ['4 colheres (sopa) de goma de tapioca', '1 fatia de queijo (ou recheio de sua preferência)', '1 pitada de sal'], steps: ['Peneire a goma de tapioca em uma frigideira fria.', 'Ligue o fogo baixo e deixe a goma firmar (cerca de 2 minutos).', 'Coloque o recheio no centro e dobre ao meio com uma espátula.', 'Deixe mais 1 minuto de cada lado e sirva.'], tip: 'A frigideira precisa estar fria quando você colocar a goma. Isso faz a tapioca ficar no ponto certo.' },
-  { id: 'cachorro-quente', name: 'Cachorro-Quente Caseiro', emoji: '🌭', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'O clássico americano que todo mundo ama. Fácil e rápido.', ingredients: ['2 salsichas', '2 pães de hot dog', 'Molho de tomate', 'Batata palha', 'Mostarda e ketchup'], steps: ['Cozinhe a salsicha na água fervente por 5 minutos ou frite na frigideira.', 'Aqueça o pão no micro-ondas por 20 segundos ou na frigideira.', 'Monte com a salsicha, molho, batata palha e condimentos.'], tip: 'Dê pequenos cortes na salsicha antes de cozinhar: ela não estoura e absorve melhor o sabor.' },
-  { id: 'pipoca', name: 'Pipoca de Micro-ondas', emoji: '🍿', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'O lanche perfeito para ver filme. Cuidado para não queimar!', ingredients: ['1 saquinho de milho de pipoca para micro-ondas'], steps: ['Coloque o saquinho no micro-ondas com a aba para cima.', 'Programe conforme a embalagem (geralmente 2 a 3 minutos).', 'Espere os estouros diminuírem, retire com cuidado e abra longe do rosto.'], tip: 'Nunca abra o saquinho logo que sair do micro-ondas. O vapor quente pode queimar.' },
-  { id: 'salada-frutas', name: 'Salada de Frutas', emoji: '🍓', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'sobremesa', tag: 'Sobremesa', desc: 'Refrescante, saudável e colorida. Perfeita para o calor.', ingredients: ['1 banana', '1 maçã', '1 laranja', '5 morangos', '1 colher (sopa) de mel ou suco de limão'], steps: ['Lave bem as frutas.', 'Corte tudo em pedaços pequenos em uma tigela.', 'Adicione o mel ou o suco de limão para não escurecer.', 'Misture e leve à geladeira por 10 minutos antes de servir.'], tip: 'Corte a banana por último e passe no limão para ela não escurecer.' },
-  { id: 'misto-quente', name: 'Misto Quente na Frigideira', emoji: '🧀', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 8, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'O lanche mais rápido do mundo. Pão, queijo e presunto.', ingredients: ['2 fatias de pão de forma', '1 fatia de queijo', '1 fatia de presunto', '1 colher (chá) de manteiga'], steps: ['Passe manteiga nas fatias de pão.', 'Recheie com queijo e presunto.', 'Leve à frigideira em fogo baixo, tampe e deixe dourar dos dois lados.'], tip: 'Tampar a frigideira faz o queijo derreter mais rápido sem queimar o pão.' },
-  { id: 'gelatina', name: 'Gelatina Colorida', emoji: '🍮', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Simples, barata e todo mundo gosta. Só precisa de paciência.', ingredients: ['1 caixa de gelatina em pó (sabor preferido)', '500ml de água quente', '500ml de água gelada'], steps: ['Ferva 500ml de água.', 'Dissolva a gelatina na água quente mexendo bem.', 'Adicione a água gelada e mexa.', 'Coloque em uma forma ou tigela e leve à geladeira por 3 horas.'], tip: 'Não use água quente demais: pode estragar o sabor da gelatina.' },
-  { id: 'suco-limao', name: 'Limonada Suíça', emoji: '🍋', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'bebida', tag: 'Bebida', desc: 'Cremosa, gelada e refrescante. Muito melhor que a de pacote.', ingredients: ['2 limões', '1 litro de água gelada', '4 colheres (sopa) de açúcar', 'Gelo a gosto'], steps: ['Lave bem os limões e corte em pedaços (deixe a casca).', 'Bata no liquidificador com a água e o açúcar por 30 segundos.', 'Coe e sirva com gelo.'], tip: 'Bater com a casca deixa a limonada cremosa, mas não bata por muito tempo: pode amargar.' },
-
-  // --- FÁCEIS / REFEIÇÕES ---
-  { id: 'macarrao', name: 'Macarrão do Tio Lucas', emoji: '🍝', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Clássico', desc: 'O prato que salva qualquer fome. Pronto em 15 minutos e sempre aprovado.', ingredients: ['200g de macarrão', '1 colher (sopa) de sal', '2 colheres (sopa) de molho de tomate', '1 dente de alho picado', 'Queijo ralado a gosto'], steps: ['Ferva água em uma panela grande e adicione o sal.', 'Coloque o macarrão e cozinhe pelo tempo indicado na embalagem.', 'Escorra com cuidado.', 'Volte à panela com o molho e misture em fogo baixo por 1 minuto.', 'Sirva com queijo.'], tip: 'Reserve um pouco da água do cozimento: ela ajuda o molho a grudar melhor.' },
-  { id: 'arroz', name: 'Arroz Soltinho', emoji: '🍚', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 25, servings: 2, category: 'refeicao', tag: 'Básico', desc: 'O acompanhamento obrigatório. Aprenda a fazer sem virar papa.', ingredients: ['1 xícara de arroz', '2 xícaras de água quente', '1 colher (sopa) de óleo', '1 dente de alho picado', 'Sal a gosto'], steps: ['Lave o arroz até a água ficar clara.', 'Refogue o alho no óleo quente.', 'Adicione o arroz e refogue por 2 minutos.', 'Adicione a água quente e o sal.', 'Tampe e cozinhe em fogo baixo por 15 minutos ou até secar a água.'], tip: 'Não mexa o arroz enquanto cozinha! Isso evita que ele fique empapado.' },
-  { id: 'miojo', name: 'Miojo Turbinado', emoji: '🍜', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Salva-vidas', desc: 'Aquele miojo básico, mas com temperos e ingredientes extras.', ingredients: ['1 pacote de miojo', '1 ovo', '1 colher (sopa) de manteiga', 'Cebolinha (opcional)', 'Queijo ralado (opcional)'], steps: ['Ferva 400ml de água.', 'Adicione o miojo e cozinhe por 3 minutos.', 'Em outra frigideira, frite o ovo com manteiga.', 'Misture o pó do tempero ao miojo, adicione o ovo e sirva.'], tip: 'Jogue fora o pó de tempero metade das vezes. Substitua por temperos naturais e a receita fica muito mais saudável.' },
-  { id: 'omelete', name: 'Omelete de Queijo', emoji: '🥚', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Proteína', desc: 'Um clássico que nunca falha e aceita qualquer recheio.', ingredients: ['2 ovos', '2 colheres (sopa) de queijo ralado', 'Sal e pimenta a gosto', '1 colher (chá) de manteiga'], steps: ['Bata os ovos com sal e pimenta.', 'Derreta a manteiga em fogo baixo.', 'Despeje os ovos e espere firmar.', 'Adicione o queijo, dobre ao meio e sirva.'], tip: 'Não mexa os ovos se quiser uma omelete fechada. Se quiser mexida, mexa sempre!' },
-  { id: 'torrada', name: 'Torrada na Frigideira', emoji: '🍞', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Sem torradeira? Sem problema. Dá pra fazer na frigideira!', ingredients: ['2 fatias de pão de forma', '1 colher (chá) de manteiga'], steps: ['Aqueça a frigideira em fogo médio.', 'Passe manteiga nas fatias de pão.', 'Doure dos dois lados na frigideira (cerca de 2 minutos cada lado).'], tip: 'Sirva na hora: torrada esfria e fica dura rápido.' },
-  { id: 'canja', name: 'Canja de Galinha Rápida', emoji: '🍲', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'refeicao', tag: 'Conforto', desc: 'Sopa reconfortante para os dias frios ou quando está gripado.', ingredients: ['1 xícara de arroz', '1 peito de frango pequeno', '1 litro de água', '1 cubo de caldo de galinha', 'Sal e cheiro-verde'], steps: ['Cozinhe o frango na água por 10 minutos e desfie.', 'Volte o frango à água com o arroz e o caldo.', 'Cozinhe por 15 minutos em fogo baixo.', 'Finalize com cheiro-verde e sirva.'], tip: 'Desfiar o frango com dois garfos enquanto ainda está quente é muito mais fácil.' },
-
-  // --- MÉDIOS / REFEIÇÕES ---
-  { id: 'batata-frita', name: 'Batata Rústica', emoji: '🍟', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 30, servings: 2, category: 'lanche', tag: 'Acompanhamento', desc: 'Batatas crocantes assadas no forno, sem fritura e sem bagunça.', ingredients: ['3 batatas médias', '2 colheres (sopa) de óleo', '1 colher (chá) de sal', '1 colher (chá) de páprica', 'Orégano a gosto'], steps: ['Lave bem as batatas e corte em palitos.', 'Seque com um pano limpo ou papel-toalha.', 'Misture as batatas com o óleo, o sal e a páprica.', 'Espalhe em uma assadeira e leve ao forno a 200°C por 25 minutos.', 'Vire na metade do tempo.'], tip: 'Secar bem as batatas antes de assar é o que garante a crocância.' },
-  { id: 'bolo-caneca', name: 'Bolo de Caneca', emoji: '🧁', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'sobremesa', tag: 'Sobremesa', desc: 'Bolo de chocolate no micro-ondas em 5 minutos. Perfeito para matar a vontade.', ingredients: ['4 colheres (sopa) de farinha de trigo', '4 colheres (sopa) de açúcar', '2 colheres (sopa) de chocolate em pó', '1 ovo', '3 colheres (sopa) de leite', '2 colheres (sopa) de óleo', '1 colher (café) de fermento em pó'], steps: ['Coloque todos os ingredientes na caneca e misture bem.', 'Adicione o fermento por último.', 'Leve ao micro-ondas por 3 minutos em potência alta.', 'Espere esfriar antes de comer.'], tip: 'Use uma caneca grande, porque o bolo cresce bastante.' },
-  { id: 'suco-verde', name: 'Suco Verde do Tio', emoji: '🥤', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Refrescante, saudável e pronto em 5 minutos. Combina com tudo.', ingredients: ['1 maçã', '1 folha de couve', 'Suco de 1 limão', '1 copo de água gelada', 'Açúcar a gosto'], steps: ['Lave bem a maçã e a couve.', 'Corte a maçã em pedaços.', 'Bata tudo no liquidificador com a água.', 'Coe, adoce e sirva gelado.'], tip: 'Bata a couve com o limão para conservar o sabor e a cor.' },
-  { id: 'brigadeiro', name: 'Brigadeiro de Panela', emoji: '🍫', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 25, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'O clássico brasileiro que todo mundo ama. Atenção ao ponto!', ingredients: ['1 lata de leite condensado', '2 colheres (sopa) de chocolate em pó', '1 colher (sopa) de manteiga', 'Chocolate granulado'], steps: ['Coloque o leite condensado, o chocolate e a manteiga na panela.', 'Misture em fogo baixo, mexendo sempre, por 10 a 15 minutos.', 'O ponto é quando desgruda do fundo da panela.', 'Despeje em um prato untado e espere esfriar.', 'Enrole e passe no granulado.'], tip: 'Fogo baixo e paciência: brigadeiro não tem pressa.' },
-  { id: 'panqueca', name: 'Panqueca Doce', emoji: '🥞', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 20, servings: 3, category: 'sobremesa', tag: 'Sobremesa', desc: 'Panquecas macias e docinhas para o café da manhã especial.', ingredients: ['1 xícara de farinha', '2 colheres (sopa) de açúcar', '1 ovo', '1 xícara de leite', '1 colher (chá) de fermento', 'Mel ou calda para servir'], steps: ['Misture a farinha, açúcar e fermento.', 'Adicione o ovo e o leite e misture até ficar homogêneo.', 'Aqueça uma frigideira antiaderente em fogo baixo.', 'Coloque pequenas porções de massa e vire quando aparecerem bolhas.', 'Sirva com mel ou calda.'], tip: 'Não mexa muito a massa: panqueca boa é massa levemente empelotada.' },
-  { id: 'hamburguer', name: 'Hambúrguer Caseiro', emoji: '🍔', color: '#FFE9DD', level: 'medio', levelLabel: 'Médio', time: 25, servings: 2, category: 'refeicao', tag: 'Lanche', desc: 'Carne suculenta, queijo derretido e pão quentinho. Sem fast food.', ingredients: ['300g de carne moída', '1 pão de hambúrguer', '2 fatias de queijo', 'Alface, tomate e cebola', 'Sal e pimenta'], steps: ['Tempere a carne e modele em 2 discos.', 'Asse ou frite na frigideira em fogo alto por 3 minutos cada lado.', 'Coloque o queijo no final para derreter.', 'Monte com os vegetais e molhos favoritos.'], tip: 'Não aperte o hambúrguer com a espátula: você tira todo o suco da carne.' },
-  { id: 'frango-frito', name: 'Frango Frito Crocante', emoji: '🍗', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 35, servings: 3, category: 'refeicao', tag: 'Proteína', desc: 'Frango super crocante por fora e suculento por dentro. Cuidado com o óleo!', ingredients: ['500g de frango (coxas ou peito)', '1 xícara de farinha de trigo', '1 ovo batido', 'Sal, pimenta e páprica', 'Óleo para fritar'], steps: ['Tempere o frango.', 'Passe no ovo batido e depois na farinha.', 'Aqueça o óleo em fogo médio.', 'Frite o frango até dourar (cerca de 10 minutos).', 'Escorra em papel-toalha.'], tip: 'Nunca coloque o frango congelado no óleo quente. Espere descongelar.' },
-  { id: 'salada-caesar', name: 'Salada Caesar Simples', emoji: '🥗', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Saudável', desc: 'Uma salada diferente, com molho cremoso e crocante.', ingredients: ['1 pé de alface', '1/2 xícara de croutons', '2 colheres (sopa) de maionese', '1 colher (sopa) de parmesão', 'Suco de limão'], steps: ['Lave e corte a alface.', 'Misture a maionese, parmesão e limão.', 'Junte tudo em uma tigela e finalize com croutons.'], tip: 'Molho separado da salada evita que ela murche antes de servir.' },
-  { id: 'strogonoff', name: 'Strogonoff de Frango', emoji: '🍛', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 30, servings: 3, category: 'refeicao', tag: 'Clássico', desc: 'O prato que impressiona qualquer visita. Cremoso e delicioso.', ingredients: ['500g de frango em cubos', '1 cebola picada', '2 colheres (sopa) de ketchup', '1 caixinha de creme de leite', 'Sal e pimenta'], steps: ['Refogue o frango e a cebola.', 'Adicione o ketchup e misture bem.', 'Desligue o fogo e adicione o creme de leite.', 'Sirva com arroz e batata palha.'], tip: 'Nunca deixe o creme de leite ferver: ele talha e estraga o prato.' },
-  { id: 'lasanha', name: 'Lasanha de Frigideira', emoji: '🍲', color: '#FFE9DD', level: 'medio', levelLabel: 'Médio', time: 35, servings: 3, category: 'refeicao', tag: 'Comfort', desc: 'Uma lasanha rápida que não precisa de forno.', ingredients: ['Massa de lasanha pré-cozida', 'Molho de tomate', 'Queijo muçarela', 'Presunto'], steps: ['Monte camadas em uma frigideira alta.', 'Alterne molho, massa, presunto e queijo.', 'Tampe e cozinhe em fogo baixo por 15 minutos.', 'Finalize com queijo derretido em fogo alto.'], tip: 'Tampar é essencial: o vapor cozinha a massa e derrete o queijo.' },
-
-  // --- SOBREMESAS E BEBIDAS ---
-  { id: 'mousse-maracuja', name: 'Mousse de Maracujá', emoji: '🍮', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Doce, azedinho e cremoso. Só 3 ingredientes e uma geladeira.', ingredients: ['1 lata de leite condensado', '1 caixinha de creme de leite', '1 caixinha de suco de maracujá concentrado'], steps: ['Bata tudo no liquidificador por 2 minutos.', 'Coloque em taças ou tigela.', 'Leve à geladeira por 4 horas.'], tip: 'Se quiser mais firme, adicione 1 envelope de gelatina sem sabor dissolvida.' },
-  { id: 'pudim', name: 'Pudim de Leite Rápido', emoji: '🍮', color: '#FFF1E0', level: 'medio', levelLabel: 'Médio', time: 45, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'O pudim clássico, liso e sem furinhos.', ingredients: ['1 lata de leite condensado', '2 latas de leite', '3 ovos', '1 xícara de açúcar (para a calda)'], steps: ['Faça a calda derretendo o açúcar em fogo baixo.', 'Bata o leite condensado, leite e ovos no liquidificador.', 'Despeje na forma caramelizada.', 'Asse em banho-maria a 180°C por 40 minutos.'], tip: 'Coe a mistura antes de assar: isso tira as bolhas e deixa o pudim lisinho.' },
-  { id: 'cookie', name: 'Cookie de Micro-ondas', emoji: '🍪', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'sobremesa', tag: 'Sobremesa', desc: 'Um cookie quentinho em 5 minutos. Impossível resistir.', ingredients: ['2 colheres (sopa) de farinha', '1 colher (sopa) de açúcar', '1 colher (sopa) de manteiga', '1 colher (sopa) de gotas de chocolate', '1 colher (sopa) de leite'], steps: ['Misture tudo em um prato.', 'Achate com uma colher.', 'Leve ao micro-ondas por 1 minuto.'], tip: 'Não passe de 1 minuto: o cookie pode ficar duro como pedra.' },
-  { id: 'vitamina', name: 'Vitamina de Banana', emoji: '🥛', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Cremosa, nutritiva e perfeita para o café da manhã.', ingredients: ['2 bananas', '1 copo de leite', '1 colher (sopa) de aveia', 'Açúcar a gosto'], steps: ['Bata tudo no liquidificador.', 'Sirva imediatamente.'], tip: 'Use bananas bem maduras: elas deixam a vitamina naturalmente mais doce.' },
-  { id: 'chocolate-quente', name: 'Chocolate Quente Cremoso', emoji: '☕', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Para aquecer o coração (e as mãos) nos dias frios.', ingredients: ['2 xícaras de leite', '3 colheres (sopa) de chocolate em pó', '1 colher (sopa) de amido de milho', 'Açúcar a gosto'], steps: ['Misture tudo em uma panela fria.', 'Leve ao fogo baixo mexendo sempre.', 'Quando engrossar, desligue e sirva.'], tip: 'Misturar tudo antes de ligar o fogo evita que o chocolate empelote.' },
-  { id: 'picole', name: 'Picolé de Fruta Caseiro', emoji: '🍧', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'sobremesa', tag: 'Sobremesa', desc: 'Refrescante, natural e sem conservantes. Faça com a fruta que quiser.', ingredients: ['2 xícaras de polpa de fruta', '1/2 xícara de água', 'Açúcar a gosto', 'Forminhas de picolé'], steps: ['Bata a polpa, água e açúcar no liquidificador.', 'Despeje nas forminhas.', 'Leve ao congelador por 4 horas.'], tip: 'Se não tiver forminha, use copos descartáveis e palitos de sorvete.' },
-  { id: 'torta-limao', name: 'Torta de Limão Gelada', emoji: '🍋', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 30, servings: 6, category: 'sobremesa', tag: 'Sobremesa', desc: 'Cremosa, azedinha e sem precisar de forno.', ingredients: ['1 pacote de bolacha maisena', '3 colheres (sopa) de manteiga derretida', '1 lata de leite condensado', 'Suco de 3 limões', '1 caixinha de creme de leite'], steps: ['Triture a bolacha e misture com a manteiga.', 'Forre o fundo de uma forma e leve à geladeira.', 'Bata o leite condensado, limão e creme de leite.', 'Despeje sobre a massa e leve à geladeira por 4 horas.'], tip: 'Se quiser um acabamento bonito, decore com raspas de limão antes de servir.' },
-  { id: 'cuscuz', name: 'Cuscuz Nordestino', emoji: '🌽', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Regional', desc: 'O clássico do café da manhã nordestino. Simples e delicioso.', ingredients: ['1 xícara de flocos de milho para cuscuz', '1/2 xícara de água', 'Sal a gosto', 'Manteiga para servir'], steps: ['Misture o flocos com a água e o sal.', 'Deixe descansar por 5 minutos.', 'Coloque na cuscuzeira e cozinhe no vapor por 10 minutos.', 'Sirva com manteiga.'], tip: 'Não coloque água demais, senão o cuscuz vira papa. A medida certa é até umedecer, não encharcar.' },
-  { id: 'pao-queijo', name: 'Pão de Queijo de Frigideira', emoji: '🧆', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Aquele pão de queijo quentinho em versão ultra rápida.', ingredients: ['4 colheres (sopa) de polvilho doce', '2 colheres (sopa) de queijo ralado', '3 colheres (sopa) de leite', '1 colher (sopa) de manteiga'], steps: ['Misture tudo em uma tigela.', 'Aqueça a frigideira em fogo baixo.', 'Coloque colheradas da massa e tampe.', 'Vire quando dourar embaixo e sirva quente.'], tip: 'Tampe a frigideira: o vapor faz o pão de queijo cozinhar por dentro.' }
-];
-
-// Preenchendo as 40 receitas (completando o array com receitas extras)
-const EXTRA_RECIPES = [
-  { id: 'macarrao-alho', name: 'Macarrão Alho e Óleo', emoji: '🍝', color: '#FFF1E0', level: 'facil', levelLabel: 'Fácil', time: 15, servings: 2, category: 'refeicao', tag: 'Clássico', desc: 'Simples, saboroso e resolve o almoço em minutos.', ingredients: ['200g de espaguete', '3 dentes de alho fatiados', '3 colheres (sopa) de azeite', 'Sal e pimenta'], steps: ['Cozinhe o macarrão.', 'Doure o alho no azeite em fogo baixo.', 'Misture o macarrão escorrido ao azeite com alho.', 'Tempere e sirva.'], tip: 'Não deixe o alho queimar: ele fica amargo e estraga o prato.' },
-  { id: 'batata-frita-caseira', name: 'Batata Frita Caseira', emoji: '🍟', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 25, servings: 2, category: 'lanche', tag: 'Acompanhamento', desc: 'Crocante por fora, macia por dentro. Cuidado com o óleo quente!', ingredients: ['3 batatas', 'Óleo para fritar', 'Sal a gosto'], steps: ['Corte as batatas em palitos.', 'Seque bem.', 'Frite em óleo quente (180°C) até dourar.', 'Escorra em papel-toalha e salgue.'], tip: 'Fritar em óleo não muito quente primeiro (150°C) e depois aumentar a temperatura deixa mais crocante.' },
-  { id: 'bolo-cenoura', name: 'Bolo de Cenoura Fofinho', emoji: '🍰', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 45, servings: 8, category: 'sobremesa', tag: 'Sobremesa', desc: 'Fofinho, dourado e com cobertura de chocolate. O clássico das festas.', ingredients: ['3 cenouras médias', '3 ovos', '2 xícaras de açúcar', '2 xícaras de farinha', '1 xícara de óleo', '1 colher (sopa) de fermento'], steps: ['Bata cenoura, ovos e óleo no liquidificador.', 'Misture com o açúcar e a farinha.', 'Adicione o fermento e mexa devagar.', 'Asse em forno pré-aquecido a 180°C por 35 minutos.'], tip: 'Não bata a cenoura com o fermento: o bolo pode solar.' },
-  { id: 'sorvete-banana', name: 'Sorvete de Banana Fit', emoji: '🍨', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 2, category: 'sobremesa', tag: 'Sobremesa', desc: 'Só banana congelada. Sem leite, sem açúcar, muito gostoso.', ingredients: ['4 bananas congeladas em rodelas', '1 colher (sopa) de pasta de amendoim (opcional)'], steps: ['Bata as bananas congeladas no processador ou liquidificador potente.', 'Quando virar creme, sirva imediatamente ou leve ao freezer por 1 hora.'], tip: 'Se o liquidificador travar, adicione 1 colher de leite ou água e continue batendo.' },
-  { id: 'ovo-frito', name: 'Ovo Frito Perfeito', emoji: '🍳', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 1, category: 'refeicao', tag: 'Básico', desc: 'Gema mole, bordas crocantes. O básico que todo mundo deveria saber.', ingredients: ['1 ovo', '1 colher (sopa) de óleo ou manteiga', 'Sal a gosto'], steps: ['Aqueça o óleo em fogo médio.', 'Quebre o ovo com cuidado.', 'Deixe fritar sem mexer por 2 minutos.', 'Tempere com sal e sirva.'], tip: 'Se quiser a gema mole, tampe a frigideira por 30 segundos: o vapor cozinha a clara sem endurecer a gema.' },
-  { id: 'vitamina-morango', name: 'Vitamina de Morango', emoji: '🥤', color: '#FFE3EE', level: 'facil', levelLabel: 'Fácil', time: 5, servings: 2, category: 'bebida', tag: 'Bebida', desc: 'Rosa, cremosa e deliciosa. Perfeita para o café da manhã.', ingredients: ['1 xícara de morangos', '1 copo de leite', '1 colher (sopa) de açúcar', 'Gelo a gosto'], steps: ['Bata tudo no liquidificador.', 'Sirva imediatamente.'], tip: 'Morangos congelados deixam a vitamina mais cremosa e gelada.' },
-  { id: 'pipoca-doce', name: 'Pipoca Doce de Panela', emoji: '🍿', color: '#FFF6D9', level: 'medio', levelLabel: 'Médio', time: 15, servings: 2, category: 'lanche', tag: 'Lanche', desc: 'Crocante, caramelizada e muito viciante. Para dividir com os amigos.', ingredients: ['1/2 xícara de milho de pipoca', '1/2 xícara de açúcar', '2 colheres (sopa) de óleo', '1 pitada de sal'], steps: ['Aqueça o óleo com o açúcar em fogo baixo até virar calda.', 'Adicione o milho e mexa até começar a estourar.', 'Tampe e agite até parar de estourar.', 'Espalhe em uma assadeira para esfriar.'], tip: 'Fique longe da panela nos primeiros estouros! Cuidado com respingos de calda quente.' },
-  { id: 'macarrao-instantaneo', name: 'Macarrão Instantâneo Melhorado', emoji: '🍜', color: '#FFE9DD', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'refeicao', tag: 'Salva-vidas', desc: 'Aquele macarrão instantâneo, mas com cara de comida de verdade.', ingredients: ['1 pacote de macarrão instantâneo', '1 ovo cozido', '1 colher (sopa) de manteiga', 'Cebolinha picada'], steps: ['Cozinhe o macarrão conforme a embalagem.', 'Adicione metade do tempero e a manteiga.', 'Misture o ovo cozido cortado e a cebolinha.'], tip: 'Substituir metade do pó por temperos naturais faz toda a diferença no sabor.' },
-  { id: 'frango-grelhado', name: 'Frango Grelhado Rápido', emoji: '🍗', color: '#FFF6D9', level: 'facil', levelLabel: 'Fácil', time: 20, servings: 2, category: 'refeicao', tag: 'Proteína', desc: 'Suculento, temperado e pronto em 20 minutos. Perfeito com arroz e salada.', ingredients: ['2 filés de peito de frango', '2 dentes de alho', 'Suco de 1 limão', 'Sal e pimenta', '1 colher (sopa) de azeite'], steps: ['Tempere o frango com alho, limão, sal e pimenta.', 'Deixe descansar por 10 minutos.', 'Grelhe na frigideira com azeite por 5 minutos cada lado.'], tip: 'Não fure o frango enquanto grelha: os sucos escapam e a carne fica seca.' },
-  { id: 'sanduiche-natural', name: 'Sanduíche Natural Fitness', emoji: '🥪', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 1, category: 'lanche', tag: 'Lanche', desc: 'Leve, gostoso e perfeito para levar para a escola.', ingredients: ['2 fatias de pão integral', '1 colher (sopa) de cream cheese', '1 fatia de peito de peru', 'Alface e tomate'], steps: ['Passe o cream cheese no pão.', 'Adicione o peito de peru, alface e tomate.', 'Feche e corte ao meio.'], tip: 'Embrulhe em papel-filme para não desmontar na mochila.' },
-  { id: 'limonada', name: 'Limonada de Capim-Limão', emoji: '🍋', color: '#E5F9F6', level: 'facil', levelLabel: 'Fácil', time: 10, servings: 4, category: 'bebida', tag: 'Bebida', desc: 'Refrescante e aromática. Perfeita para dias quentes.', ingredients: ['2 limões', '1 litro de água gelada', '3 colheres (sopa) de açúcar', '2 folhas de capim-limão'], steps: ['Bata os limões, a água e o açúcar no liquidificador.', 'Adicione o capim-limão e bata por 10 segundos.', 'Coe e sirva com gelo.'], tip: 'Não bata demais o capim-limão: ele pode amargar.' }
-];
-
-// Junta as receitas base com as extras para chegar a 40
-RECIPES.push(...EXTRA_RECIPES);
-
-/* ============================================================
-   ESTADO
-   ============================================================ */
-let state = {
-  filter: 'all',
-  search: '',
-  favorites: JSON.parse(localStorage.getItem('rdtl_favs') || '[]')
-};
-
-/* ============================================================
-   HELPERS
-   ============================================================ */
-const $ = (s) => document.querySelector(s);
-const $$ = (s) => document.querySelectorAll(s);
-
-function toast(msg) {
-  const el = $('#toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2200);
-}
-
-function saveFavs() {
-  localStorage.setItem('rdtl_favs', JSON.stringify(state.favorites));
-  $('#favCount').textContent = state.favorites.length;
-}
-
-/* ============================================================
-   RENDER DAS RECEITAS
-   ============================================================ */
-function recipeCard(r, idx) {
-  const isFav = state.favorites.includes(r.id);
-  const card = document.createElement('article');
-  card.className = 'recipe-card';
-  card.style.animationDelay = (idx * 0.02) + 's';
-  card.innerHTML = `
-    <div class="recipe-thumb" style="background:${r.color}">
-      <span class="level">${r.levelLabel}</span>
-      <button class="fav ${isFav ? 'saved' : ''}" data-fav="${r.id}" aria-label="Favoritar">${isFav ? '❤️' : '🤍'}</button>
-      <span>${r.emoji}</span>
-    </div>
-    <div class="recipe-body">
-      <span class="tag-mini">${r.tag}</span>
-      <h3>${r.name}</h3>
-      <p class="desc">${r.desc}</p>
-      <div class="recipe-meta">
-        <span>⏱️ ${r.time} min</span>
-        <span>🍽️ ${r.servings} porç.</span>
-      </div>
-    </div>
-  `;
-  card.addEventListener('click', (e) => {
-    if (e.target.closest('[data-fav]')) return;
-    openRecipe(r.id);
-  });
-  card.querySelector('[data-fav]').addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFav(r.id);
-  });
-  return card;
-}
-
-function toggleFav(id) {
-  const i = state.favorites.indexOf(id);
-  if (i >= 0) {
-    state.favorites.splice(i, 1);
-    toast('Removida das favoritas 💔');
-  } else {
-    state.favorites.push(id);
-    toast('Salva nas favoritas ❤️');
-  }
-  saveFavs();
-  renderRecipes();
-}
-
-function renderRecipes() {
-  const grid = $('#recipeGrid');
-  grid.innerHTML = '';
-
-  const filtered = RECIPES.filter(r => {
-    let matchesFilter;
-    if (state.filter === 'favoritos') {
-      matchesFilter = state.favorites.includes(r.id);
-    } else {
-      matchesFilter = state.filter === 'all' || r.level === state.filter || r.category === state.filter;
-    }
-    const matchesSearch = !state.search || (r.name + ' ' + r.desc + ' ' + r.tag).toLowerCase().includes(state.search.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="big">${state.filter === 'favoritos' ? '🤍' : '🍽️'}</div>
-        <h3 style="font-family:var(--font-title);font-size:1.3rem;color:var(--ink);margin-bottom:6px">
-          ${state.filter === 'favoritos' ? 'Nenhuma favorita ainda' : 'Nada encontrado'}
-        </h3>
-        <p>${state.filter === 'favoritos' 
-          ? 'Clique no coração de qualquer receita para salvar aqui.' 
-          : 'Tente outro filtro ou busque por outro nome de receita.'}</p>
-      </div>`;
-    return;
-  }
-
-  filtered.forEach((r, i) => grid.appendChild(recipeCard(r, i)));
-}
-
-/* ============================================================
-   MODAL RECEITA
-   ============================================================ */
-function openRecipe(id) {
-  const r = RECIPES.find(x => x.id === id);
-  if (!r) return;
-  const isFav = state.favorites.includes(r.id);
-
-  const modal = $('#modalContent');
-  modal.innerHTML = `
-    <div class="modal-hero" style="background:${r.color}">
-      <button class="modal-close" id="modalClose">✕</button>
-      <span>${r.emoji}</span>
-    </div>
-    <div class="modal-body">
-      <div class="badges">
-        <span class="badge" style="background:#FFF1E0;color:var(--primary-dark)">${r.levelLabel}</span>
-        <span class="badge" style="background:#E5F9F6;color:#1F8A7E">${r.tag}</span>
-      </div>
-      <h2>${r.name}</h2>
-      <p class="lead">${r.desc}</p>
-
-      <div class="modal-info">
-        <div class="box"><strong>${r.time} min</strong><span>Tempo</span></div>
-        <div class="box"><strong>${r.servings}</strong><span>Porções</span></div>
-        <div class="box"><strong>${r.levelLabel}</strong><span>Dificuldade</span></div>
-      </div>
-
-      <div class="modal-section">
-        <h3>🛒 Ingredientes <span style="font-size:.75rem;font-weight:500;color:var(--muted);font-family:var(--font-body)">(clique para marcar)</span></h3>
-        <ul class="ingredients-list">
-          ${r.ingredients.map((ing, i) => `
-            <li data-ing="${i}">
-              <span class="check">✓</span>
-              <span>${ing}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
-
-      <div class="modal-section">
-        <h3>👨‍🍳 Modo de preparo</h3>
-        <ol class="steps-list">
-          ${r.steps.map(s => `<li><p>${s}</p></li>`).join('')}
-        </ol>
-      </div>
-
-      <div class="modal-section">
-        <div class="tip-box">
-          <strong>💡 Dica do Tio:</strong> ${r.tip}
+        <div class="hero__image">
+          <div class="hero__image-fallback">👨‍🍳</div>
+          <div class="hero__floating hero__floating--1">
+            <span>⏱️</span><span>Pronto em 20 min</span>
+          </div>
+          <div class="hero__floating hero__floating--2">
+            <span>🥗</span><span>Ingredientes simples</span>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
-        <button class="btn btn-save ${isFav ? 'saved' : ''}" id="modalFavBtn">
-          ${isFav ? '❤️ Salva' : '🤍 Salvar receita'}
-        </button>
-        <button class="btn btn-ghost" id="modalBackBtn">← Voltar</button>
+    <!-- ============ RECEITAS POR CATEGORIA ============ -->
+    <section class="section section--alt" id="receitas">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__eyebrow">100 receitas organizadas</p>
+          <h2 class="section__title">O que vamos cozinhar hoje?</h2>
+          <p class="section__subtitle">Navegue pelas categorias e encontre a receita perfeita para o seu momento.</p>
+        </div>
+
+        <!-- ===== CAFÉ DA MANHÃ (18) ===== -->
+        <div class="categoria" id="cat-cafe">
+          <div class="categoria__header">
+            <div class="categoria__icon">🌅</div>
+            <div>
+              <h3 class="categoria__title">Café da manhã</h3>
+              <span class="categoria__count">18 receitas</span>
+            </div>
+          </div>
+          <div class="recipes">
+            <article class="card"><div class="card__media"><div class="card__emoji">🥞</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Panqueca fofinha de banana</h3><p class="card__desc">Só 3 ingredientes e 15 minutos para um café da manhã que parece de padaria.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥑</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Tapioca recheada com abacate</h3><p class="card__desc">Prática, nutritiva e deliciosa. A combinação perfeita para começar bem o dia.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍳</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Ovos mexidos cremosos</h3><p class="card__desc">O segredo está no fogo baixo e em uma colher de creme de leite.</p><div class="card__meta"><span>⏱️ 8 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🧀</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Pão de queijo caseiro</h3><p class="card__desc">Aquele pão de queijo quentinho, com casquinha crocante e miolo elástico.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 20 unidades</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍌</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Vitamina de banana com aveia</h3><p class="card__desc">Cremosa, nutritiva e pronta em 5 minutos. Perfeita para dias corridos.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 2 copos</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥣</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Mingau de aveia com canela</h3><p class="card__desc">Reconfortante e saudável, ideal para aquecer as manhãs frias.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🧇</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Waffle simples</h3><p class="card__desc">Crocante por fora, macio por dentro. Sirva com mel ou frutas.</p><div class="card__meta"><span>⏱️ 25 min</span><span>🍽️ 4 unidades</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍳</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Omelete de queijo e tomate</h3><p class="card__desc">Clássico rápido e versátil. Aceita qualquer recheio que você tiver.</p><div class="card__meta"><span>⏱️ 12 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌽</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Cuscuz nordestino</h3><p class="card__desc">Flocão hidratado no vapor, com manteiga derretida. Simples e perfeito.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥖</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Pão francês na chapa</h3><p class="card__desc">Crocante, quentinho e com manteiga derretida. O clássico da manhã.</p><div class="card__meta"><span>⏱️ 8 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍫</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Bolo de caneca de chocolate</h3><p class="card__desc">Pronto em 3 minutos no micro-ondas. Perfeito para aquele desejo súbito.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥜</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Granola caseira</h3><p class="card__desc">Aveia, mel, castanhas e frutas secas. Muito mais gostosa que a de mercado.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍞</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Torrada com pasta de amendoim</h3><p class="card__desc">Crocante, proteica e deliciosa. O combo perfeito para o café da manhã.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍓</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Iogurte com frutas e mel</h3><p class="card__desc">Leve, fresco e nutritivo. Monte em camadas e finalize com mel.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🫓</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Crepioca de queijo</h3><p class="card__desc">Tapioca com ovo e queijo. Prática, proteica e cheia de sabor.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍌</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Bolo de banana com aveia</h3><p class="card__desc">Sem açúcar, sem farinha branca. Fofinho e naturalmente doce.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 8 fatias</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">☕</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Café cremoso com leite vaporizado</h3><p class="card__desc">Aquele cafezinho de cafeteria, feito em casa sem complicação.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 1 xícara</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥪</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Café da manhã</span></div><div class="card__body"><h3 class="card__title">Sanduíche natural de frango</h3><p class="card__desc">Leve, prático e saboroso. Ideal para levar na bolsa ou lancheira.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+          </div>
+        </div>
+
+        <!-- ===== ALMOÇO (25) ===== -->
+        <div class="categoria" id="cat-almoco">
+          <div class="categoria__header">
+            <div class="categoria__icon">🍛</div>
+            <div>
+              <h3 class="categoria__title">Almoço</h3>
+              <span class="categoria__count">25 receitas</span>
+            </div>
+          </div>
+          <div class="recipes">
+            <article class="card"><div class="card__media"><div class="card__emoji">🍝</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Macarrão ao alho e óleo cremoso</h3><p class="card__desc">O clássico que nunca falha, com aquele toque cremoso que abraça.</p><div class="card__meta"><span>⏱️ 25 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍚</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Arroz branco soltinho</h3><p class="card__desc">O segredo está na proporção de água e no fogo baixo no final.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🫘</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Feijão temperado</h3><p class="card__desc">Cozido no ponto, com alho, cebola e aquele toque de louro.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥩</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Bife acebolado</h3><p class="card__desc">Macio por dentro, dourado por fora, com cebolas caramelizadas.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍋</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Frango grelhado com limão</h3><p class="card__desc">Suculento, com marinada de limão, alho e ervas. Simples e saboroso.</p><div class="card__meta"><span>⏱️ 25 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍗</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Estrogonofe de frango</h3><p class="card__desc">Cremoso, com aquele molho rosé que todo mundo ama. Com arroz e batata.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌾</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Farofa simples</h3><p class="card__desc">Crocante, douradinha e com aquele sabor que combina com tudo.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥔</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Purê de batata cremoso</h3><p class="card__desc">Aveludado, com manteiga e um toque de leite quente. Irresistível.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍲</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Arroz de forno com frango</h3><p class="card__desc">Prático, econômico e muito saboroso. Tudo em uma travessa só.</p><div class="card__meta"><span>⏱️ 45 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🐟</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Peixe assado com batatas</h3><p class="card__desc">Filé assado no forno com batatas douradas e ervas finas.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍲</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Lasanha de carne moída</h3><p class="card__desc">Camadas de molho, massa e queijo. O almoço de domingo perfeito.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥗</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Salada de macarrão</h3><p class="card__desc">Fresca, colorida e perfeita para dias quentes. Aceita o que tiver.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍖</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Carne de panela</h3><p class="card__desc">Maciez que desmancha no garfo, com molho rico e aromático.</p><div class="card__meta"><span>⏱️ 90 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍗</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Frango à parmegiana</h3><p class="card__desc">Empanado, com molho de tomate e queijo derretido. Um clássico.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍄</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Risoto de cogumelos</h3><p class="card__desc">Cremoso, aromático e sofisticado. Parece difícil, mas é fácil.</p><div class="card__meta"><span>⏱️ 35 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥘</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Escondidinho de carne seca</h3><p class="card__desc">Purê cremoso com carne seca desfiada. Puro sabor nordestino.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍚</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Arroz integral com legumes</h3><p class="card__desc">Saudável, colorido e cheio de texturas. Perfeito para o dia a dia.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍙</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Bolinho de arroz</h3><p class="card__desc">Aproveitamento perfeito do arroz que sobrou. Crocante e delicioso.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 15 unidades</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥗</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Salpicão de frango</h3><p class="card__desc">Cremoso, com maçã, cenoura e passas. O clássico de festa.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍝</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Macarrão à bolonhesa</h3><p class="card__desc">Molho de carne moída rico, com tomate e manjericão fresco.</p><div class="card__meta"><span>⏱️ 45 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍖</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Almôndegas ao molho</h3><p class="card__desc">Macia por dentro, dourada por fora, coberta de molho de tomate.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥬</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Couve refogada</h3><p class="card__desc">Rápida, verde e crocante. O acompanhamento perfeito para a feijoada.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍟</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Batata rústica assada</h3><p class="card__desc">Crocante por fora, macia por dentro, com ervas e páprica.</p><div class="card__meta"><span>⏱️ 35 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥙</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Quibe assado</h3><p class="card__desc">Versão mais saudável do quibe frito, igualmente saborosa.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌯</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Almoço</span></div><div class="card__body"><h3 class="card__title">Panqueca de carne moída</h3><p class="card__desc">Massa fininha recheada com carne temperada e molho de tomate.</p><div class="card__meta"><span>⏱️ 45 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+          </div>
+        </div>
+
+        <!-- ===== JANTAR (22) ===== -->
+        <div class="categoria" id="cat-jantar">
+          <div class="categoria__header">
+            <div class="categoria__icon">🌙</div>
+            <div>
+              <h3 class="categoria__title">Jantar</h3>
+              <span class="categoria__count">22 receitas</span>
+            </div>
+          </div>
+          <div class="recipes">
+            <article class="card"><div class="card__media"><div class="card__emoji">🍗</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Frango assado com ervas</h3><p class="card__desc">Crocante por fora, suculento por dentro. Perfeito para o jantar de domingo.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍲</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Sopa cremosa de legumes</h3><p class="card__desc">Reconfortante, saudável e cheia de sabor. Ideal para as noites mais frias.</p><div class="card__meta"><span>⏱️ 35 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍳</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Omelete de forno</h3><p class="card__desc">Fofo, prático e versátil. Aceita qualquer legume que tiver na geladeira.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥪</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Sanduíche quente de frango</h3><p class="card__desc">Pão tostado, frango desfiado e queijo derretido. Jantar rápido e gostoso.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍕</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Pizza caseira de frigideira</h3><p class="card__desc">Massa rápida, molho de tomate e muito queijo. Pronta em 20 minutos.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍝</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Macarrão com atum</h3><p class="card__desc">Rápido, econômico e cheio de sabor. Perfeito para o jantar de última hora.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 3 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌯</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Wrap de frango com salada</h3><p class="card__desc">Leve, prático e colorido. Enrole e pronto, sem complicação.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍔</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Hambúrguer caseiro</h3><p class="card__desc">Carne suculenta, queijo derretido e pão macio. Melhor que o de fast food.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥧</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Torta de frango</h3><p class="card__desc">Massa cremosa, recheio suculento. O jantar perfeito para reunir a família.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥬</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Caldo verde</h3><p class="card__desc">Sopa portuguesa com couve, batata e calabresa. Reconfortante.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍛</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Frango ao curry</h3><p class="card__desc">Aromático, cremoso e levemente picante. Sirva com arroz branco.</p><div class="card__meta"><span>⏱️ 35 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🐟</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Peixe grelhado com legumes</h3><p class="card__desc">Leve, saudável e pronto rapidinho. Perfeito para uma noite tranquila.</p><div class="card__meta"><span>⏱️ 25 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥘</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Strogonoff de carne</h3><p class="card__desc">O clássico cremoso com carne macia. Combina com arroz e batata palha.</p><div class="card__meta"><span>⏱️ 35 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥔</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Batata recheada com queijo</h3><p class="card__desc">Crocante, cremosa e cheia de sabor. Aceita bacon, frango ou legumes.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍝</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Nhoque de batata</h3><p class="card__desc">Macio e artesanal, com molho de tomate caseiro. Uma delícia.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🐟</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Tilápia ao forno</h3><p class="card__desc">Simples, leve e pronta em 25 minutos. Com azeite, limão e alho.</p><div class="card__meta"><span>⏱️ 25 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥚</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Fritada de legumes</h3><p class="card__desc">Ovos mexidos com o que tiver de legume. Prático e nutritivo.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍚</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Risoto de frango</h3><p class="card__desc">Cremoso, confortável e cheio de sabor. Parece chique, mas é fácil.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌭</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Cachorro-quente caseiro</h3><p class="card__desc">Salsicha, molho e pão macio. O jantar rápido que agrada todo mundo.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥡</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Frango xadrez</h3><p class="card__desc">Cubos de frango com pimentão e cebola, ao molho de soja. Oriental e delicioso.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🧅</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Jantar</span></div><div class="card__body"><h3 class="card__title">Sopa de cebola gratinada</h3><p class="card__desc">Caldo rico, pão torrado e queijo gratinado por cima. Conforto puro.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+          </div>
+        </div>
+
+        <!-- ===== SOBREMESA (20) ===== -->
+        <div class="categoria" id="cat-sobremesa">
+          <div class="categoria__header">
+            <div class="categoria__icon">🍰</div>
+            <div>
+              <h3 class="categoria__title">Sobremesa</h3>
+              <span class="categoria__count">20 receitas</span>
+            </div>
+          </div>
+          <div class="recipes">
+            <article class="card"><div class="card__media"><div class="card__emoji">🍫</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Brigadeiro de colher</h3><p class="card__desc">A sobremesa brasileira mais amada, pronta em 20 minutos. Impossível resistir.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍮</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Pudim de leite condensado</h3><p class="card__desc">Liso, cremoso e com calda de caramelo. O clássico de toda casa.</p><div class="card__meta"><span>⏱️ 90 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍋</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Mousse de maracujá</h3><p class="card__desc">Azedinho na medida, cremoso e refrescante. Pronto em 15 minutos.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥕</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Bolo de cenoura com chocolate</h3><p class="card__desc">Fofinho, úmido e coberto com aquela ganache que ninguém resiste.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 10 fatias</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍌</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Sorvete caseiro de banana</h3><p class="card__desc">Só banana congelada e um processador. Cremoso e saudável.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍋</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Torta de limão</h3><p class="card__desc">Base crocante, creme azedinho e merengue torrado. Equilíbrio perfeito.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍪</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Cookie de chocolate</h3><p class="card__desc">Crocante nas bordas, macio no centro, com lascas de chocolate.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 12 cookies</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍰</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Pavê de bolacha</h3><p class="card__desc">Camadas de creme e bolacha molhada. A sobremesa de festa favorita.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌽</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Bolo de milho cremoso</h3><p class="card__desc">Aquele bolo de milho de festa junina, úmido e cheio de sabor.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 10 fatias</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍮</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Gelatina colorida com creme</h3><p class="card__desc">Colorida, divertida e fácil. Perfeita para festas infantis.</p><div class="card__meta"><span>⏱️ 20 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍫</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Brownie de chocolate</h3><p class="card__desc">Denso, intenso e com casquinha crocante. Puro chocolate.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 9 quadrados</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍎</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Maçã assada com canela</h3><p class="card__desc">Saudável, aromática e reconfortante. Sirva com canela e mel.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍧</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Picolé de frutas</h3><p class="card__desc">Refrescante e natural, feito com frutas de verdade. Sem corantes.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 6 picolés</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍚</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Arroz doce</h3><p class="card__desc">Cremoso, com canela e cravo. A sobremesa da vó que abraça.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 6 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍰</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Cheesecake de frutas vermelhas</h3><p class="card__desc">Cremoso, com base de biscoito e geleia de frutas vermelhas.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌽</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Bolo de fubá</h3><p class="card__desc">Tradicional, macio e com aquele sabor de casa de vó.</p><div class="card__meta"><span>⏱️ 45 min</span><span>🍽️ 10 fatias</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍫</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Mousse de chocolate</h3><p class="card__desc">Aerado, intenso e pronto em 15 minutos. Do jeito que você gosta.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍓</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Salada de frutas</h3><p class="card__desc">Colorida, refrescante e cheia de vitaminas. Simples e deliciosa.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥥</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Cocada de forno</h3><p class="card__desc">Crocante por fora, macia por dentro. Doce na medida certa.</p><div class="card__meta"><span>⏱️ 35 min</span><span>🍽️ 8 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍌</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Sobremesa</span></div><div class="card__body"><h3 class="card__title">Banana caramelizada</h3><p class="card__desc">Rápida, doce e com aquele toque de canela. Sirva com sorvete.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+          </div>
+        </div>
+
+        <!-- ===== LANCHES (8) ===== -->
+        <div class="categoria" id="cat-lanche">
+          <div class="categoria__header">
+            <div class="categoria__icon">🥪</div>
+            <div>
+              <h3 class="categoria__title">Lanches</h3>
+              <span class="categoria__count">8 receitas</span>
+            </div>
+          </div>
+          <div class="recipes">
+            <article class="card"><div class="card__media"><div class="card__emoji">🍗</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Coxinha de frango</h3><p class="card__desc">Crocante por fora, cremosa por dentro. O lanche mais brasileiro.</p><div class="card__meta"><span>⏱️ 60 min</span><span>🍽️ 15 unidades</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🧀</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Pão de queijo mineiro</h3><p class="card__desc">A receita tradicional, com polvilho e muito queijo. Irresistível.</p><div class="card__meta"><span>⏱️ 40 min</span><span>🍽️ 20 unidades</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🧀</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Sanduíche de queijo quente</h3><p class="card__desc">Pão tostado com queijo derretido. Simples, perfeito e rápido.</p><div class="card__meta"><span>⏱️ 8 min</span><span>🍽️ 1 porção</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍠</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Chips de batata doce</h3><p class="card__desc">Crocantes, saudáveis e assados no forno. Aceita temperos variados.</p><div class="card__meta"><span>⏱️ 25 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🧀</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Bolinho de queijo</h3><p class="card__desc">Fofinho, com queijo derretido por dentro. O lanche perfeito.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 12 unidades</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🥟</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Pastel de forno</h3><p class="card__desc">Massa caseira, recheio de carne e crocância garantida.</p><div class="card__meta"><span>⏱️ 50 min</span><span>🍽️ 10 unidades</span></div></div><div class="card__footer"><span class="card__level level--dificil">Difícil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍞</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Torradinha de ricota com ervas</h3><p class="card__desc">Leve, crocante e saborosa. Lanche da tarde perfeito.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 porções</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌮</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Lanches</span></div><div class="card__body"><h3 class="card__title">Tacos de carne moída</h3><p class="card__desc">Tortilha crocante, carne temperada e muito queijo. Diversão garantida.</p><div class="card__meta"><span>⏱️ 30 min</span><span>🍽️ 4 porções</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+          </div>
+        </div>
+
+        <!-- ===== BEBIDAS (7) ===== -->
+        <div class="categoria" id="cat-bebida">
+          <div class="categoria__header">
+            <div class="categoria__icon">🥤</div>
+            <div>
+              <h3 class="categoria__title">Bebidas</h3>
+              <span class="categoria__count">7 receitas</span>
+            </div>
+          </div>
+          <div class="recipes">
+            <article class="card"><div class="card__media"><div class="card__emoji">🍊</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Suco de laranja natural</h3><p class="card__desc">Refrescante, vitamínico e feito na hora. O clássico do café da manhã.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 2 copos</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍋</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Limonada suíça</h3><p class="card__desc">Cremosa, azedinha e refrescante. Perfeita para dias quentes.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 4 copos</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍓</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Vitamina de morango</h3><p class="card__desc">Cremosa, doce e cheia de vitaminas. Pronta em 5 minutos.</p><div class="card__meta"><span>⏱️ 5 min</span><span>🍽️ 2 copos</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍫</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Chocolate quente cremoso</h3><p class="card__desc">Espesso, quente e reconfortante. Perfeito para noites frias.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 canecas</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🌺</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Chá gelado de hibisco</h3><p class="card__desc">Refrescante, levemente azedinho e cheio de antioxidantes.</p><div class="card__meta"><span>⏱️ 15 min</span><span>🍽️ 6 copos</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">🍹</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Batida de maracujá sem álcool</h3><p class="card__desc">Cremosa, azedinha e refrescante. Diversão para toda a família.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 4 copos</span></div></div><div class="card__footer"><span class="card__level level--facil">Fácil</span><a href="#" class="card__link">Ver receita →</a></div></article>
+            <article class="card"><div class="card__media"><div class="card__emoji">☕</div><button class="card__fav" aria-label="Favoritar receita">🤍</button><span class="card__tag">Bebidas</span></div><div class="card__body"><h3 class="card__title">Cappuccino caseiro</h3><p class="card__desc">Cremoso, com espuma de leite e cacau por cima. Como na cafeteria.</p><div class="card__meta"><span>⏱️ 10 min</span><span>🍽️ 2 xícaras</span></div></div><div class="card__footer"><span class="card__level level--medio">Médio</span><a href="#" class="card__link">Ver receita →</a></div></article>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ SOBRE ============ -->
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__eyebrow">Por que Receita do Tio Lucas?</p>
+          <h2 class="section__title">Cozinhar deveria ser simples — e divertido</h2>
+          <p class="section__subtitle">Aqui você encontra receitas testadas, dicas práticas e zero julgamento na cozinha.</p>
+        </div>
+        <div class="features">
+          <div class="feature">
+            <div class="feature__icon">📝</div>
+            <h3 class="feature__title">Passo a passo claro</h3>
+            <p class="feature__text">Instruções detalhadas, sem termos complicados. Você vai entender cada etapa.</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">⏱️</div>
+            <h3 class="feature__title">Rápido e prático</h3>
+            <p class="feature__text">Receitas para o dia a dia, com tempo de preparo real e ingredientes acessíveis.</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">💡</div>
+            <h3 class="feature__title">Dicas do Tio</h3>
+            <p class="feature__text">Truques de cozinha que fazem diferença no sabor e na praticidade.</p>
+          </div>
+          <div class="feature">
+            <div class="feature__icon">❤️</div>
+            <h3 class="feature__title">Feito com carinho</h3>
+            <p class="feature__text">Cada receita é testada e aprovada antes de chegar até você. Sem enrolação.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="section" id="dicas">
+      <div class="container">
+        <div class="cta-banner">
+          <h2 class="cta-banner__title">Pronto para cozinhar algo incrível?</h2>
+          <p class="cta-banner__text">Receba novas receitas toda semana direto no seu e-mail. É grátis e sem spam.</p>
+          <a href="#contato" class="btn">Quero receber receitas →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contato">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a href="#" class="logo">
+            <span class="logo__icon"><span>🍳</span></span>
+            <span>Receita do Tio Lucas</span>
+          </a>
+          <p class="footer__desc">Na cozinha, quem manda é você. Receitas simples, dicas práticas e muito sabor para o seu dia a dia.</p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Navegação</h4>
+          <div class="footer__links">
+            <a href="#receitas">Receitas</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#dicas">Dicas</a>
+            <a href="#contato">Contato</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Categorias</h4>
+          <div class="footer__links">
+            <a href="#cat-cafe">Café da manhã</a>
+            <a href="#cat-almoco">Almoço</a>
+            <a href="#cat-jantar">Jantar</a>
+            <a href="#cat-sobremesa">Sobremesa</a>
+            <a href="#cat-lanche">Lanches</a>
+            <a href="#cat-bebida">Bebidas</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Redes sociais</h4>
+          <div class="footer__social">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="YouTube">▶️</a>
+            <a href="#" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2025 Receita do Tio Lucas. Todos os direitos reservados.</span>
+        <span>Feito com ❤️ para quem ama cozinhar (ou está aprendendo).</span>
       </div>
     </div>
-  `;
+  </footer>
 
-  $('#modalClose').addEventListener('click', closeModal);
-  $('#modalBackBtn').addEventListener('click', closeModal);
-  $('#modalFavBtn').addEventListener('click', () => {
-    toggleFav(r.id);
-    const btn = $('#modalFavBtn');
-    const fav = state.favorites.includes(r.id);
-    btn.classList.toggle('saved', fav);
-    btn.innerHTML = fav ? '❤️ Salva' : '🤍 Salvar receita';
-  });
+  <script>
+    // ============ MENU MOBILE ============
+    const menuToggle = document.getElementById('menuToggle');
+    const nav = document.getElementById('nav');
 
-  modal.querySelectorAll('.ingredients-list li').forEach(li => {
-    li.addEventListener('click', () => li.classList.toggle('checked'));
-  });
+    menuToggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', isOpen);
+      menuToggle.textContent = isOpen ? '✕' : '☰';
+    });
 
-  $('#modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
+    nav.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.textContent = '☰';
+      });
+    });
 
-function closeModal() {
-  $('#modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
+    // ============ BOTÃO DE FAVORITO ============
+    document.querySelectorAll('.card__fav').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isActive = btn.classList.toggle('active');
+        btn.textContent = isActive ? '❤️' : '🤍';
+        btn.setAttribute('aria-label', isActive ? 'Remover dos favoritos' : 'Favoritar receita');
+      });
+    });
 
-$('#modalOverlay').addEventListener('click', (e) => {
-  if (e.target.id === 'modalOverlay') closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
+    // ============ NAVEGAÇÃO ATIVA AO SCROLL ============
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav__link');
 
-/* ============================================================
-   FILTROS E BUSCA
-   ============================================================ */
-$('#filters').addEventListener('click', (e) => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  $$('#filters .chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  state.filter = chip.dataset.filter;
-  renderRecipes();
-});
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
 
-$('#searchInput').addEventListener('input', (e) => {
-  state.search = e.target.value.trim();
-  renderRecipes();
-});
-
-/* ============================================================
-   MENU MOBILE
-   ============================================================ */
-$('#burger').addEventListener('click', () => {
-  $('#mainMenu').classList.toggle('open');
-});
-
-$$('#mainMenu a').forEach(a => {
-  a.addEventListener('click', () => {
-    $('#mainMenu').classList.remove('open');
-    $$('#mainMenu a').forEach(x => x.classList.remove('active'));
-    a.classList.add('active');
-  });
-});
-
-/* ============================================================
-   FAVORITOS NO HEADER
-   ============================================================ */
-$('#btnFavs').addEventListener('click', () => {
-  const isFavFilter = state.filter === 'favoritos';
-  if (isFavFilter) {
-    state.filter = 'all';
-    $$('#filters .chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
-  } else {
-    state.filter = 'favoritos';
-    $$('#filters .chip').forEach(c => c.classList.remove('active'));
-  }
-  renderRecipes();
-
-  if (state.favorites.length === 0) {
-    toast('Você ainda não salvou nenhuma receita 🤍');
-  } else {
-    document.querySelector('#receitas').scrollIntoView({ behavior: 'smooth' });
-    toast(`Mostrando suas ${state.favorites.length} favoritas ❤️`);
-  }
-});
-
-/* ============================================================
-   INIT
-   ============================================================ */
-saveFavs();
-renderRecipes();
-</script>
+    sections.forEach(section => observer.observe(section));
+  </script>
 </body>
 </html>
